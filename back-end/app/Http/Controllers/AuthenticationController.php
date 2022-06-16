@@ -32,8 +32,28 @@ class AuthenticationController extends Controller
 
         return response()->json([
             'success'   => true,
-            'token'     => Auth::user()->createToken('token')->plainTextToken
+            'token'     => Auth::user()->createToken('token')->plainTextToken,
+            'user'      => Auth::user()
         ],200);
+    }
+
+    public function unique($field){
+        $user = User::where('email', request($field))->first();
+        $user1 = User::where('cin', request($field))->first();
+        if($user || $user1){
+            return response()->json([
+                'success'   => false,
+                'message'   => 'User already exists',
+                'data'      => []
+            ],400);
+        }else{
+            return response()->json([
+                'success'   => true,
+                'message'   => 'User not exists',
+                'data'      => []
+            ]);
+        }
+
     }
 
 }
