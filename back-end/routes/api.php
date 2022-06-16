@@ -24,4 +24,4 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 Route::post('/login', [AuthenticationController::class, 'login']);
 Route::post('/register', [AuthenticationController::class, 'register']);
-
+Route::get('/unique/{id}',[AuthenticationController::class, 'unique']);
