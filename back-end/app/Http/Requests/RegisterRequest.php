@@ -22,7 +22,8 @@ class RegisterRequest extends FormRequest
             'birth_date'=>'required|date',
             'phone_number'=>'required|integer|digits:8',
             'email'=>'required|string|email|max:255|unique:users',
-            'password'=>'required|string|min:8|confirmed',
+            'password'=>'required|string|min:8',
+            'confirm_password'=>'required|same:password',
         ];
     }
 
@@ -32,6 +33,6 @@ class RegisterRequest extends FormRequest
             'success'   => false,
             'message'   => 'Validation errors',
             'data'      => $validator->errors()
-        ]));
+        ],400));
     }
 }
