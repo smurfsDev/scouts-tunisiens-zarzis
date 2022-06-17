@@ -38,14 +38,14 @@ class AuthenticationController extends Controller
     }
 
     public function unique($field){
-        $user = User::where('email', request($field))->first();
-        $user1 = User::where('cin', request($field))->first();
+        $user = User::where('email', $field)->first();
+        $user1 = User::where('cin', $field)->first();
         if($user || $user1){
             return response()->json([
                 'success'   => false,
                 'message'   => 'User already exists',
                 'data'      => []
-            ],400);
+            ],201);
         }else{
             return response()->json([
                 'success'   => true,
