@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Home from "../views/HomeView.vue";
 import Login from "./routes/login";
 import Register from "./routes/register";
+import Logout from "./routes/logout";
 Vue.use(VueRouter);
 
 const routes = [
@@ -21,7 +22,8 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },
   ...Login,
-  ...Register
+  ...Register,
+  ...Logout,
 ];
 
 const router = new VueRouter({
