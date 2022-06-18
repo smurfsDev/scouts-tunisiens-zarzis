@@ -21,7 +21,8 @@ class RegisterRequest extends FormRequest
             'cin'=>'integer|digits:8|unique:users',
             'birth_date'=>'required|date',
             'phone_number'=>'required|integer|digits:8',
-            'email'=>'required|string|email|max:255|unique:users',
+            'email'=>'required|string|email|max:255',
+            // |unique:users',
             'password'=>'required|string|min:8',
             'confirm_password'=>'required|same:password',
         ];
