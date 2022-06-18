@@ -63,7 +63,6 @@ export default {
       email,
       async exists(value) {
         const response = await this.$axios(`/unique/${value}`);
-        console.log(response.data);
         return response.status == 201 || value == "";
       },
     },
