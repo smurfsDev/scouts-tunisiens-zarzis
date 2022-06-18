@@ -25,9 +25,9 @@ class AuthenticationController extends Controller
         if (!Auth::attempt($input)) {
             return response()->json([
                 'success'   => false,
-                'message'   => 'Invalid credentials',
+                'message'   => 'informations d\'identification non valides',
                 'data'      => []
-            ]);
+            ],401);
         }
 
         return response()->json([
