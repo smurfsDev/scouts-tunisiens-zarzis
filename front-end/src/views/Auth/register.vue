@@ -78,12 +78,12 @@
             >
               Merci d'entrer une cin valide.
             </div>
-            <div
+            <!-- <div
               class="error"
               v-if="!$v.formData.cin.isUnique"
             >
               Cette cin est deja utilisée.
-            </div>
+            </div> -->
           </div>
         </div>
       </tab-content>
@@ -188,6 +188,7 @@
           </div>
         </div>
       </tab-content>
+               <span class="caption"> Vous avez deja un compte ? <router-link color="primary" to="/login">Login</router-link></span>
     </form-wizard>
   </div>
 </template>
@@ -240,16 +241,17 @@ export default {
             // async isUnique(value) {
             //   const response = await this.$axios(`/unique/${value}`);
             //   console.log(response.data);
-            //   return response.status == 200;
+              // return response.status == 200||value=='';
             // },
           },
         },
         {
           phone_number: { required, between: between(10000000, 99999999) },
           email: { required, email,async isUnique(value) {
+
               const response = await this.$axios(`/unique/${value}`);
               console.log(response.data);
-              return response.status == 200;
+              return response.status == 200||value=='';
             } },
         },
         {
@@ -283,11 +285,7 @@ export default {
           if (this.$store.getters.regStatus == 2) {
             this.alert.dismissCountDown = 10;
             this.alert.variant = "danger";
-            for (let mg in this.$store.getters.regMessage) {
-              this.alert.msg += this.$store.getters.regMessage[mg] + "\n";
-            }
-            // check if key exist in storeer getters
-           
+            this.alert.msg = this.$store.getters.regMessage;
           }
         })
         .catch((err) => {
