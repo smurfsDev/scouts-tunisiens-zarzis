@@ -4,19 +4,19 @@
       <v-container fluid>
         <v-layout align-center justify-center>
           <v-flex xs12 sm8 md4>
-            <b-alert
-              :show="alert.dismissCountDown"
-              dismissible
-              :variant="alert.variant"
-              @dismissed="alert.dismissCountDown = 0"
-            >
-              <p>{{ alert.msg }}</p>
-            </b-alert>
             <v-card class="elevation-12 rounded-lg" shaped>
               <v-toolbar dark>
                 <v-toolbar-title>Connexion</v-toolbar-title>
               </v-toolbar>
               <v-card-text>
+                <b-alert
+                  :show="alert.dismissCountDown"
+                  dismissible
+                  :variant="alert.variant"
+                  @dismissed="alert.dismissCountDown = 0"
+                >
+                  <p>{{ alert.msg }}</p>
+                </b-alert>
                 <v-form @submit.prevent="Login" id="login-form">
                   <v-text-field
                     prepend-icon="person"
@@ -80,10 +80,10 @@ export default {
     };
   },
   created() {
-    if (this.$route.params.registred) {
-      alert.dismissCountDown = 10;
-      alert.variant = "success";
-      alert.msg = "Vous êtes bien inscrit, vous pouvez vous connecter";
+    if (typeof this.$route.params.msg!=="undefined") {
+      this.alert.dismissCountDown = 10;
+      this.alert.variant = this.$route.params.variant??"danger";
+      this.alert.msg = this.$route.params.msg;
     }
   },
   methods: {

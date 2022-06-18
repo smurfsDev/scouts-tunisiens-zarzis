@@ -89,7 +89,7 @@ const actions = {
       })
       .then((response) => {
         if (response.status == 200) {
-          router.push({ name: "login", params: { registred: true } });
+          router.push({ name: "login", params: { msg: "Vous êtes bien inscrit, vous pouvez vous connecter" ,variant:"success"} });
           commit("setRegStatus", 1);
         } else {
           console.log("jawna behi nai");
