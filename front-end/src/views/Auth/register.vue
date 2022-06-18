@@ -86,6 +86,10 @@
             </div> -->
           </div>
         </div>
+        <span class="caption">
+        Vous avez deja un compte ?
+        <router-link color="primary" to="/login">Login</router-link></span
+      >
       </tab-content>
       <tab-content title="Contact">
         <div class="form-group">
@@ -184,11 +188,8 @@
             </div>
           </div>
         </div>
+      
       </tab-content>
-      <span class="caption">
-        Vous avez deja un compte ?
-        <router-link color="primary" to="/login">Login</router-link></span
-      >
     </form-wizard>
   </div>
 </template>
