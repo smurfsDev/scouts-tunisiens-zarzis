@@ -105,12 +105,9 @@
               <div class="error" v-if="!$v.formData.email.email">
                 Merci d'entrer un email valid.
               </div>
-            <div
-              class="error"
-              v-if="!$v.formData.email.isUnique"
-            >
-              Ce mail est deja utilisée.
-            </div>
+              <div class="error" v-if="!$v.formData.email.isUnique">
+                Ce mail est deja utilisée.
+              </div>
             </div>
           </div>
           <label for="phone_number">Numero de telephone</label>
@@ -188,7 +185,10 @@
           </div>
         </div>
       </tab-content>
-               <span class="caption"> Vous avez deja un compte ? <router-link color="primary" to="/login">Login</router-link></span>
+      <span class="caption">
+        Vous avez deja un compte ?
+        <router-link color="primary" to="/login">Login</router-link></span
+      >
     </form-wizard>
   </div>
 </template>
@@ -241,18 +241,21 @@ export default {
             // async isUnique(value) {
             //   const response = await this.$axios(`/unique/${value}`);
             //   console.log(response.data);
-              // return response.status == 200||value=='';
+            // return response.status == 200||value=='';
             // },
           },
         },
         {
           phone_number: { required, between: between(10000000, 99999999) },
-          email: { required, email,async isUnique(value) {
-
+          email: {
+            required,
+            email,
+            async isUnique(value) {
               const response = await this.$axios(`/unique/${value}`);
               console.log(response.data);
-              return response.status == 200||value=='';
-            } },
+              return response.status == 200 || value == "";
+            },
+          },
         },
         {
           password: {
@@ -298,7 +301,7 @@ export default {
   },
 };
 </script>
-<style >
+<style>
 .error {
   color: white !important;
 }

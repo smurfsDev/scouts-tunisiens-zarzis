@@ -1,9 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/HomeView.vue";
-import Login from "./routes/login";
-import Register from "./routes/register";
-import Logout from "./routes/logout";
+import Login from "./routes/auth/login";
+import Register from "./routes/auth/register";
+import Logout from "./routes/auth/logout";
 Vue.use(VueRouter);
 
 const routes = [

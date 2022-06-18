@@ -1,14 +1,14 @@
 <template>
-    <div></div>
+  <div></div>
 </template>
 <script>
 import { mapActions } from "vuex";
 export default {
-    methods:{
+  methods: {
     ...mapActions(["logout"]),
-    },
-    created(){
-        this.logout();
-    }
-}
+  },
+  created() {
+    this.logout();
+  },
+};
 </script>

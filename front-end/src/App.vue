@@ -32,24 +32,23 @@
 
           <v-list>
             <v-list-item v-if="!this.$store.getters.isLoggedIn">
-              <router-link class="button" to="/login" 
+              <router-link class="button" to="/login"
                 ><v-icon>mdi-account-arrow-right</v-icon>Connecter</router-link
               >
             </v-list-item>
             <v-list-item v-if="this.$store.getters.isLoggedIn">
-              <router-link class="button" to="/logout" 
+              <router-link class="button" to="/logout"
                 ><v-icon>mdi-account-arrow-left</v-icon>Deconnecter</router-link
               >
             </v-list-item>
             <v-list-item v-if="!this.$store.getters.isLoggedIn">
-              <router-link class="button" to="/register"  
+              <router-link class="button" to="/register"
                 ><v-icon>mdi-account-plus</v-icon>S'inscrire</router-link
               >
             </v-list-item>
           </v-list>
         </v-menu>
       </div>
-     
     </v-app-bar>
 
     <v-main>
