@@ -2,7 +2,7 @@ import Vue from "vue";
 import "./plugins/axios";
 import "./plugins/bootstrap-vue";
 import App from "./App.vue";
-import router from "./router";
+import router from "./router/metaRouter";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import Vuelidate from "./plugins/vuelidate";
