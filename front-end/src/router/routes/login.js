@@ -1,4 +1,4 @@
-const login = ()=>{import("../../views/Auth/login.vue")};
+const login = ()=>import("../../views/Auth/login.vue");
 
 export default [
     {
