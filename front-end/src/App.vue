@@ -31,6 +31,11 @@
           </template>
 
           <v-list>
+            <v-list-item v-if="this.$store.getters.isLoggedIn">
+              <h6
+                ><v-icon>mdi-account</v-icon>{{ $store.getters.authUser.first_name+" "+$store.getters.authUser.last_name }}</h6
+              >
+            </v-list-item>
             <v-list-item v-if="!this.$store.getters.isLoggedIn">
               <router-link class="button" to="/login"
                 ><v-icon>mdi-account-arrow-right</v-icon>Connecter</router-link

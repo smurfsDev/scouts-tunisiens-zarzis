@@ -80,7 +80,6 @@ const actions = {
     });
   },
   async register({ commit }, User) {
-    console.log(User);
     await axios
       .post("/register", User, {
         headers: {

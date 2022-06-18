@@ -253,7 +253,6 @@ export default {
             email,
             async isUnique(value) {
               const response = await this.$axios(`/unique/${value}`);
-              console.log(response.data);
               return response.status == 200 || value == "";
             },
           },
@@ -283,7 +282,6 @@ export default {
     ...mapActions(["register"]),
     Register() {
       this.alert.msg = "";
-      console.log(this.formData);
       this.register(this.formData)
         .then(() => {
           if (this.$store.getters.regStatus == 2) {
@@ -292,8 +290,7 @@ export default {
             this.alert.msg = this.$store.getters.regMessage;
           }
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
         });
     },
     onComplete() {
