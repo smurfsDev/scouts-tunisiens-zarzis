@@ -10,7 +10,7 @@ const state = {
   regStatus: null,
   regMessage: null,
   authStatus: null,
-  authMessage: null
+  authMessage: null,
 };
 const getters = {
   isLoggedIn: (state) => state.isLoggedIn,
@@ -19,7 +19,7 @@ const getters = {
   regStatus: (state) => state.regStatus,
   regMessage: (state) => state.regMessage,
   authStatus: (state) => state.authStatus,
-  authMessage: (state) => state.authMessage
+  authMessage: (state) => state.authMessage,
 };
 const mutations = {
   setLoggedIn(state, payload) {
@@ -42,13 +42,13 @@ const mutations = {
   },
   setAuthStatus(state, payload) {
     state.authStatus = payload;
-  }
+  },
 };
 const actions = {
   async login({ commit }, payload) {
     axios
       .get("http://localhost:8000/sanctum/csrf-cookie", {
-        withCredentials: true
+        withCredentials: true,
       })
       .then(() => {})
       .catch(() => {});
@@ -84,9 +84,9 @@ const actions = {
     await axios
       .post("/register", User, {
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        withCredentials: true
+        withCredentials: true,
       })
       .then((response) => {
         if (response.status == 200) {
@@ -100,12 +100,12 @@ const actions = {
         commit("setRegStatus", 2);
         commit("setRegMessage", error.response.data.data); // this is the main part. Use the response property from the error object
       });
-  }
+  },
 };
 
 export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };

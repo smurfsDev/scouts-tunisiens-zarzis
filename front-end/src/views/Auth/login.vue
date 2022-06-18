@@ -58,12 +58,15 @@ import { required, minLength, email } from "vuelidate/lib/validators";
 
 export default {
   validations: {
-    email: { required, email, async exists(value) {
-
-              const response = await this.$axios(`/unique/${value}`);
-              console.log(response.data);
-              return response.status == 201||value=='';
-            }},
+    email: {
+      required,
+      email,
+      async exists(value) {
+        const response = await this.$axios(`/unique/${value}`);
+        console.log(response.data);
+        return response.status == 201 || value == "";
+      },
+    },
     password: { required, minLength: minLength(8) },
   },
   data() {
@@ -124,5 +127,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
