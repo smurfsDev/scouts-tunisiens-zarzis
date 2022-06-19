@@ -19,10 +19,20 @@ class RoleSeeder extends Seeder
             'name' => 'superAdmin',
         ]);
         Role::create([
-            'name' => 'admin',
+            'name' => 'قيادة الفوج',
         ]);
         Role::create([
-            'name' => 'user',
+            'name' => 'قائد وحدة',
+        ]);
+        Role::create([
+            'name' => 'ملازم قائد وحدة',
+        ]);
+        Role::create([
+            'name' => 'معين قائد وحدة',
+        ]);
+
+        Role::create([
+            'name' => 'فرد',
         ]);
 
         // Role::factory(4)->create();
