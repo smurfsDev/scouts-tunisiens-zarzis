@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\test;
+use App\Http\Controllers\TroupeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,3 +29,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 Route::post('/login', [AuthenticationController::class, 'login']);
 Route::post('/register', [AuthenticationController::class, 'register']);
 Route::get('/unique/{id}',[AuthenticationController::class, 'unique']);
+
+Route::group(['prefix' => '/roles'], function () {
+    Route::get('/', [RoleController::class, 'index']);
+});
+
+Route::group(['prefix' => '/troupes'], function () {
+    Route::get('/', [TroupeController::class, 'index']);
+});
