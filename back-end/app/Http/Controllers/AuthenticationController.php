@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,11 +15,19 @@ class AuthenticationController extends Controller
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
+        $role = Role::find($request->role);
+        if($request->troupe){
+            $user->roles()->attach($role,['troupe_id'=>$request->troupe]);
+        }else{
+            $user->roles()->attach($role);
+        }
+
         return response()->json([
             'success'   => true,
             'message'   => 'User created',
             'data'      => $user
         ]);
+
     }
 
     public function login(LoginRequest $request){
