@@ -20,8 +20,8 @@
                 <v-form @submit.prevent="Login" id="login-form">
                   <v-text-field
                     prepend-icon="person"
-                    name="ايمايل"
-                    label="ايمايل"
+                    name="البريد الإلكتروني"
+                    label="البريد الإلكتروني"
                     :error-messages="emailErrors"
                     v-model="email"
                     type="text"

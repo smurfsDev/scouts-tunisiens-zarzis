@@ -172,24 +172,24 @@
       <tab-content title="الاتصال">
         <div class="form-group">
           <div class="form-group">
-            <label for="email">ايمايل</label>
+            <label for="email">البريد الإلكتروني</label>
             <input
               type="email"
               name="email"
               class="form-control"
               :class="hasError('email') ? 'is-invalid' : ''"
-              placeholder="ادخل ايميلك"
+              placeholder="ادخل البريد الإلكترونيك"
               v-model="formData.email"
             />
             <div v-if="hasError('email')" class="invalid-feedback">
               <div class="error" v-if="!$v.formData.email.required">
-                الرجاء ادخال ايميلك.
+                الرجاء ادخال البريد الإلكتروني.
               </div>
               <div class="error" v-if="!$v.formData.email.email">
-                الرجاء ادخال ايميلك بشكل صحيح.
+                الرجاء ادخال البريد الإلكتروني بشكل صحيح.
               </div>
               <div class="error" v-if="!$v.formData.email.isUnique">
-                ايميل هذا مستخدم من قبل.
+                البريد الإلكتروني هذا مستخدم من قبل.
               </div>
             </div>
           </div>
