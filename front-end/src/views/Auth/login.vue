@@ -1,12 +1,12 @@
 <template>
   <v-app id="inspire">
-    <v-main>
+    <v-main class="text-right">
       <v-container fluid>
         <v-layout align-center justify-center>
           <v-flex xs12 sm8 md4>
             <v-card class="elevation-12 rounded-lg" shaped>
               <v-toolbar dark>
-                <v-toolbar-title>Connexion</v-toolbar-title>
+                <v-toolbar-title>تسجيل الدخول</v-toolbar-title>
               </v-toolbar>
               <v-card-text>
                 <b-alert
@@ -20,8 +20,8 @@
                 <v-form @submit.prevent="Login" id="login-form">
                   <v-text-field
                     prepend-icon="person"
-                    name="Email"
-                    label="email"
+                    name="ايمايل"
+                    label="ايمايل"
                     :error-messages="emailErrors"
                     v-model="email"
                     type="text"
@@ -31,16 +31,21 @@
                     :error-messages="passwordErrors"
                     v-model="password"
                     prepend-icon="lock"
-                    name="Mot de passe"
-                    label="Mot de passe"
+                    name="كلمة المرور"
+                    label="كلمة المرور"
                     type="password"
                   ></v-text-field>
                 </v-form>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="primary" to="/register">Register</v-btn>
+                   <span class="caption">
+          هل لديك حساب ?
+          <router-link color="primary" to="/register"
+            >صنع حساب</router-link
+          ></span
+        >
                   <v-btn color="success" form="login-form" type="submit"
-                    >Login</v-btn
+                    >التسجيل</v-btn
                   >
                 </v-card-actions>
               </v-card-text>
@@ -62,6 +67,9 @@ export default {
       required,
       email,
       async exists(value) {
+        if (value === "") {
+          return true;
+        }
         const response = await this.$axios(`/unique/${value}`);
         return response.status == 201 || value == "";
       },
@@ -109,17 +117,17 @@ export default {
       const errors = [];
       if (!this.$v.password.$dirty) return errors;
       !this.$v.password.required &&
-        errors.push("Merci d'entrer votre mot de passe!");
+        errors.push("الرجاء ادخال بكلمة المرور");
       !this.$v.password.minLength &&
-        errors.push("Mot de passe doit etre au moin 8 characters!");
+        errors.push("الرجاء ادخال بكلمة المرور بحد اقل من 8 حروف");
       return errors;
     },
     emailErrors() {
       const errors = [];
       if (!this.$v.email.$dirty) return errors;
-      !this.$v.email.email && errors.push("Doit etre un email valide");
-      !this.$v.email.required && errors.push("Merci d'entrer votre e-mail");
-      !this.$v.email.exists && errors.push("Cet email n'existe pas");
+      !this.$v.email.email && errors.push("الرجاء ادخال بريد صحيح");
+      !this.$v.email.required && errors.push("الرجاء ادخال بريد الكتروني");
+      !this.$v.email.exists && errors.push("البريد الالكتروني غير مسجل");
       return errors;
     },
   },

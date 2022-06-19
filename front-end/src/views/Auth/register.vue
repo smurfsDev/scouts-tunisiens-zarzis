@@ -10,73 +10,94 @@
       <p>{{ alert.msg }}</p>
     </b-alert>
     <form-wizard @onComplete="onComplete">
-      <tab-content title="Donnee personnel" :selected="true">
+      <tab-content title="معلومات شخصية" :selected="true">
         <div class="form-group">
-          <label for="first_name">Prénom</label>
+          <label for="first_name">الأسم</label>
           <input
             type="text"
+            name="prenom"
             class="form-control"
             :class="hasError('first_name') ? 'is-invalid' : ''"
-            placeholder="Entrez votre prénom"
+            placeholder="ادخل اسمك"
             v-model="formData.first_name"
           />
           <div v-if="hasError('first_name')" class="invalid-feedback">
             <div class="error" v-if="!$v.formData.first_name.required">
-              Merci d'entrer votre prénom.
+              الرجاء ادخال اسمك.
             </div>
           </div>
         </div>
         <div class="form-group">
-          <label for="last_name">Nom</label>
+          <label for="last_name">اللقب</label>
           <input
             type="text"
+            name="nom"
             class="form-control"
             :class="hasError('last_name') ? 'is-invalid' : ''"
-            placeholder="Entrer votre nom"
+            placeholder="ادخل لقبك"
             v-model="formData.last_name"
           />
           <div v-if="hasError('last_name')" class="invalid-feedback">
             <div class="error" v-if="!$v.formData.last_name.required">
-              Merci d'entrer votre Nom.
+              الرجاء ادخال لقبك.
             </div>
           </div>
         </div>
         <div class="form-group">
-          <label for="birth_date">date de naissance</label>
+          <label for="birth_date">تاريح الولادة</label>
           <input
             type="date"
             class="form-control"
             :class="hasError('birth_date') ? 'is-invalid' : ''"
-            placeholder="Entrer votre date de naissance"
+            placeholder="الرجاء ادخال تاريخ ولادتك"
             v-model="formData.birth_date"
           />
           <div v-if="hasError('birth_date')" class="invalid-feedback">
             <div class="error" v-if="!$v.formData.birth_date.required">
-              Merci d'entrer votre date de naissance.
+              الرجاء ادخال تاريخ ولادتك.
             </div>
             <div class="error" v-if="!$v.formData.birth_date.dateValidator">
-              Merci d'entrer une date de naissance valide.
+              الرجاء ادخال تاريخ ولادتك بشكل صحيح.
             </div>
           </div>
         </div>
         <div class="form-group">
-          <label for="cin">cin</label>
+          <label for="sexe">الجنس</label>
+          <select
+            class="form-control"
+            :class="hasError('sexe') ? 'is-invalid' : ''"
+            v-model="formData.sexe"
+          >
+            <option disabled="disabled" selected="selected">اختر جنسك</option>
+
+            <option value="F">انثى</option>
+            <option value="H">ذكر</option>
+          </select>
+          <div v-if="hasError('sexe')" class="invalid-feedback">
+            <div class="error" v-if="!$v.formData.sexe.required">
+              الرجاء اختيار جنسك.
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="cin">رقم ب.ت.و</label>
           <input
             type="number"
+            name="cin"
             class="form-control"
             :class="hasError('cin') ? 'is-invalid' : ''"
-            placeholder="Entrer votre cin"
+            placeholder="ادخل رقم ب.ت.و"
             v-model="formData.cin"
           />
           <div v-if="hasError('cin')" class="invalid-feedback">
             <div class="error" v-if="!$v.formData.cin.required">
-              Merci d'entrer votre cin (ou cin de parent).
+              الرجاء ادخال رقم ب.ت.و(او رقم ب.ت.و الولي )
             </div>
             <div
               class="error"
               v-if="!$v.formData.cin.numeric || !$v.formData.cin.between"
             >
-              Merci d'entrer une cin valide.
+              الرجاء ادخال رقم ب.ت.و بشكل صحيح.
             </div>
             <!-- <div
               class="error"
@@ -87,44 +108,103 @@
           </div>
         </div>
         <span class="caption">
-        Vous avez deja un compte ?
-        <router-link color="primary" to="/login">Login</router-link></span
-      >
+          هل لديك حساب ?
+          <router-link color="primary" to="/login"
+            >تسجيل الدخول</router-link
+          ></span
+        >
       </tab-content>
-      <tab-content title="Contact">
+      <tab-content title="المعطيات الكشفية">
+        <div class="form-group">
+          <label for="role">مهمة</label>
+          <select
+            :class="hasError('role') ? 'is-invalid' : ''"
+            class="form-control"
+            v-model="formData.role"
+          >
+            <option disabled="disabled" selected="selected">اختر مهمتك</option>
+            <option v-for="role in roles" :key="role.id" :value="role.id">
+              {{ role.name }}
+            </option>
+          </select>
+          <div v-if="hasError('role')" class="invalid-feedback">
+            <div class="error" v-if="!$v.formData.role.required">
+              <span>مهمة مطلوبة</span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group"
+          v-if="
+            roles.length != 0 &&
+            roles[formData.role ? formData.role - 2 : 0].name != 'قيادة الفوج'
+          "
+        >
+          <label for="troupe">الفرقة</label>
+          <select
+            :class="hasError('troupe') ? 'is-invalid' : ''"
+            class="form-control"
+            v-model="formData.troupe"
+          >
+            <option disabled="disabled" selected="selected">اختر فرقتك</option>
+
+            <option
+              v-for="troupe in troupes"
+              :key="troupe.id"
+              v-show="
+                (age >= troupe.min_age &&
+                age <= troupe.max_age ||
+            roles[formData.role ? formData.role - 2 : 0].name != 'قيادة الفوج')&&
+                formData.sexe == troupe.gender
+              "
+              :value="troupe.id"
+            >
+              {{ troupe.name }}
+            </option>
+          </select>
+          <div v-if="hasError('troupe')" class="invalid-feedback">
+            <div class="error" v-if="!$v.formData.troupe.required">
+              <span>الفرقة مطلوبة</span>
+            </div>
+          </div>
+        </div>
+      </tab-content>
+      <tab-content title="الاتصال">
         <div class="form-group">
           <div class="form-group">
-            <label for="email">Email</label>
+            <label for="email">ايمايل</label>
             <input
               type="email"
+              name="email"
               class="form-control"
               :class="hasError('email') ? 'is-invalid' : ''"
-              placeholder="Entrer votre email"
+              placeholder="ادخل ايميلك"
               v-model="formData.email"
             />
             <div v-if="hasError('email')" class="invalid-feedback">
               <div class="error" v-if="!$v.formData.email.required">
-                Merci d'entrer votre email.
+                الرجاء ادخال ايميلك.
               </div>
               <div class="error" v-if="!$v.formData.email.email">
-                Merci d'entrer un email valid.
+                الرجاء ادخال ايميلك بشكل صحيح.
               </div>
               <div class="error" v-if="!$v.formData.email.isUnique">
-                Ce mail est deja utilisée.
+                ايميل هذا مستخدم من قبل.
               </div>
             </div>
           </div>
-          <label for="phone_number">Numero de telephone</label>
+          <label for="phone_number">رقم الهاتف</label>
           <input
             type="number"
+            name="phone_numberf"
             class="form-control"
             :class="hasError('phone_number') ? 'is-invalid' : ''"
-            placeholder="Entrer votre numero de telephone"
+            placeholder="ادخل رقم الهاتف"
             v-model="formData.phone_number"
           />
           <div v-if="hasError('phone_number')" class="invalid-feedback">
             <div class="error" v-if="!$v.formData.phone_number.required">
-              Merci d'entrer votre numero de telephone.
+              الرجاء ادخال رقم الهاتف.
             </div>
             <div
               class="error"
@@ -133,14 +213,14 @@
                 !$v.formData.phone_number.between
               "
             >
-              Merci d'entrer un numero de telephone valide.
+              الرجاء ادخال رقم الهاتف بشكل صحيح.
             </div>
           </div>
         </div>
       </tab-content>
-      <tab-content title="Identifiants">
+      <tab-content title="معرفات">
         <div class="form-group">
-          <label for="password">Mot de passe</label>
+          <label for="password">الرمز السري</label>
           <input
             type="password"
             :class="hasError('password') ? 'is-invalid' : ''"
@@ -149,7 +229,7 @@
           />
           <div v-if="hasError('password')" class="invalid-feedback">
             <div class="error" v-if="!$v.formData.password.required">
-              Merci d'entrer votre mot de passe.
+              الرجاء ادخال رمز السر.
             </div>
             <div
               class="error"
@@ -158,12 +238,12 @@
                 !$v.formData.password.maxLength
               "
             >
-              Mot de passe doit etre entre 8 et 30 characteres.
+              الرمز السري يجب ان يكون بين 8 و 30 حرف.
             </div>
           </div>
         </div>
         <div class="form-group">
-          <label for="confirm_password">Verification mot de passe</label>
+          <label for="confirm_password">اعادة الرمز السري</label>
           <input
             :class="hasError('confirm_password') ? 'is-invalid' : ''"
             class="form-control"
@@ -172,7 +252,7 @@
           />
           <div v-if="hasError('confirm_password')" class="invalid-feedback">
             <div class="error" v-if="!$v.formData.confirm_password.required">
-              Merci de verifier votre mot de passe.
+              الرجاء ادخال رمز السر مرة اخرى.
             </div>
             <div
               class="error"
@@ -181,14 +261,13 @@
                 !$v.formData.confirm_password.maxLength
               "
             >
-              Mot de passe doit etre entre 8 et 30 characteres.
+              الرمز السري يجب ان يكون بين 8 و 30 حرف.
             </div>
             <div class="error" v-if="!$v.formData.confirm_password.confirmed">
-              Mot de passe non identitque .
+              الرجاء ادخال رمز السر مرة اخرى.
             </div>
           </div>
         </div>
-      
       </tab-content>
     </form-wizard>
   </div>
@@ -200,6 +279,7 @@ import { FormWizard, TabContent, ValidationHelper } from "vue-step-wizard";
 import "vue-step-wizard/dist/vue-step-wizard.css";
 import {
   required,
+  requiredIf,
   email,
   numeric,
   between,
@@ -217,8 +297,13 @@ export default {
     TabContent,
   },
   mixins: [ValidationHelper],
+  updated() {
+    // console.log(this.age);
+  },
   data() {
     return {
+      roles: [],
+      troupes: {},
       uniqueCin: false,
       uniqueEmail: false,
       formData: {
@@ -229,21 +314,34 @@ export default {
         password: null,
         confirm_password: null,
         birth_date: null,
+        role: null,
+        troupe: null,
+        sexe: null,
       },
       validationRules: [
         {
           first_name: { required },
           last_name: { required },
           birth_date: { required, dateValidator },
+          sexe: { required },
           cin: {
             required,
             numeric,
             between: between(1000000, 99999999),
-            // async isUnique(value) {
-            //   const response = await this.$axios(`/unique/${value}`);
-            //   console.log(response.data);
-            // return response.status == 200||value=='';
-            // },
+          },
+        },
+        {
+          role: {
+            required,
+          },
+          troupe: {
+            required: requiredIf(function () {
+              let index =
+                this.formData.role !== null ? this.formData.role - 2 : 0;
+              return this.roles.length != 0
+                ? this.roles[index].name != "قيادة الفوج"
+                : false;
+            }),
           },
         },
         {
@@ -290,17 +388,54 @@ export default {
             this.alert.msg = this.$store.getters.regMessage;
           }
         })
-        .catch(() => {
-        });
+        .catch(() => {});
     },
     onComplete() {
       this.Register();
     },
   },
+  created() {
+    this.$axios.get("/roles").then((response) => {
+      this.roles = response.data;
+    });
+    this.$axios.get("/troupes").then((response) => {
+      this.troupes = response.data;
+    });
+  },
+  computed: {
+    age() {
+      let date = new Date(this.formData.birth_date);
+      let ageDiff = new Date().getFullYear() - date.getFullYear();
+      return ageDiff;
+    },
+  },
 };
 </script>
 <style>
+::-webkit-input-placeholder {
+   text-align: right;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   text-align: right;  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   text-align: right;  
+}
+
+:-ms-input-placeholder {  
+   text-align: right; 
+}
+input{
+   text-align: right; 
+}
+option ,select{
+   text-align: right; 
+}
+
 .error {
+  padding: 5px;
   color: white !important;
 }
 </style>
