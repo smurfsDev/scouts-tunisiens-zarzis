@@ -13,13 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('role_user', function (Blueprint $table) {
+        Schema::create('troupes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('role_id');
-            $table->foreignId('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('role_id')->references('id')->on('roles');
-            $table->integer('status')->default(0);
+            $table->string('name');
+            $table->string('description');
+            $table->enum('gender',['H','F']);
+            $table->integer('min_age');
+            $table->integer('max_age');
+            $table->timestamps();
         });
     }
 
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('role_users');
+        Schema::dropIfExists('troupes');
     }
 };

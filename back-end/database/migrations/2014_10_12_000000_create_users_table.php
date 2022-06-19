@@ -22,7 +22,7 @@ return new class extends Migration
             $table->date('birth_date')->nullable();
             $table->integer('phone_number')->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->enum('sexe', ['M', 'F'])->nullable();
+            $table->enum('sexe', ['H', 'F'])->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
