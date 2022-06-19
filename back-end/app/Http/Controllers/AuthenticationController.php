@@ -35,7 +35,7 @@ class AuthenticationController extends Controller
         if (!Auth::attempt($input)) {
             return response()->json([
                 'success'   => false,
-                'message'   => 'informations d\'identification non valides',
+                'message'   => 'المعلومات المدخلة غير صحيحة',
                 'data'      => []
             ],401);
         }
