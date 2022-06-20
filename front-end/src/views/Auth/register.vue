@@ -14,8 +14,9 @@
         <div class="form-group">
           <label for="first_name">الأسم</label>
           <input
+            id="first_name"
             type="text"
-            name="prenom"
+            name="first_name"
             class="form-control"
             :class="hasError('first_name') ? 'is-invalid' : ''"
             placeholder="ادخل اسمك"
@@ -31,7 +32,8 @@
           <label for="last_name">اللقب</label>
           <input
             type="text"
-            name="nom"
+            id="last_name"
+            name="last_name"
             class="form-control"
             :class="hasError('last_name') ? 'is-invalid' : ''"
             placeholder="ادخل لقبك"
@@ -47,6 +49,7 @@
           <label for="birth_date">تاريح الولادة</label>
           <input
             type="date"
+            id="birth_date"
             class="form-control"
             :class="hasError('birth_date') ? 'is-invalid' : ''"
             placeholder="الرجاء ادخال تاريخ ولادتك"
@@ -64,6 +67,7 @@
         <div class="form-group">
           <label for="sexe">الجنس</label>
           <select
+            id="sexe"
             class="form-control"
             :class="hasError('sexe') ? 'is-invalid' : ''"
             v-model="formData.sexe"
@@ -80,8 +84,32 @@
           </div>
         </div>
         <div class="form-group">
+          <label for="image">صورة</label>
+          <input
+            id="image"
+            type="file"
+            name="image"
+            accept="image/*"
+            :class="hasError('image') ? 'is-invalid' : ''"
+            class="form-control"
+            @change="convert64"
+            ref="file"
+          />
+          <div v-if="hasError('image')" class="invalid-feedback">
+            <div
+              class="error"
+              v-if="
+                !$v.formData.image.required || !$v.formData.image.isFileImage
+              "
+            >
+              الرجاء ادخال صورة.
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
           <label for="cin">رقم ب.ت.و</label>
           <input
+            id="cin"
             type="number"
             name="cin"
             class="form-control"
@@ -118,6 +146,7 @@
         <div class="form-group">
           <label for="role">مهمة</label>
           <select
+            id="role"
             :class="hasError('role') ? 'is-invalid' : ''"
             class="form-control"
             v-model="formData.role"
@@ -142,6 +171,7 @@
         >
           <label for="troupe">الفرقة</label>
           <select
+            id="troupe"
             :class="hasError('troupe') ? 'is-invalid' : ''"
             class="form-control"
             v-model="formData.troupe"
@@ -152,9 +182,9 @@
               v-for="troupe in troupes"
               :key="troupe.id"
               v-show="
-                (age >= troupe.min_age &&
-                age <= troupe.max_age ||
-            roles[formData.role ? formData.role - 2 : 0].name != 'قيادة الفوج')&&
+                ((age >= troupe.min_age && age <= troupe.max_age) ||
+                  roles[formData.role ? formData.role - 2 : 0].name !=
+                    'قيادة الفوج') &&
                 formData.sexe == troupe.gender
               "
               :value="troupe.id"
@@ -174,6 +204,7 @@
           <div class="form-group">
             <label for="email">البريد الإلكتروني</label>
             <input
+              id="email"
               type="email"
               name="email"
               class="form-control"
@@ -195,6 +226,7 @@
           </div>
           <label for="phone_number">رقم الهاتف</label>
           <input
+            id="phone_number"
             type="number"
             name="phone_numberf"
             class="form-control"
@@ -222,6 +254,7 @@
         <div class="form-group">
           <label for="password">الرمز السري</label>
           <input
+            id="password"
             type="password"
             :class="hasError('password') ? 'is-invalid' : ''"
             class="form-control"
@@ -245,6 +278,7 @@
         <div class="form-group">
           <label for="confirm_password">اعادة الرمز السري</label>
           <input
+            id="confirm_password"
             :class="hasError('confirm_password') ? 'is-invalid' : ''"
             class="form-control"
             type="password"
@@ -290,6 +324,9 @@ import {
 const dateValidator = (date) => {
   return new Date(date).setHours(0, 0, 0, 0) <= new Date().setHours(0, 0, 0, 0);
 };
+const isFileImage = (file) => {
+  return file ? file.includes("image") : false;
+};
 export default {
   name: "StepFormValidation",
   components: {
@@ -298,7 +335,7 @@ export default {
   },
   mixins: [ValidationHelper],
   updated() {
-    // console.log(this.age);
+    // console.log(this.image);
   },
   data() {
     return {
@@ -317,6 +354,7 @@ export default {
         role: null,
         troupe: null,
         sexe: null,
+        image: null,
       },
       validationRules: [
         {
@@ -329,6 +367,7 @@ export default {
             numeric,
             between: between(1000000, 99999999),
           },
+          image: { required, isFileImage },
         },
         {
           role: {
@@ -393,6 +432,16 @@ export default {
     onComplete() {
       this.Register();
     },
+    convert64(e) {
+      var file = e.target.files[0];
+      this.srcImage = file;
+      var reader = new FileReader();
+      reader.onloadend = () => {
+        this.formData.image = reader.result;
+      };
+      this.image = file;
+      reader.readAsDataURL(file);
+    },
   },
   created() {
     this.$axios.get("/roles").then((response) => {
@@ -413,28 +462,35 @@ export default {
 </script>
 <style>
 ::-webkit-input-placeholder {
-   text-align: right;
+  text-align: right;
 }
 
-:-moz-placeholder { /* Firefox 18- */
-   text-align: right;  
+:-moz-placeholder {
+  /* Firefox 18- */
+  text-align: right;
 }
 
-::-moz-placeholder {  /* Firefox 19+ */
-   text-align: right;  
+::-moz-placeholder {
+  /* Firefox 19+ */
+  text-align: right;
 }
 
-:-ms-input-placeholder {  
-   text-align: right; 
+:-ms-input-placeholder {
+  text-align: right;
 }
-input{
-   text-align: right; 
+input {
+  text-align: right;
 }
-option ,select{
-   text-align: right; 
+option,
+select {
+  text-align: right;
 }
 
 .error {
+  border-color: red;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 5px;
   padding: 5px;
   color: white !important;
 }

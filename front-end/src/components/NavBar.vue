@@ -32,7 +32,10 @@
           <v-list>
             <v-list-item v-if="this.$store.getters.isLoggedIn">
               <h6
-                ><v-icon>mdi-account</v-icon>{{ $store.getters.authUser.first_name+" "+$store.getters.authUser.last_name }}</h6
+                >
+                <v-icon v-if="$store.getters.authUser.image==null">mdi-account</v-icon>
+                <img :src="$store.getters.authUser.image" v-else>
+                {{ $store.getters.authUser.first_name+" "+$store.getters.authUser.last_name }}</h6
               >
             </v-list-item>
             <v-list-item v-if="!this.$store.getters.isLoggedIn">
