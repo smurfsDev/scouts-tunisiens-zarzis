@@ -22,6 +22,8 @@ return new class extends Migration
             $table->foreign('role_id')->references('id')->on('roles');
             $table->foreign('troupe_id')->references('id')->on('troupes');
             $table->integer('status')->default(0);
+            $table->timestamps();
+
         });
     }
 
