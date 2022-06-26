@@ -325,6 +325,9 @@ const dateValidator = (date) => {
   return new Date(date).setHours(0, 0, 0, 0) <= new Date().setHours(0, 0, 0, 0);
 };
 const isFileImage = (file) => {
+  if (file==null){
+    return true;
+  }
   return file ? file.includes("image") : false;
 };
 export default {
@@ -335,7 +338,7 @@ export default {
   },
   mixins: [ValidationHelper],
   updated() {
-    // console.log(this.image);
+    console.log(this.formData.image);
   },
   data() {
     return {
@@ -367,7 +370,7 @@ export default {
             numeric,
             between: between(1000000, 99999999),
           },
-          image: { required, isFileImage },
+          image: { isFileImage },
         },
         {
           role: {
