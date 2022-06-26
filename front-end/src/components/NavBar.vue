@@ -1,5 +1,9 @@
 <template>
-  <v-app-bar app color="primary" dark>
+  <v-app-bar
+    app
+    :color="$store.getters.status == false ? 'red darken-4' : 'primary'"
+    dark
+  >
     <router-link to="/" class="d-flex align-center">
       <v-img
         alt="Vuetify Logo"
@@ -33,7 +37,7 @@
 
         <v-list>
           <v-list-item v-if="this.$store.getters.isLoggedIn">
-            <h6>
+            <h6 v-if="$store.getters.status != false">
               <v-icon v-if="$store.getters.authUser.image == null"
                 >mdi-account</v-icon
               >
@@ -44,6 +48,26 @@
                 $store.getters.authUser.last_name
               }}
             </h6>
+            <v-tooltip bottom color="red">
+              <template v-slot:activator="{ on, attrs }">
+                <del
+                  v-if="$store.getters.status == false"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon v-if="$store.getters.authUser.image == null"
+                    >mdi-account</v-icon
+                  >
+                  <img :src="$store.getters.authUser.image" v-else />
+                  {{
+                    $store.getters.authUser.first_name +
+                    " " +
+                    $store.getters.authUser.last_name
+                  }}
+                </del>
+              </template>
+              <span>حسابك غير مفعل</span>
+            </v-tooltip>
           </v-list-item>
           <v-list-item v-if="!this.$store.getters.isLoggedIn">
             <router-link class="button" to="/login"
