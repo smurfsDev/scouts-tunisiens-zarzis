@@ -10,36 +10,39 @@
       item-key="first_name"
       class="elevation-1"
     >
-      <template v-slot:[`item.image`]="{ item }">
-        <img :src="item.image" alt="لا يوجد صورة" />
+      <template v-slot:[`item.user.image`]="{ item }">
+        <img :src="item.user.image" alt="لا يوجد صورة" />
+      </template>
+       <template v-slot:[`item.troupe.name`]="{ item }">
+        <td >{{ item.troupe?item.troupe.name:'فوج' }}</td>
       </template>
       <template v-slot:expanded-item="{ item }">
         <td>
           <v-card>
             العمر:
             {{
-              Math.floor((new Date() - new Date(item.birth_date)) / 31557600000)
+              Math.floor((new Date() - new Date(item.user.birth_date)) / 31557600000)
             }}
           </v-card>
         </td>
         <td>
-          <v-card> ر.ب.و: {{ item.cin }} </v-card>
+          <v-card> ر.ب.و: {{ item.user.cin }} </v-card>
         </td>
         <td>
-          <v-card> البريد الالكتروني: {{ item.email }} </v-card>
+          <v-card> البريد الالكتروني: {{ item.user.email }} </v-card>
         </td>
         <td>
-          <v-card> رقم الهاتف: {{ item.phone_number }} </v-card>
+          <v-card> رقم الهاتف: {{ item.user.phone_number }} </v-card>
         </td>
         <td>
           <v-card>
             تاريخ انشاء الحساب:
             {{
-              new Date(item.created_at).getDate() +
+              new Date(item.user.created_at).getDate() +
               "/" +
-              (new Date(item.created_at).getMonth() + 1) +
+              (new Date(item.user.created_at).getMonth() + 1) +
               "/" +
-              new Date(item.created_at).getFullYear()
+              new Date(item.user.created_at).getFullYear()
             }}
           </v-card>
         </td>
@@ -47,9 +50,9 @@
       <template v-slot:[`item.actions`]="{ item }">
         <div class="align-center">
           <v-btn
-            @click="reject(item.roles[0].id)"
+            @click="reject(item.id)"
             class="mx-1"
-            :disabled="item.roles[0].status == 0"
+            :disabled="item.status == 0"
             x-small
             :fab="$vuetify.breakpoint.name != 'sm'"
             color="red"
@@ -57,9 +60,9 @@
             <v-icon color="white">mdi-close-outline</v-icon>
           </v-btn>
           <v-btn
-            @click="accept(item.roles[0].id)"
+            @click="accept(item.id)"
             class="mx-1"
-            :disabled="item.roles[0].status == 1"
+            :disabled="item.status == 1"
             x-small
             :fab="$vuetify.breakpoint.name != 'sm'"
             color="success"
@@ -149,24 +152,24 @@ export default {
       return [
         {
           text: "الاسم",
-          value: "first_name",
+          value: "user.first_name",
         },
         {
           text: "اللقب",
-          value: "last_name",
+          value: "user.last_name",
         },
         {
           text: "المهمة",
-          value: "roles[0].role.name",
+          value: "role.name",
         },
         {
           text: "الفرقة",
-          value: "roles[0].troupe.name",
+          value: "troupe.name",
           default: "الفرقة",
         },
         {
           text: "الصورة",
-          value: "image",
+          value: "user.image",
           sortable: false,
           align: "center",
           class: "img-responsive",
