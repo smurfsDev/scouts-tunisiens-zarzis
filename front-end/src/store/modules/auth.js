@@ -7,10 +7,17 @@ const state = {
     localStorage.getItem("token") !== null,
   authUser: JSON.parse(localStorage.getItem("user")) ?? null,
   token: localStorage.getItem("token") ?? null,
+  isSuperAdmin: localStorage.getItem("isSuperAdmin"),
+  isLeadership: localStorage.getItem("isLeadership"),
+  isUnitLeader: localStorage.getItem("isUnitLeader"),
+  isUnitSubLeader: localStorage.getItem("isUnitSubLeader"),
+  isUnitAssignedLeader : localStorage.getItem("isUnitAssignedLeader"),
+  isParent: localStorage.getItem("isParent"),
+  isMember: localStorage.getItem("isMember"),
   regStatus: null,
   regMessage: null,
   authStatus: null,
-  authMessage: null,
+  authMessage: null
 };
 const getters = {
   isLoggedIn: (state) => state.isLoggedIn,
@@ -20,6 +27,13 @@ const getters = {
   regMessage: (state) => state.regMessage,
   authStatus: (state) => state.authStatus,
   authMessage: (state) => state.authMessage,
+  isSuperAdmin: (state) => state.isSuperAdmin,
+  isLeadership: (state) => state.isLeadership,
+  isUnitLeader: (state) => state.isUnitLeader,
+  isUnitSubLeader: (state) => state.isUnitSubLeader,
+  isUnitAssignedLeader: (state) => state.isUnitAssignedLeader,
+  isParent: (state) => state.isParent,
+  isMember: (state) => state.isMember
 };
 const mutations = {
   setLoggedIn(state, payload) {
@@ -27,12 +41,15 @@ const mutations = {
   },
   setAuthUser(state, payload) {
     state.authUser = payload;
+    localStorage.setItem("user", JSON.stringify(payload));
   },
   setToken(state, payload) {
     state.token = payload;
+    localStorage.setItem("token", payload);
   },
   setRegStatus(state, payload) {
     state.regStatus = payload;
+
   },
   setRegMessage(state, payload) {
     state.regMessage = payload;
@@ -43,12 +60,61 @@ const mutations = {
   setAuthStatus(state, payload) {
     state.authStatus = payload;
   },
+  setIsSuperAdmin(state, payload) {
+    state.isSuperAdmin = payload;
+    localStorage.setItem("isSuperAdmin", payload);
+  },
+  setIsLeadership(state, payload) {
+    state.isLeadership = payload;
+    localStorage.setItem("isLeadership", payload);
+  },
+  setIsUnitLeader(state, payload) {
+    state.isUnitLeader = payload;
+    localStorage.setItem("isUnitLeader", payload);
+  },
+  setIsUnitSubLeader(state, payload) {
+    state.isUnitSubLeader = payload;
+    localStorage.setItem("isUnitSubLeader", payload);
+  },
+  setIsUnitAssignedLeader(state, payload) {
+    state.isUnitAssignedLeader = payload;
+    localStorage.setItem("isUnitAssignedLeader", payload);
+  },
+  setIsParent(state, payload) {
+    state.isParent = payload;
+    localStorage.setItem("isParent", payload);
+  },
+  setIsMember(state, payload) {
+    state.isMember = payload;
+    localStorage.setItem("isMember", payload);
+  },
+  logout(state) {
+    state.isLoggedIn = false;
+    state.authUser = null;
+    state.token = null;
+    state.isSuperAdmin = false;
+    state.isLeadership = false;
+    state.isUnitLeader = false;
+    state.isUnitSubLeader = false;
+    state.isUnitAssignedLeader = false;
+    state.isParent = false;
+    state.isMember = false;
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    localStorage.removeItem("isSuperAdmin");
+    localStorage.removeItem("isLeadership");
+    localStorage.removeItem("isUnitLeader");
+    localStorage.removeItem("isUnitSubLeader");
+    localStorage.removeItem("isUnitAssignedLeader");
+    localStorage.removeItem("isParent");
+    localStorage.removeItem("isMember");
+  }
 };
 const actions = {
   async login({ commit }, payload) {
     axios
       .get("http://localhost:8000/sanctum/csrf-cookie", {
-        withCredentials: true,
+        withCredentials: true
       })
       .then(() => {})
       .catch(() => {});
@@ -57,10 +123,30 @@ const actions = {
       .then((response) => {
         commit("setLoggedIn", true);
         commit("setAuthUser", response.data.user);
-        localStorage.setItem("user", JSON.stringify(response.data.user));
-        localStorage.setItem("token", response.data.token);
         commit("setToken", response.data.token);
         commit("setAuthStatus", 1);
+        let roles = response.data.roles;
+        if (roles.includes("superAdmin")) {
+          commit("setIsSuperAdmin", true);
+        }
+        if (roles.includes("leadership")) {
+          commit("setIsLeadership", true);
+        }
+        if (roles.includes("unitLeader")) {
+          commit("setIsUnitLeader", true);
+        }
+        if (roles.includes("unitSubLeader")) {
+          commit("setIsUnitSubLeader", true);
+        }
+        if (roles.includes("unitAssignedLeader")) {
+          commit("setIsUnitAssignedLeader", true);
+        }
+        if (roles.includes("parent")) {
+          commit("setIsParent", true);
+        }
+        if (roles.includes("member")) {
+          commit("setIsMember", true);
+        }
         router.push("/");
       })
       .catch((error) => {
@@ -71,11 +157,7 @@ const actions = {
   logout({ commit }) {
     return new Promise((resolve) => {
       router.push("/");
-      commit("setLoggedIn", false);
-      commit("setAuthUser", null);
-      commit("setToken", null);
-      localStorage.removeItem("user");
-      localStorage.removeItem("token");
+      commit('logout');
       resolve();
     });
   },
@@ -83,15 +165,15 @@ const actions = {
     await axios
       .post("/register", User, {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
-        withCredentials: true,
+        withCredentials: true
       })
       .then((response) => {
         if (response.status == 200) {
           router.push({
             name: "login",
-            params: { msg: "لقد تم انشاء الحساب بنجاح", variant: "success" },
+            params: { msg: "لقد تم انشاء الحساب بنجاح", variant: "success" }
           });
           commit("setRegStatus", 1);
         } else {
@@ -102,12 +184,12 @@ const actions = {
         commit("setRegStatus", 2);
         commit("setRegMessage", error.response.data.data); // this is the main part. Use the response property from the error object
       });
-  },
+  }
 };
 
 export default {
   state,
   getters,
   actions,
-  mutations,
+  mutations
 };
