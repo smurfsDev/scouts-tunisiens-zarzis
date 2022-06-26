@@ -166,9 +166,9 @@
           class="form-group"
           v-if="
             roles.length != 0 &&
-            roles[formData.role ? formData.role - 2 : 0].name != 'قيادة الفوج'&&
+            roles[formData.role ? formData.role - 2 : 0].name !=
+              'قيادة الفوج' &&
             roles[formData.role ? formData.role - 2 : 0].name != 'ولي'
-
           "
         >
           <label for="troupe">الفرقة</label>
@@ -327,7 +327,7 @@ const dateValidator = (date) => {
   return new Date(date).setHours(0, 0, 0, 0) <= new Date().setHours(0, 0, 0, 0);
 };
 const isFileImage = (file) => {
-  if (file==null){
+  if (file == null) {
     return true;
   }
   return file ? file.includes("image") : false;
@@ -383,7 +383,8 @@ export default {
               let index =
                 this.formData.role !== null ? this.formData.role - 2 : 0;
               return this.roles.length != 0
-                ? this.roles[index].name != "قيادة الفوج" && this.roles[index].name != "ولي"
+                ? this.roles[index].name != "قيادة الفوج" &&
+                    this.roles[index].name != "ولي"
                 : false;
             }),
           },

@@ -51,7 +51,7 @@
             class="mx-1"
             :disabled="item.roles[0].status == 0"
             x-small
-            :fab="$vuetify.breakpoint.name!='sm'"
+            :fab="$vuetify.breakpoint.name != 'sm'"
             color="red"
           >
             <v-icon color="white">mdi-close-outline</v-icon>
@@ -61,7 +61,7 @@
             class="mx-1"
             :disabled="item.roles[0].status == 1"
             x-small
-            :fab="$vuetify.breakpoint.name!='sm'"
+            :fab="$vuetify.breakpoint.name != 'sm'"
             color="success"
           >
             <v-icon>mdi-check-outline</v-icon>
@@ -102,6 +102,11 @@ export default {
         })
         .catch((error) => {
           console.log(error);
+          this.snack = true;
+          this.snackColor = "red";
+          this.snackText = error.response
+            ? error.response.data.error
+            : "لقد حصل عطب في الخادم, الرجاء المحاولة لاحقا";
         });
     },
     accept(id) {
@@ -116,8 +121,9 @@ export default {
         .catch((error) => {
           this.snack = true;
           this.snackColor = "red";
-          this.snackText = error.response.data.error;
-          console.log(error.response.data);
+          this.snackText = error.response
+            ? error.response.data.error
+            : "لقد حصل عطب في الخادم, الرجاء المحاولة لاحقا";
         });
     },
     reject(id) {
@@ -130,11 +136,11 @@ export default {
           this.getLeaders();
         })
         .catch((error) => {
-                    this.snack = true;
+          this.snack = true;
           this.snackColor = "red";
-          this.snackText = "لقد حصل عط, الب ";
-
-          console.log(error);
+          this.snackText = error.response
+            ? error.response.data.error
+            : "لقد حصل عطب في الخادم, الرجاء المحاولة لاحقا";
         });
     },
   },
@@ -177,5 +183,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
