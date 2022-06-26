@@ -38,12 +38,12 @@
                 </v-form>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                   <span class="caption">
-          هل لديك حساب ?
-          <router-link color="primary" to="/register"
-            >صنع حساب</router-link
-          ></span
-        >
+                  <span class="caption">
+                    هل لديك حساب ?
+                    <router-link color="primary" to="/register"
+                      >صنع حساب</router-link
+                    ></span
+                  >
                   <v-btn color="success" form="login-form" type="submit"
                     >التسجيل</v-btn
                   >
@@ -88,9 +88,9 @@ export default {
     };
   },
   created() {
-    if (typeof this.$route.params.msg!=="undefined") {
+    if (typeof this.$route.params.msg !== "undefined") {
       this.alert.dismissCountDown = 10;
-      this.alert.variant = this.$route.params.variant??"danger";
+      this.alert.variant = this.$route.params.variant ?? "danger";
       this.alert.msg = this.$route.params.msg;
     }
   },
@@ -116,8 +116,7 @@ export default {
     passwordErrors() {
       const errors = [];
       if (!this.$v.password.$dirty) return errors;
-      !this.$v.password.required &&
-        errors.push("الرجاء ادخال بكلمة المرور");
+      !this.$v.password.required && errors.push("الرجاء ادخال بكلمة المرور");
       !this.$v.password.minLength &&
         errors.push("الرجاء ادخال بكلمة المرور بحد اقل من 8 حروف");
       return errors;
