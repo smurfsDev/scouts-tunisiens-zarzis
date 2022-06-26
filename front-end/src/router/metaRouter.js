@@ -17,13 +17,13 @@ router.beforeEach((to, from, next) => {
     }
     next();
   } else if (to.matched.some((record) => record.meta.requiresSuperAdmin)) {
-    if (store.getters.isResponsableClub) {
+    if (store.getters.isSuperAdmin) {
       next();
       return;
     }
     next({
       name: "login",
-      params: { msg: "Vous devez etre un administrateur" },
+      params: { msg: "ليس لديك صلاحيات قائد الفوج للدخول لهذا الرابط." },
     });
   } else {
     next();
