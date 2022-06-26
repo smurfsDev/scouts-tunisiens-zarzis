@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\Role;
+use App\Models\RoleUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -44,6 +45,7 @@ class AuthenticationController extends Controller
             'success'   => true,
             'token'     => Auth::user()->createToken('token')->plainTextToken,
             'user'      => Auth::user(),
+            'status'    => RoleUser::where('user_id',Auth::user()->id)->first()->status==1,
             'roles'     => $this->getRoles(Auth::user()->id)
         ],200);
     }
