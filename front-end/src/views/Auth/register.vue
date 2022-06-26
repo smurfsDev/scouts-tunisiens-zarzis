@@ -166,7 +166,9 @@
           class="form-group"
           v-if="
             roles.length != 0 &&
-            roles[formData.role ? formData.role - 2 : 0].name != 'قيادة الفوج'
+            roles[formData.role ? formData.role - 2 : 0].name != 'قيادة الفوج'&&
+            roles[formData.role ? formData.role - 2 : 0].name != 'ولي'
+
           "
         >
           <label for="troupe">الفرقة</label>
@@ -381,7 +383,7 @@ export default {
               let index =
                 this.formData.role !== null ? this.formData.role - 2 : 0;
               return this.roles.length != 0
-                ? this.roles[index].name != "قيادة الفوج"
+                ? this.roles[index].name != "قيادة الفوج" && this.roles[index].name != "ولي"
                 : false;
             }),
           },
