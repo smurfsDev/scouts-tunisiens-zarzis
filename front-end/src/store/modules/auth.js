@@ -7,17 +7,18 @@ const state = {
     localStorage.getItem("token") !== null,
   authUser: JSON.parse(localStorage.getItem("user")) ?? null,
   token: localStorage.getItem("token") ?? null,
-  isSuperAdmin: localStorage.getItem("isSuperAdmin"),
-  isLeadership: localStorage.getItem("isLeadership"),
-  isUnitLeader: localStorage.getItem("isUnitLeader"),
-  isUnitSubLeader: localStorage.getItem("isUnitSubLeader"),
-  isUnitAssignedLeader : localStorage.getItem("isUnitAssignedLeader"),
-  isParent: localStorage.getItem("isParent"),
-  isMember: localStorage.getItem("isMember"),
+  isSuperAdmin: localStorage.getItem("isSuperAdmin")??null,
+  isLeadership: localStorage.getItem("isLeadership")??null,
+  isUnitLeader: localStorage.getItem("isUnitLeader")??null,
+  isUnitSubLeader: localStorage.getItem("isUnitSubLeader")??null,
+  isUnitAssignedLeader : localStorage.getItem("isUnitAssignedLeader")??null,
+  isParent: localStorage.getItem("isParent")??null,
+  isMember: localStorage.getItem("isMember")??null,
   regStatus: null,
   regMessage: null,
   authStatus: null,
-  authMessage: null
+  authMessage: null,
+  status: localStorage.getItem("status") ?? null,
 };
 const getters = {
   isLoggedIn: (state) => state.isLoggedIn,
@@ -33,7 +34,8 @@ const getters = {
   isUnitSubLeader: (state) => state.isUnitSubLeader,
   isUnitAssignedLeader: (state) => state.isUnitAssignedLeader,
   isParent: (state) => state.isParent,
-  isMember: (state) => state.isMember
+  isMember: (state) => state.isMember,
+  status: (state) => state.status
 };
 const mutations = {
   setLoggedIn(state, payload) {
@@ -88,6 +90,10 @@ const mutations = {
     state.isMember = payload;
     localStorage.setItem("isMember", payload);
   },
+  setStatus(state, payload) {
+    state.status = payload;
+    localStorage.setItem("status", payload);
+  },
   logout(state) {
     state.isLoggedIn = false;
     state.authUser = null;
@@ -99,6 +105,7 @@ const mutations = {
     state.isUnitAssignedLeader = false;
     state.isParent = false;
     state.isMember = false;
+    state.status = null;
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     localStorage.removeItem("isSuperAdmin");
@@ -108,6 +115,7 @@ const mutations = {
     localStorage.removeItem("isUnitAssignedLeader");
     localStorage.removeItem("isParent");
     localStorage.removeItem("isMember");
+    localStorage.removeItem("status");
   }
 };
 const actions = {
@@ -124,6 +132,7 @@ const actions = {
         commit("setLoggedIn", true);
         commit("setAuthUser", response.data.user);
         commit("setToken", response.data.token);
+        commit("setStatus", response.data.status);
         commit("setAuthStatus", 1);
         let roles = response.data.roles;
         if (roles.includes("superAdmin")) {
