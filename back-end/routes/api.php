@@ -28,6 +28,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::apiResource('leaders',LeaderController::class);
     Route::group(['prefix' => '/leaders'], function () {
+        Route::put('/{id}/accept', [LeaderController::class, 'accept']);
+        Route::put('/{id}/reject', [LeaderController::class, 'reject']);
     });
 });
 

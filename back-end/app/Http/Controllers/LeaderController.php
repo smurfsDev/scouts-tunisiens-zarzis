@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RoleUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -15,8 +16,8 @@ class LeaderController extends Controller
     public function index()
     {
         $leaders = User::with('roles.troupe')->with('roles.role')->whereHas('roles.role', function ($query) {
-                $query->where('ename', 'like', '%Leader%');
-            })->get();
+            $query->where('ename', 'like', '%Leader%');
+        })->get();
         return response()->json($leaders, 200);
     }
 
@@ -63,5 +64,32 @@ class LeaderController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function accept($id)
+    {
+        $leader = RoleUser::with('troupe')
+            ->with('role')->find($id);
+        $otherLeaders = RoleUser
+            ::where('troupe_id', $leader->troupe_id)
+            ->where('role_id', $leader->role_id)
+            ->where('user_id', '!=', $leader->user_id)
+            ->where('status', 1)
+
+            ->get();
+        if (count($otherLeaders) > 0) {
+            return response()->json(['error' => 'يوجد '.$leader->role->name.' معين ل'.$leader->troupe->name.'.'], 400);
+        }
+        $leader->status = 1;
+        $leader->save();
+        return response()->json($leader, 200);
+    }
+
+    public function reject($id)
+    {
+        $leader = RoleUser::find($id);
+        $leader->status = 0;
+        $leader->save();
+        return response()->json($leader, 200);
     }
 }
