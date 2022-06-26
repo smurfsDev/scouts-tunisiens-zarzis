@@ -15,7 +15,7 @@ class LeaderController extends Controller
      */
     public function index()
     {
-        $leaders = User::with('roles.troupe')->with('roles.role')->whereHas('roles.role', function ($query) {
+        $leaders = RoleUser::with('troupe','role','user')->whereHas('role', function ($query) {
             $query->where('ename', 'like', '%Leader%');
         })->get();
         return response()->json($leaders, 200);
