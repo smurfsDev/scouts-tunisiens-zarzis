@@ -35,6 +35,10 @@ class RoleSeeder extends Seeder
             'name' => 'فرد',
         ]);
 
+        Role::create([
+            'name' => 'ولي',
+        ]);
+
         // Role::factory(4)->create();
     }
 }
