@@ -46,6 +46,46 @@ class UserSeeder extends Seeder
 
         $usr = User::create(
             [
+                'first_name' => 'member',
+                'last_name' => 'member',
+                'email' => 'member@leader.com',
+                'birth_date' => '2015-01-01',
+                'email_verified_at' => now(),
+                'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+                'remember_token' => Str::random(10)
+            ]
+        );
+        $usr->roless()->attach(Role::where('ename', 'Member')->first(),['troupe_id'=>1]);
+        $usr->save();
+        $usr = User::create(
+            [
+                'first_name' => 'member1',
+                'last_name' => 'member1',
+                'email' => 'member1@leader.com',
+                'birth_date' => '2014-01-01',
+                'email_verified_at' => now(),
+                'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+                'remember_token' => Str::random(10)
+            ]
+        );
+        $usr->roless()->attach(Role::where('ename', 'Member')->first(),['troupe_id'=>1]);
+        $usr->save();
+        $usr = User::create(
+            [
+                'first_name' => 'member2',
+                'last_name' => 'member2',
+                'email' => 'member2@leader.com',
+                'birth_date' => '2013-01-01',
+                'email_verified_at' => now(),
+                'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+                'remember_token' => Str::random(10)
+            ]
+        );
+        $usr->roless()->attach(Role::where('ename', 'Member')->first(),['troupe_id'=>2]);
+        $usr->save();
+
+        $usr = User::create(
+            [
                 'first_name' => 'leader2',
                 'last_name' => 'leader2',
                 'email' => 'leader2@leader.com',
@@ -70,6 +110,7 @@ class UserSeeder extends Seeder
         );
         $usr->roless()->attach(Role::where('ename', 'Leadership')->first());
         $usr->save();
+
 
     }
 }
