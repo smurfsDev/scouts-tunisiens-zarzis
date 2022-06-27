@@ -24,6 +24,15 @@ router.beforeEach((to, from, next) => {
       name: "login",
       params: { msg: "ليس لديك صلاحيات قائد الفوج للدخول لهذا الرابط." },
     });
+  }else if (to.matched.some((record) => record.meta.requiresUnitLeader)) {
+    if (store.getters.isUnitLeader) {
+      next();
+      return;
+    }
+    next({
+      name: "login",
+      params: { msg: "ليس لديك صلاحيات قائد وحدة للدخول لهذا الرابط." },
+    });
   } else {
     next();
   }
