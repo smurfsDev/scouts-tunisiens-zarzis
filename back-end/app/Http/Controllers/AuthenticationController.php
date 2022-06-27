@@ -45,8 +45,8 @@ class AuthenticationController extends Controller
             'success'   => true,
             'token'     => Auth::user()->createToken('token')->plainTextToken,
             'user'      => Auth::user(),
-            'status'    => RoleUser::where('user_id',Auth::user()->id)->first()->status==1,
-            'roles'     => $this->getRoles(Auth::user()->id)
+            'status'    => $this->getRoles(Auth::user()->id)['status'],
+            'roles'     => $this->getRoles(Auth::user()->id)['roles'],
         ],200);
     }
 
@@ -69,30 +69,14 @@ class AuthenticationController extends Controller
 
     }
     public function getRoles($id){
-        $user = User::with('roless')->find($id);
-        $roles=[];
-        if($user->roless->contains('name','superAdmin')){
-            array_push($roles,'superAdmin');
+        $roles = RoleUser::with('role','troupe')->where('user_id',$id)->get();
+        $roles_array = [];
+        $status = false;
+        foreach ($roles as $role){
+            $status = $status || $role->status;
+            $roles_array[] = ['role'=>$role->role->ename,'troupe'=>$role->troupe?->name,'status'=>$role->status];
         }
-        if ($user->roless->contains('ename','Leadership')) {
-            array_push($roles,'leadership');
-        }
-        if ($user->roless->contains('ename','Unit Leader')) {
-            array_push($roles,'unitLeader');
-        }
-        if ($user->roless->contains('ename','Member')) {
-            array_push($roles,'member');
-        }
-        if ($user->roless->contains('ename','Unit Sub Leader')) {
-            array_push($roles,'unitSubLeader');
-        }
-        if ($user->roless->contains('ename','Unit Assigned Leader')) {
-            array_push($roles,'unitAssignedLeader');
-        }
-        if ($user->roless->contains('ename','Parent')) {
-            array_push($roles,'parent');
-        }
-        return $roles;
+        return ['roles'=>$roles_array,'status'=>$status];
     }
 
 }
