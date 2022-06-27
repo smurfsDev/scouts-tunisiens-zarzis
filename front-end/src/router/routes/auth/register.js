@@ -5,5 +5,6 @@ export default [
     path: "/register",
     component: register,
     name: "register",
+    meta: {guest: true}
   },
 ];

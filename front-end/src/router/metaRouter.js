@@ -6,14 +6,13 @@ router.beforeEach((to, from, next) => {
       next();
       return;
     }
-    next({ name: "login", params: { msg: "Vous devez etre connectée" } });
+    next({ name: "login", params: { msg: "للدخول لهذه الصغحة يجب ان تسجل دخولك" } });
   } else {
     next();
   }
   if (to.matched.some((record) => record.meta.guest)) {
-    if (store.getters.isAuthenticated) {
-      next();
-      return;
+    if (store.getters.isLoggedIn) {
+      next({ name: "login", params: { msg: "للدخول لهذه الصغحة يجب ان لا تسجل دخولك" } });
     }
     next();
   } else if (to.matched.some((record) => record.meta.requiresSuperAdmin)) {
