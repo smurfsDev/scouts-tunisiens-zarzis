@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\LeaderController;
+use App\Http\Controllers\MembersController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\test;
 use App\Http\Controllers\TroupeController;
@@ -27,10 +28,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/test', [test::class, 'test']);
 
     Route::apiResource('leaders',LeaderController::class);
+
     Route::group(['prefix' => '/leaders'], function () {
         Route::put('/{id}/accept', [LeaderController::class, 'accept']);
         Route::put('/{id}/reject', [LeaderController::class, 'reject']);
     });
+    Route::group(['prefix' => '/members'], function () {
+        Route::put('/{id}/accept', [MembersController::class, 'accept']);
+        Route::put('/{id}/reject', [MembersController::class, 'reject']);
+    });
+    Route::apiResource('members',MembersController::class);
 });
 
 Route::post('/login', [AuthenticationController::class, 'login']);
