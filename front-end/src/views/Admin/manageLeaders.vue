@@ -3,11 +3,11 @@
     <v-data-table
       :headers="headers"
       :items="leaders"
-      sort-by="first_name"
+      sort-by="id"
       show-expand
       :single-expand="true"
       :expanded.sync="expanded"
-      item-key="first_name"
+      item-key="id"
       class="elevation-1"
     >
       <template v-slot:[`item.user.image`]="{ item }">
@@ -107,7 +107,7 @@ export default {
           console.log(error);
           this.snack = true;
           this.snackColor = "red";
-          this.snackText = error.response
+          this.snackText = error.response.data.error
             ? error.response.data.error
             : "لقد حصل عطب في الخادم, الرجاء المحاولة لاحقا";
         });
@@ -124,7 +124,7 @@ export default {
         .catch((error) => {
           this.snack = true;
           this.snackColor = "red";
-          this.snackText = error.response
+          this.snackText = error.response.data.error
             ? error.response.data.error
             : "لقد حصل عطب في الخادم, الرجاء المحاولة لاحقا";
         });
@@ -141,7 +141,7 @@ export default {
         .catch((error) => {
           this.snack = true;
           this.snackColor = "red";
-          this.snackText = error.response
+          this.snackText = error.response.data.error
             ? error.response.data.error
             : "لقد حصل عطب في الخادم, الرجاء المحاولة لاحقا";
         });
