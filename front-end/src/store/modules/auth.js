@@ -7,18 +7,12 @@ const state = {
     localStorage.getItem("token") !== null,
   authUser: JSON.parse(localStorage.getItem("user")) ?? null,
   token: localStorage.getItem("token") ?? null,
-  isSuperAdmin: localStorage.getItem("isSuperAdmin")??null,
-  isLeadership: localStorage.getItem("isLeadership")??null,
-  isUnitLeader: localStorage.getItem("isUnitLeader")??null,
-  isUnitSubLeader: localStorage.getItem("isUnitSubLeader")??null,
-  isUnitAssignedLeader : localStorage.getItem("isUnitAssignedLeader")??null,
-  isParent: localStorage.getItem("isParent")??null,
-  isMember: localStorage.getItem("isMember")??null,
+  roles: JSON.parse(localStorage.getItem("roles")) ?? null,
   regStatus: null,
   regMessage: null,
   authStatus: null,
   authMessage: null,
-  status: localStorage.getItem("status") ?? null,
+  status: localStorage.getItem("status") ?? null
 };
 const getters = {
   isLoggedIn: (state) => state.isLoggedIn,
@@ -28,13 +22,69 @@ const getters = {
   regMessage: (state) => state.regMessage,
   authStatus: (state) => state.authStatus,
   authMessage: (state) => state.authMessage,
-  isSuperAdmin: (state) => state.isSuperAdmin,
-  isLeadership: (state) => state.isLeadership,
-  isUnitLeader: (state) => state.isUnitLeader,
-  isUnitSubLeader: (state) => state.isUnitSubLeader,
-  isUnitAssignedLeader: (state) => state.isUnitAssignedLeader,
-  isParent: (state) => state.isParent,
-  isMember: (state) => state.isMember,
+  isSuperAdmin: (state) => {
+    let isSuperAdmin = null;
+    state.roles?.forEach((role) => {
+      if (role.role === "Super Admin" && role.status==1) {
+        isSuperAdmin=true;
+      }
+    });
+    return isSuperAdmin;
+  },
+  isLeadership: (state) => {
+    let isLeadership = null;
+    state.roles?.forEach((role) => {
+      if (role.role === "Leadership" && role.status==1) {
+        isLeadership=true;
+      }
+    });
+    return isLeadership;
+  },
+  isUnitLeader: (state) => {
+    let isUnitLeader = null;
+    state.roles?.forEach((role) => {
+      if (role.role === "Unit Leader" && role.status==1) {
+        isUnitLeader=true;
+      }
+    });
+    return isUnitLeader;
+  },
+  isUnitSubLeader: (state) => {
+    let isUnitSubLeader = null;
+    state.roles?.forEach((role) => {
+      if (role.role === "Unit Sub Leader" && role.status==1) {
+        isUnitSubLeader=true;
+      }
+    });
+    return isUnitSubLeader;
+  },
+  isUnitAssignedLeader: (state) => {
+    let isUnitAssignedLeader = null;
+    state.roles?.forEach((role) => {
+      if (role.role === "Unit Assigned Leader" && role.status==1) {
+        isUnitAssignedLeader=true;
+      }
+    });
+    return isUnitAssignedLeader;
+  },
+  isParent: (state) => {
+    let isParent = null;
+    state.roles?.forEach((role) => {
+      if (role.role === "Parent" && role.status==1) {
+        isParent=true;
+      }
+    });
+    return isParent;
+  },
+  isMember: (state) => {
+    let isMember = null;
+    state.roles?.forEach((role) => {
+      if (role.role === "Member" && role.status==1) {
+        isMember=true;
+      }
+    });
+    return isMember;
+  },
   status: (state) => state.status
 };
 const mutations = {
@@ -51,7 +101,6 @@ const mutations = {
   },
   setRegStatus(state, payload) {
     state.regStatus = payload;
-
   },
   setRegMessage(state, payload) {
     state.regMessage = payload;
@@ -62,33 +111,9 @@ const mutations = {
   setAuthStatus(state, payload) {
     state.authStatus = payload;
   },
-  setIsSuperAdmin(state, payload) {
-    state.isSuperAdmin = payload;
-    localStorage.setItem("isSuperAdmin", payload);
-  },
-  setIsLeadership(state, payload) {
-    state.isLeadership = payload;
-    localStorage.setItem("isLeadership", payload);
-  },
-  setIsUnitLeader(state, payload) {
-    state.isUnitLeader = payload;
-    localStorage.setItem("isUnitLeader", payload);
-  },
-  setIsUnitSubLeader(state, payload) {
-    state.isUnitSubLeader = payload;
-    localStorage.setItem("isUnitSubLeader", payload);
-  },
-  setIsUnitAssignedLeader(state, payload) {
-    state.isUnitAssignedLeader = payload;
-    localStorage.setItem("isUnitAssignedLeader", payload);
-  },
-  setIsParent(state, payload) {
-    state.isParent = payload;
-    localStorage.setItem("isParent", payload);
-  },
-  setIsMember(state, payload) {
-    state.isMember = payload;
-    localStorage.setItem("isMember", payload);
+  setRoles(state, payload) {
+    state.roles = payload;
+    localStorage.setItem("roles", JSON.stringify(payload));
   },
   setStatus(state, payload) {
     state.status = payload;
@@ -98,23 +123,11 @@ const mutations = {
     state.isLoggedIn = false;
     state.authUser = null;
     state.token = null;
-    state.isSuperAdmin = false;
-    state.isLeadership = false;
-    state.isUnitLeader = false;
-    state.isUnitSubLeader = false;
-    state.isUnitAssignedLeader = false;
-    state.isParent = false;
-    state.isMember = false;
+    state.roles = null;
     state.status = null;
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-    localStorage.removeItem("isSuperAdmin");
-    localStorage.removeItem("isLeadership");
-    localStorage.removeItem("isUnitLeader");
-    localStorage.removeItem("isUnitSubLeader");
-    localStorage.removeItem("isUnitAssignedLeader");
-    localStorage.removeItem("isParent");
-    localStorage.removeItem("isMember");
+    localStorage.removeItem("roles");
     localStorage.removeItem("status");
   }
 };
@@ -133,29 +146,8 @@ const actions = {
         commit("setAuthUser", response.data.user);
         commit("setToken", response.data.token);
         commit("setStatus", response.data.status);
+        commit("setRoles", response.data.roles);
         commit("setAuthStatus", 1);
-        let roles = response.data.roles;
-        if (roles.includes("superAdmin")) {
-          commit("setIsSuperAdmin", true);
-        }
-        if (roles.includes("leadership")) {
-          commit("setIsLeadership", true);
-        }
-        if (roles.includes("unitLeader")) {
-          commit("setIsUnitLeader", true);
-        }
-        if (roles.includes("unitSubLeader")) {
-          commit("setIsUnitSubLeader", true);
-        }
-        if (roles.includes("unitAssignedLeader")) {
-          commit("setIsUnitAssignedLeader", true);
-        }
-        if (roles.includes("parent")) {
-          commit("setIsParent", true);
-        }
-        if (roles.includes("member")) {
-          commit("setIsMember", true);
-        }
         router.push("/");
       })
       .catch((error) => {
@@ -166,7 +158,7 @@ const actions = {
   logout({ commit }) {
     return new Promise((resolve) => {
       router.push("/");
-      commit('logout');
+      commit("logout");
       resolve();
     });
   },
