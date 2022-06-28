@@ -50,6 +50,7 @@
           <input
             type="date"
             id="birth_date"
+              @change="formData.troupe = null"
             class="form-control"
             :class="hasError('birth_date') ? 'is-invalid' : ''"
             placeholder="الرجاء ادخال تاريخ ولادتك"
@@ -71,6 +72,7 @@
             class="form-control"
             :class="hasError('sexe') ? 'is-invalid' : ''"
             v-model="formData.sexe"
+              @change="formData.troupe = null"
           >
             <option disabled="disabled" selected="selected">اختر جنسك</option>
 
@@ -184,9 +186,7 @@
               v-for="troupe in troupes"
               :key="troupe.id"
               v-show="
-                ((age >= troupe.min_age && age <= troupe.max_age) ||
-                  roles[formData.role ? formData.role - 2 : 0].name !=
-                    'قيادة الفوج') &&
+                (age >= troupe.min_age && age <= troupe.max_age) &&
                 formData.sexe == troupe.gender
               "
               :value="troupe.id"
@@ -340,7 +340,7 @@ export default {
   },
   mixins: [ValidationHelper],
   updated() {
-    console.log(this.formData.image);
+    // console.log(this.formData.image);
   },
   data() {
     return {
