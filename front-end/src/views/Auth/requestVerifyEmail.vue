@@ -101,7 +101,7 @@ export default {
         })
         .catch((error) => {
           this.alert.variant = "danger";
-          this.alert.msg = error.response.data.msg;
+          this.alert.msg = error.response.data.msg??"لقد حصل عطب ما الرجاء المحاولة لاحقا";
           this.alert.dismissCountDown = 5;
             this.loading = false;
           setTimeout(function () {
