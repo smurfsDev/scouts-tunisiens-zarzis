@@ -16,6 +16,17 @@
                   @dismissed="alert.dismissCountDown = 0"
                 >
                   <p>{{ alert.msg }}</p>
+                  <span
+                    class="caption"
+                    v-if="
+                      alert.msg ==
+                      'حسابك غير مفعل, يرجى التحقق من بريدك الإلكتروني'
+                    "
+                  >
+                    <router-link to="/request-verify-email"
+                      >طلب تأكيد البريد الإلكتروني</router-link
+                    >
+                  </span>
                 </b-alert>
                 <v-form @submit.prevent="Login" id="login-form">
                   <v-text-field
@@ -48,6 +59,13 @@
                     >التسجيل</v-btn
                   >
                 </v-card-actions>
+                <v-card-footer v-if="attempt > 2">
+                  <span class="caption">
+                    <router-link class="text-danger" to="/forgot-password">
+                      هل نسيت كلمة المرور؟
+                    </router-link>
+                  </span>
+                </v-card-footer>
               </v-card-text>
             </v-card>
           </v-flex>
@@ -78,6 +96,8 @@ export default {
   },
   data() {
     return {
+      oldEmail: "",
+      attempt: 0,
       email: "",
       password: "",
       alert: {
@@ -99,7 +119,13 @@ export default {
     Login() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
+        if (this.email == this.oldEmail) {
+          this.attempt++;
+        } else {
+          this.attempt = 0;
+        }
         this.login({ email: this.email, password: this.password }).then(() => {
+          this.oldEmail = this.email;
           if (this.$store.getters.authStatus == 2) {
             this.alert.dismissCountDown = 10;
             this.alert.variant = "danger";
