@@ -6,6 +6,7 @@ use App\Http\Controllers\MembersController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\test;
 use App\Http\Controllers\TroupeController;
+use App\Http\Controllers\VerificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -51,3 +52,6 @@ Route::group(['prefix' => '/roles'], function () {
 Route::group(['prefix' => '/troupes'], function () {
     Route::get('/', [TroupeController::class, 'index']);
 });
+
+Route::get('email/verify/{id}', [VerificationController::class,'verify'])->name('verification.verify'); // Make sure to keep this as your route name
+Route::get('email/resend/{email}', [VerificationController::class,'resend'])->name('verification.resend');
