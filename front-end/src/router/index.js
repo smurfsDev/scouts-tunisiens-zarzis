@@ -6,6 +6,8 @@ import Register from "./routes/auth/register";
 import Logout from "./routes/auth/logout";
 import ManageLeaders from "./routes/Admin/manageLeaders";
 import ManageMembers from "./routes/UnitLeader/manageMembers";
+import VerifyEmail from "./routes/auth/emailVerifyingProcess";
+import RequestVerifyEmail from "./routes/auth/requestVerifyEmail";
 Vue.use(VueRouter);
 
 const routes = [
@@ -28,6 +30,8 @@ const routes = [
   ...Logout,
   ...ManageLeaders,
   ...ManageMembers,
+  ...VerifyEmail,
+  ...RequestVerifyEmail,
   
 ];
 
