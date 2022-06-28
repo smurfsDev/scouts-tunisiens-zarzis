@@ -16,6 +16,7 @@ class AuthenticationController extends Controller
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
+        $user->sendEmailVerificationNotification();
         $role = Role::find($request->role);
         if($request->troupe){
             $user->roless()->attach($role,['troupe_id'=>$request->troupe]);
@@ -37,6 +38,14 @@ class AuthenticationController extends Controller
             return response()->json([
                 'success'   => false,
                 'message'   => 'المعلومات المدخلة غير صحيحة',
+                'data'      => []
+            ],401);
+        }
+        $user = Auth::user();
+        if(!$user->hasVerifiedEmail()){
+            return response()->json([
+                'success'   => false,
+                'message'   => 'حسابك غير مفعل, يرجى التحقق من بريدك الإلكتروني',
                 'data'      => []
             ],401);
         }
