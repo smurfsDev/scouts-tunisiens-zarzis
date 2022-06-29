@@ -30,6 +30,7 @@
                 </b-alert>
                 <v-form @submit.prevent="Login" id="login-form">
                   <v-text-field
+                  @change="$v.$touch()"
                     prepend-icon="person"
                     name="البريد الإلكتروني"
                     label="البريد الإلكتروني"
@@ -39,6 +40,7 @@
                   ></v-text-field>
                   <v-text-field
                     id="password"
+                    @change="$v.$touch()"
                     :error-messages="passwordErrors"
                     v-model="password"
                     prepend-icon="lock"
