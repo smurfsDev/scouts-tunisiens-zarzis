@@ -5,6 +5,6 @@
 @component('mail::panel')
 {{ $code }}
 @endcomponent
-
+<p><a href="{{ env('FRONTEND_URL') }}/reset-password">الرابط</a> </p>
 <p> المدة المسموح بها للرمز هي ساعة واحدة من وقت إرسال الرسالة </p>
 @endcomponent
