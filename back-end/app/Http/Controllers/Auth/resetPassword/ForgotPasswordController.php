@@ -28,6 +28,6 @@ class ForgotPasswordController extends Controller
         // Send email to user
         Mail::to($request->email)->send(new SendCodeResetPassword($codeData->code));
 
-        return response(['message' => trans('passwords.sent')], 200);
+        return response(['message' => "لقد أرسلنا الرابط عبر البريد الإلكتروني لإعادة تعيين كلمة المرور الخاصة بك! "], 200);
     }
 }
