@@ -1,12 +1,12 @@
 <?php
 
-use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\LeaderController;
 use App\Http\Controllers\MembersController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\test;
 use App\Http\Controllers\TroupeController;
-use App\Http\Controllers\VerificationController;
+use App\Http\Controllers\Auth\VerificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
