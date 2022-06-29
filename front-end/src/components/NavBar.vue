@@ -40,7 +40,7 @@
 
         <v-list>
           <v-list-item v-if="this.$store.getters.isLoggedIn">
-            <h6 v-if="$store.getters.status != false">
+            <router-link to="profile" v-if="$store.getters.status != false" >
               <v-icon v-if="$store.getters.authUser.image == null"
                 >mdi-account</v-icon
               >
@@ -50,7 +50,7 @@
                 " " +
                 $store.getters.authUser.last_name
               }}
-            </h6>
+            </router-link>
             <v-tooltip bottom color="red">
               <template v-slot:activator="{ on, attrs }">
                 <del
@@ -58,6 +58,7 @@
                   v-bind="attrs"
                   v-on="on"
                 >
+                <router-link to="profile">
                   <v-icon v-if="$store.getters.authUser.image == null"
                     >mdi-account</v-icon
                   >
@@ -67,6 +68,7 @@
                     " " +
                     $store.getters.authUser.last_name
                   }}
+                  </router-link>
                 </del>
               </template>
               <span>حسابك غير مفعل</span>
