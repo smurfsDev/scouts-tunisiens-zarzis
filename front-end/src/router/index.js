@@ -10,6 +10,7 @@ import VerifyEmail from "./routes/auth/emailVerifyingProcess";
 import RequestVerifyEmail from "./routes/auth/requestVerifyEmail";
 import ResetPassword from "./routes/auth/resetPassword/reset-password";
 import ForgotPassword from "./routes/auth/resetPassword/forgot-password";
+import profile from "./routes/auth/profile";
 Vue.use(VueRouter);
 
 const routes = [
@@ -36,6 +37,7 @@ const routes = [
   ...RequestVerifyEmail,
   ...ResetPassword,
   ...ForgotPassword,
+  ...profile,
   
 ];
 
