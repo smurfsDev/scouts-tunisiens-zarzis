@@ -20,6 +20,7 @@ class SendCodeResetPassword extends Mailable
 
     public function build()
     {
-        return $this->markdown('send-code-reset-password');
+        return $this->subject(' رمز إعادة تعيين كلمة المرور ')
+                ->markdown('send-code-reset-password');
     }
 }
