@@ -55,9 +55,9 @@ Route::group(['prefix' => '/roles'], function () {
 Route::group(['prefix' => '/troupes'], function () {
     Route::get('/', [TroupeController::class, 'index']);
 });
-Route::put('password/email',  ForgotPasswordController::class);
-Route::put('password/code/check', CodeCheckController::class);
-Route::put('password/reset', ResetPasswordController::class);
+Route::post('forgot-password',  ForgotPasswordController::class);
+Route::post('password/code/check', CodeCheckController::class);
+Route::post('password/reset', ResetPasswordController::class);
 
 Route::get('email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify'); // Make sure to keep this as your route name
 Route::get('email/resend/{email}', [VerificationController::class, 'resend'])->name('verification.resend');
