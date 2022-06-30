@@ -52,11 +52,11 @@
         </td>
       </template>
       <template v-slot:[`item.actions`]="{ item }">
-        <div class="align-center">
+        <div class="align-center" v-if="item.status">
           <v-btn
-            @click="reject(item.id)"
+            @click="reject(item.user.id)"
             class="mx-1"
-            :disabled="item.status == 0"
+            :disabled="item.subscription ? item.subscription.status == 0 : true"
             x-small
             :fab="$vuetify.breakpoint.name != 'sm'"
             color="red"
@@ -64,15 +64,27 @@
             <v-icon color="white">mdi-close-outline</v-icon>
           </v-btn>
           <v-btn
-            @click="accept(item.id)"
+            @click="accept(item.user.id)"
             class="mx-1"
-            :disabled="item.status == 1"
+            :disabled="
+              item.subscription ? item.subscription.status == 1 : false
+            "
             x-small
             :fab="$vuetify.breakpoint.name != 'sm'"
             color="success"
           >
             <v-icon>mdi-check-outline</v-icon>
           </v-btn>
+        </div>
+        <div v-else>
+          <v-tooltip bottom color="red">
+            <template v-slot:activator="{ on, attrs }">
+              <span class="mx-1" v-bind="attrs" v-on="on">
+                <v-icon color="red">mdi-close-outline</v-icon>
+              </span>
+            </template>
+            <span>الحساب غير مفعل</span>
+          </v-tooltip>
         </div>
       </template>
     </v-data-table>
@@ -103,7 +115,7 @@ export default {
   methods: {
     getMembers() {
       this.$axios
-        .get("/members")
+        .get("/members/subscriptions")
         .then((response) => {
           this.Members = response.data;
         })
@@ -118,7 +130,7 @@ export default {
     },
     accept(id) {
       this.$axios
-        .put("/members/" + id + "/accept")
+        .put("/members/subscriptions/a/accept", { user_id: id })
         .then(() => {
           this.snack = true;
           this.snackColor = "success";
@@ -135,7 +147,7 @@ export default {
     },
     reject(id) {
       this.$axios
-        .put("/members/" + id + "/reject")
+        .put("/members/subscriptions/r/reject", { user_id: id })
         .then(() => {
           this.snack = true;
           this.snackColor = "pink";
