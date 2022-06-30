@@ -12,7 +12,7 @@ const state = {
   regMessage: null,
   authStatus: null,
   authMessage: null,
-  status: localStorage.getItem("status")=='true' ?? null
+  status: localStorage.getItem("status")?? null
 };
 const getters = {
   isLoggedIn: (state) => state.isLoggedIn,
