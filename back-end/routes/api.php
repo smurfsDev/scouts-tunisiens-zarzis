@@ -31,7 +31,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
     Route::group(['prefix' => '/profile'], function () {
         Route::put('/image', [UpdateProfileController::class, 'updateImage']);
-        Route::put('/{id}/reject', [LeaderController::class, 'reject']);
+        Route::put('/all', [UpdateProfileController::class, 'updateProfile']);
     });
     Route::post('/sign-out', [AuthenticationController::class, 'logout']);
     Route::get('/test', [test::class, 'test']);

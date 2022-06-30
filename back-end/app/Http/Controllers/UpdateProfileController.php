@@ -12,7 +12,21 @@ class UpdateProfileController extends Controller
         $user->image = $request->image;
         $user->save();
         return response()->json([
-            'message' => 'Image updated successfully'
+            'user' => $user
+        ]);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $user = $request->user();
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->birth_date = $request->birth_date;
+        $user->sexe = $request->sexe;
+        $user->phone_number = $request->phone_number;
+        $user->save();
+        return response()->json([
+            'user' => $user
         ]);
     }
 }
