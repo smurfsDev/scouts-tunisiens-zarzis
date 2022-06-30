@@ -12,7 +12,8 @@ const state = {
   regMessage: null,
   authStatus: null,
   authMessage: null,
-  status: localStorage.getItem("status")?? null
+  status: localStorage.getItem("status")?? null,
+  responsability: localStorage.getItem("responsability")?? null,
 };
 const getters = {
   isLoggedIn: (state) => state.isLoggedIn,
@@ -85,7 +86,8 @@ const getters = {
     });
     return isMember;
   },
-  status: (state) => state.status
+  status: (state) => state.status,
+  responsability: (state) => state.responsability,
 };
 const mutations = {
   setLoggedIn(state, payload) {
@@ -119,6 +121,10 @@ const mutations = {
     state.status = payload;
     localStorage.setItem("status", payload);
   },
+  setResponsability(state, payload) {
+    state.responsability = payload;
+    localStorage.setItem("responsability", payload);
+  },
   logout(state) {
     state.isLoggedIn = false;
     state.authUser = null;
@@ -147,6 +153,7 @@ const actions = {
         commit("setToken", response.data.token);
         commit("setStatus", response.data.status);
         commit("setRoles", response.data.roles);
+        commit("setResponsability", response.data.responsability);
         commit("setAuthStatus", 1);
         router.push("/");
       })
