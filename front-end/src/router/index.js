@@ -6,6 +6,7 @@ import Register from "./routes/auth/register";
 import Logout from "./routes/auth/logout";
 import ManageLeaders from "./routes/Admin/manageLeaders";
 import ManageMembers from "./routes/UnitLeader/manageMembers";
+import ManageMembersSubs from "./routes/UnitAssignedLeader/manageMembers";
 import VerifyEmail from "./routes/auth/emailVerifyingProcess";
 import RequestVerifyEmail from "./routes/auth/requestVerifyEmail";
 import ResetPassword from "./routes/auth/resetPassword/reset-password";
@@ -38,6 +39,7 @@ const routes = [
   ...ResetPassword,
   ...ForgotPassword,
   ...profile,
+  ...ManageMembersSubs,
   
 ];
 
