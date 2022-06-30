@@ -12,8 +12,8 @@ const state = {
   regMessage: null,
   authStatus: null,
   authMessage: null,
-  status: localStorage.getItem("status")?? null,
-  responsability: localStorage.getItem("responsability")?? null,
+  status: localStorage.getItem("status") ?? null,
+  responsability: localStorage.getItem("responsability") ?? null
 };
 const getters = {
   isLoggedIn: (state) => state.isLoggedIn,
@@ -26,8 +26,8 @@ const getters = {
   isSuperAdmin: (state) => {
     let isSuperAdmin = null;
     state.roles?.forEach((role) => {
-      if (role.role === "Super Admin" && role.status==1) {
-        isSuperAdmin=true;
+      if (role.role === "Super Admin" && role.status == 1) {
+        isSuperAdmin = true;
       }
     });
     return isSuperAdmin;
@@ -35,8 +35,8 @@ const getters = {
   isLeadership: (state) => {
     let isLeadership = null;
     state.roles?.forEach((role) => {
-      if (role.role === "Leadership" && role.status==1) {
-        isLeadership=true;
+      if (role.role === "Leadership" && role.status == 1) {
+        isLeadership = true;
       }
     });
     return isLeadership;
@@ -44,8 +44,8 @@ const getters = {
   isUnitLeader: (state) => {
     let isUnitLeader = null;
     state.roles?.forEach((role) => {
-      if (role.role === "Unit Leader" && role.status==1) {
-        isUnitLeader=true;
+      if (role.role === "Unit Leader" && role.status == 1) {
+        isUnitLeader = true;
       }
     });
     return isUnitLeader;
@@ -53,8 +53,8 @@ const getters = {
   isUnitSubLeader: (state) => {
     let isUnitSubLeader = null;
     state.roles?.forEach((role) => {
-      if (role.role === "Unit Sub Leader" && role.status==1) {
-        isUnitSubLeader=true;
+      if (role.role === "Unit Sub Leader" && role.status == 1) {
+        isUnitSubLeader = true;
       }
     });
     return isUnitSubLeader;
@@ -62,8 +62,8 @@ const getters = {
   isUnitAssignedLeader: (state) => {
     let isUnitAssignedLeader = null;
     state.roles?.forEach((role) => {
-      if (role.role === "Unit Assigned Leader" && role.status==1) {
-        isUnitAssignedLeader=true;
+      if (role.role === "Unit Assigned Leader" && role.status == 1) {
+        isUnitAssignedLeader = true;
       }
     });
     return isUnitAssignedLeader;
@@ -71,8 +71,8 @@ const getters = {
   isParent: (state) => {
     let isParent = null;
     state.roles?.forEach((role) => {
-      if (role.role === "Parent" && role.status==1) {
-        isParent=true;
+      if (role.role === "Parent" && role.status == 1) {
+        isParent = true;
       }
     });
     return isParent;
@@ -80,14 +80,14 @@ const getters = {
   isMember: (state) => {
     let isMember = null;
     state.roles?.forEach((role) => {
-      if (role.role === "Member" && role.status==1) {
-        isMember=true;
+      if (role.role === "Member" && role.status == 1) {
+        isMember = true;
       }
     });
     return isMember;
   },
   status: (state) => state.status,
-  responsability: (state) => state.responsability,
+  responsability: (state) => state.responsability
 };
 const mutations = {
   setLoggedIn(state, payload) {
@@ -167,6 +167,16 @@ const actions = {
       router.push("/");
       commit("logout");
       resolve();
+    });
+  },
+  sessionExpired({ commit }) {
+    commit("logout");
+    router.push({
+      name: "login",
+      params: {
+        msg: "انتهت صلاحية جلسة العمل الخاصة بك, الرجاء اعادة تسجيل الدخول",
+        variant: "danger"
+      }
     });
   },
   async register({ commit }, User) {
