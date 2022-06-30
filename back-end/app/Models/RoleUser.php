@@ -27,12 +27,12 @@ class RoleUser extends Pivot
 
     public function subscription()
     {
-        return $this->belongsTo(Subscription::class);
+        return $this->belongsTo(Subscription::class,'user_id','user_id');
     }
 
     public function Responsability()
     {
-        return $this->hasOne(Responsability::class,'id','responsability_id');
+        return $this->hasMany(Responsability::class,'id','responsability_id')->latest();
     }
 
 }
