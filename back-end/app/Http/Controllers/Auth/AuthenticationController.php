@@ -58,7 +58,7 @@ class AuthenticationController extends Controller
             'user'      => Auth::user(),
             'responsability' => RoleUser::where('user_id', Auth::user()->id)->whereHas('role', function ($query) {
                 $query->where('ename', 'like', '%Unit Assigned Leader%');
-            })->with('responsability')->first()?->responsability->ename,
+            })->with('responsability')->first()?->responsability[0]->ename,
             'status'    => $this->getRoles(Auth::user()->id)['status'],
             'roles'     => $this->getRoles(Auth::user()->id)['roles'],
         ], 200);
