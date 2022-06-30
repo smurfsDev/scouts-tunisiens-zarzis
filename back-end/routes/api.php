@@ -1,12 +1,15 @@
 <?php
 
-use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\Auth\AuthenticationController;
+use App\Http\Controllers\Auth\resetPassword\CodeCheckController;
+use App\Http\Controllers\Auth\resetPassword\ForgotPasswordController;
+use App\Http\Controllers\Auth\resetPassword\ResetPasswordController;
 use App\Http\Controllers\LeaderController;
 use App\Http\Controllers\MembersController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\test;
 use App\Http\Controllers\TroupeController;
-use App\Http\Controllers\VerificationController;
+use App\Http\Controllers\Auth\VerificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,7 +31,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/sign-out', [AuthenticationController::class, 'logout']);
     Route::get('/test', [test::class, 'test']);
 
-    Route::apiResource('leaders',LeaderController::class);
+    Route::apiResource('leaders', LeaderController::class);
 
     Route::group(['prefix' => '/leaders'], function () {
         Route::put('/{id}/accept', [LeaderController::class, 'accept']);
@@ -38,7 +41,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::put('/{id}/accept', [MembersController::class, 'accept']);
         Route::put('/{id}/reject', [MembersController::class, 'reject']);
     });
-    Route::apiResource('members',MembersController::class);
+    Route::apiResource('members', MembersController::class);
 });
 
 Route::post('/login', [AuthenticationController::class, 'login']);
@@ -52,6 +55,9 @@ Route::group(['prefix' => '/roles'], function () {
 Route::group(['prefix' => '/troupes'], function () {
     Route::get('/', [TroupeController::class, 'index']);
 });
+Route::post('forgot-password',  ForgotPasswordController::class);
+Route::post('password/code/check', CodeCheckController::class);
+Route::post('password/reset', ResetPasswordController::class);
 
-Route::get('email/verify/{id}', [VerificationController::class,'verify'])->name('verification.verify'); // Make sure to keep this as your route name
-Route::get('email/resend/{email}', [VerificationController::class,'resend'])->name('verification.resend');
+Route::get('email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify'); // Make sure to keep this as your route name
+Route::get('email/resend/{email}', [VerificationController::class, 'resend'])->name('verification.resend');
