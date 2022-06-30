@@ -40,11 +40,13 @@
 
         <v-list>
           <v-list-item v-if="this.$store.getters.isLoggedIn">
-            <router-link to="profile" v-if="$store.getters.status != false" >
+            <router-link to="profile" v-if="$store.getters.status != false">
               <v-icon v-if="$store.getters.authUser.image == null"
                 >mdi-account</v-icon
               >
-              <img :src="$store.getters.authUser.image" v-else />
+              <v-avatar v-else size="25">
+                <img :src="$store.getters.authUser.image" />
+              </v-avatar>
               {{
                 $store.getters.authUser.first_name +
                 " " +
@@ -58,18 +60,18 @@
                   v-bind="attrs"
                   v-on="on"
                 >
-                <router-link to="profile">
-                  <v-icon v-if="$store.getters.authUser.image == null"
-                    >mdi-account</v-icon
-                  >
-                   <v-avatar v-else size="25">
-                     <img :src="$store.getters.authUser.image"  />
-                   </v-avatar>
-                  {{
-                    $store.getters.authUser.first_name +
-                    " " +
-                    $store.getters.authUser.last_name
-                  }}
+                  <router-link to="profile">
+                    <v-icon v-if="$store.getters.authUser.image == null"
+                      >mdi-account</v-icon
+                    >
+                    <v-avatar v-else size="25">
+                      <img :src="$store.getters.authUser.image" />
+                    </v-avatar>
+                    {{
+                      $store.getters.authUser.first_name +
+                      " " +
+                      $store.getters.authUser.last_name
+                    }}
                   </router-link>
                 </del>
               </template>
