@@ -62,7 +62,9 @@
                   <v-icon v-if="$store.getters.authUser.image == null"
                     >mdi-account</v-icon
                   >
-                  <img :src="$store.getters.authUser.image" v-else />
+                   <v-avatar v-else size="25">
+                     <img :src="$store.getters.authUser.image"  />
+                   </v-avatar>
                   {{
                     $store.getters.authUser.first_name +
                     " " +
