@@ -11,17 +11,21 @@
       class="elevation-1"
     >
       <template v-slot:[`item.user.image`]="{ item }">
-        <img :src="item.user.image" alt="لا يوجد صورة" />
+        <v-avatar size="64">
+          <img :src="item.user.image" alt="لا يوجد صورة" />
+        </v-avatar>
       </template>
-       <template v-slot:[`item.troupe.name`]="{ item }">
-        <td >{{ item.troupe?item.troupe.name:'فوج' }}</td>
+      <template v-slot:[`item.troupe.name`]="{ item }">
+        <td>{{ item.troupe ? item.troupe.name : "فوج" }}</td>
       </template>
       <template v-slot:expanded-item="{ item }">
         <td>
           <v-card>
             العمر:
             {{
-              Math.floor((new Date() - new Date(item.user.birth_date)) / 31557600000)
+              Math.floor(
+                (new Date() - new Date(item.user.birth_date)) / 31557600000
+              )
             }}
           </v-card>
         </td>
@@ -127,7 +131,6 @@ export default {
           this.snackText = error.response.data.error
             ? error.response.data.error
             : "لقد حصل عطب في الخادم, الرجاء المحاولة لاحقا";
-            
         });
     },
     reject(id) {
