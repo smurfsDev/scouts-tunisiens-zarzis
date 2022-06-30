@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('leader_id')->references('id')->on('users');
             $table->integer('year');
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }
