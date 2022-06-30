@@ -10,6 +10,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\test;
 use App\Http\Controllers\TroupeController;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\UpdateProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,10 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/profile', function (Request $request) {
         return auth()->user();
+    });
+    Route::group(['prefix' => '/profile'], function () {
+        Route::put('/image', [UpdateProfileController::class, 'updateImage']);
+        Route::put('/{id}/reject', [LeaderController::class, 'reject']);
     });
     Route::post('/sign-out', [AuthenticationController::class, 'logout']);
     Route::get('/test', [test::class, 'test']);
