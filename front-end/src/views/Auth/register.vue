@@ -50,7 +50,7 @@
           <input
             type="date"
             id="birth_date"
-              @change="formData.troupe = null"
+            @change="formData.troupe = null"
             class="form-control"
             :class="hasError('birth_date') ? 'is-invalid' : ''"
             placeholder="الرجاء ادخال تاريخ ولادتك"
@@ -72,7 +72,7 @@
             class="form-control"
             :class="hasError('sexe') ? 'is-invalid' : ''"
             v-model="formData.sexe"
-              @change="formData.troupe = null"
+            @change="formData.troupe = null"
           >
             <option disabled="disabled" selected="selected">اختر جنسك</option>
 
@@ -186,8 +186,11 @@
               v-for="troupe in troupes"
               :key="troupe.id"
               v-show="
-                (age >= troupe.min_age && age <= troupe.max_age) &&
-                formData.sexe == troupe.gender
+                (age >= troupe.min_age && age <= troupe.max_age) ||
+                (roles[formData.role ? formData.role - 2 : 0].name !=
+                  'قيادة الفوج' &&
+                  roles[formData.role ? formData.role - 2 : 0].name != 'ولي' &&
+                  formData.sexe == troupe.gender)
               "
               :value="troupe.id"
             >
@@ -306,6 +309,18 @@
         </div>
       </tab-content>
     </form-wizard>
+    <v-dialog v-model="dialog" hide-overlay persistent width="300">
+      <v-card color="primary" dark>
+        <v-card-text>
+          الرجاء الانتظار
+          <v-progress-linear
+            indeterminate
+            color="white"
+            class="mb-0"
+          ></v-progress-linear>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -344,6 +359,7 @@ export default {
   },
   data() {
     return {
+      dialog: false,
       roles: [],
       troupes: {},
       uniqueCin: false,
@@ -425,6 +441,7 @@ export default {
     ...mapActions(["register"]),
     Register() {
       this.alert.msg = "";
+      this.dialog = true;
       this.register(this.formData)
         .then(() => {
           if (this.$store.getters.regStatus == 2) {
@@ -433,7 +450,10 @@ export default {
             this.alert.msg = this.$store.getters.regMessage;
           }
         })
-        .catch(() => {});
+        .catch(() => {})
+        .finally(() => {
+          this.dialog = false;
+        });
     },
     onComplete() {
       this.Register();
