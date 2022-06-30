@@ -61,13 +61,13 @@
                     >التسجيل</v-btn
                   >
                 </v-card-actions>
-                <v-card-footer v-if="attempt > 2">
+                <div v-if="attempt > 2">
                   <span class="caption">
                     <router-link class="text-danger" to="/forgot-password">
                       هل نسيت كلمة المرور؟
                     </router-link>
                   </span>
-                </v-card-footer>
+                </div>
               </v-card-text>
             </v-card>
           </v-flex>
