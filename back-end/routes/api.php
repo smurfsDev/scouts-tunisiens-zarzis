@@ -10,6 +10,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\test;
 use App\Http\Controllers\TroupeController;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UpdateProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -45,6 +46,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::group(['prefix' => '/members'], function () {
         Route::put('/{id}/accept', [MembersController::class, 'accept']);
         Route::put('/{id}/reject', [MembersController::class, 'reject']);
+        Route::group(['prefix' => '/subscriptions'], function () {
+            Route::get('', [SubscriptionController::class, 'index']);
+            Route::put('/a/accept', [SubscriptionController::class, 'accept']);
+            Route::put('/r/reject', [SubscriptionController::class, 'reject']);
+        });
     });
     Route::apiResource('members', MembersController::class);
 });

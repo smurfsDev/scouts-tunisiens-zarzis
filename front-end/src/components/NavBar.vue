@@ -29,6 +29,9 @@
     <router-link class="btn btn-warning" to="manageMembers"
       >manage members</router-link
     >
+     <router-link class="btn btn-warning" to="manageMembersSubs"
+      >manage members subscription</router-link
+    >
     <v-spacer></v-spacer>
     <div class="text-center">
       <v-menu open-on-hover top offset-y offset-x offset-overflow>

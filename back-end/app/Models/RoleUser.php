@@ -25,4 +25,14 @@ class RoleUser extends Pivot
         return $this->belongsTo(User::class);
     }
 
+    public function subscription()
+    {
+        return $this->belongsTo(Subscription::class,'user_id','user_id');
+    }
+
+    public function Responsability()
+    {
+        return $this->hasMany(Responsability::class,'id','responsability_id')->latest();
+    }
+
 }

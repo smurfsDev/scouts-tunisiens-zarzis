@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\RoleUser;
+use App\Models\Subscription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,14 +17,14 @@ class MembersController extends Controller
     public function index(Request $request)
     {
         $id = $request->user()->id;
-        $troupe = RoleUser::with('troupe', 'role', 'user')->where('user_id',$id)
-        ->whereHas('role', function ($query) {
-            $query->where('ename', 'like', '%Unit Leader%');
-        })->get()[0]->troupe->id;
+        $troupe = RoleUser::with('troupe', 'role', 'user')->where('user_id', $id)
+            ->whereHas('role', function ($query) {
+                $query->where('ename', 'like', '%Unit Leader%');
+            })->get()[0]->troupe->id;
         $leaders = RoleUser::with('troupe', 'role', 'user')->whereHas('role', function ($query) {
             $query->where('ename', 'like', '%Member%');
         })
-            ->whereHas('troupe', function ($query)use($troupe) {
+            ->whereHas('troupe', function ($query) use ($troupe) {
                 $query->where('id', $troupe);
             })
             ->get();
@@ -75,14 +76,25 @@ class MembersController extends Controller
         //
     }
 
-    public function accept($id){
+    public function accept($id, Request $request)
+    {
         $member = RoleUser::find($id);
         $member->status = 1;
         $member->save();
+        $year = date('Y');
+        $subscription = Subscription::where('year', $year)->where('user_id', $member->user_id)->first();
+        if (!$subscription) {
+            Subscription::create([
+                'user_id' => $member->user_id,
+                'leader_id' => $request->user()->id,
+                'year' => date('Y'),
+            ]);
+        }
         return response()->json($member, 200);
     }
 
-    public function reject($id){
+    public function reject($id)
+    {
         $member = RoleUser::find($id);
         $member->status = 0;
         $member->save();

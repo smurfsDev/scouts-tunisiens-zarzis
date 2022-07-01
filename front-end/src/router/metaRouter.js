@@ -33,6 +33,15 @@ router.beforeEach((to, from, next) => {
       name: "login",
       params: { msg: "ليس لديك صلاحيات قائد وحدة للدخول لهذا الرابط." },
     });
+  }else if (to.matched.some((record) => record.meta.requiresMoneyManager)) {
+    if (store.getters.responsability === "money-manager") {
+      next();
+      return;
+    }
+    next({
+      name: "login",
+      params: { msg: "ليس لديك صلاحيات امين مال للدخول لهذا الرابط." },
+    });
   } else {
     next();
   }

@@ -13,19 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('role_user', function (Blueprint $table) {
+        Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('role_id');
             $table->foreignId('user_id');
-            $table->foreignId('responsability_id')->nullable();
-            $table->foreignId('troupe_id')->nullable();
+            $table->foreignId('leader_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('role_id')->references('id')->on('roles');
-            $table->foreign('troupe_id')->references('id')->on('troupes');
-            $table->foreign('responsability_id')->references('id')->on('responsabilities');
+            $table->foreign('leader_id')->references('id')->on('users');
+            $table->integer('year');
             $table->integer('status')->default(0);
             $table->timestamps();
-
         });
     }
 
@@ -36,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('role_users');
+        Schema::dropIfExists('subscriptions');
     }
 };
