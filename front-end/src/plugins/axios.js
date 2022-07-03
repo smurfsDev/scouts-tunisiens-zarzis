@@ -44,6 +44,8 @@ _axios.interceptors.response.use(
     if (401 === error.response.status || 440 === error.response.status) {
       store.dispatch("sessionExpired");
     }
+    return Promise.reject(error);
+
   }
 );
 
