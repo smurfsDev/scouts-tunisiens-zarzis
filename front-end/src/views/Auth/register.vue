@@ -168,6 +168,36 @@
           class="form-group"
           v-if="
             roles.length != 0 &&
+            roles[formData.role ? formData.role - 2 : 0].ename == 'Unit Assigned Leader'
+          "
+        >
+          <label for="responsability">المسؤولية</label>
+          <select
+            id="responsability"
+            :class="hasError('responsability') ? 'is-invalid' : ''"
+            class="form-control"
+            v-model="formData.responsability"
+          >
+            <option disabled="disabled" selected="selected">اختر فرقتك</option>
+
+            <option
+              v-for="responsability in responsablities"
+              :key="responsability.id"
+              :value="responsability.id"
+            >
+              {{ responsability.name }}
+            </option>
+          </select>
+          <div v-if="hasError('responsability')" class="invalid-feedback">
+            <div class="error" v-if="!$v.formData.responsability.required">
+              <span>المسؤولية مطلوبة</span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group"
+          v-if="
+            roles.length != 0 &&
             roles[formData.role ? formData.role - 2 : 0].name !=
               'قيادة الفوج' &&
             roles[formData.role ? formData.role - 2 : 0].name != 'ولي'
@@ -203,6 +233,7 @@
             </div>
           </div>
         </div>
+        
       </tab-content>
       <tab-content title="الاتصال">
         <div class="form-group">
@@ -364,6 +395,7 @@ export default {
       troupes: {},
       uniqueCin: false,
       uniqueEmail: false,
+      responsablities:[],
       formData: {
         first_name: "",
         last_name: "",
@@ -376,6 +408,7 @@ export default {
         troupe: null,
         sexe: null,
         image: null,
+        responsability:null,
       },
       validationRules: [
         {
@@ -394,6 +427,16 @@ export default {
           role: {
             required,
           },
+          responsability:{
+            required: requiredIf(function () {
+              let index =
+                this.formData.role !== null ? this.formData.role - 2 : 0;
+              return this.roles.length != 0
+                ? this.roles[index].ename == "Unit Assigned Leader"
+                : false;
+            }),
+          }
+          ,
           troupe: {
             required: requiredIf(function () {
               let index =
@@ -475,6 +518,9 @@ export default {
     });
     this.$axios.get("/troupes").then((response) => {
       this.troupes = response.data;
+    });
+    this.$axios.get('/responsablities').then((response) => {
+      this.responsablities = response.data;
     });
   },
   computed: {
