@@ -22,7 +22,11 @@ class AuthenticationController extends Controller
         $user->sendEmailVerificationNotification();
         $role = Role::find($request->role);
         if ($request->troupe) {
-            $user->roless()->attach($role, ['troupe_id' => $request->troupe]);
+            if($request->responsability){
+                $user->roless()->attach($role, ['troupe_id' => $request->troupe,'responsability_id' => $request->responsability]);
+            }else{
+                $user->roless()->attach($role, ['troupe_id' => $request->troupe]);
+            }
         } else {
             $user->roless()->attach($role);
         }
