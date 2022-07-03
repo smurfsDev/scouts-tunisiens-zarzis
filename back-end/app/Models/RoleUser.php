@@ -9,7 +9,7 @@ class RoleUser extends Pivot
 {
     use HasFactory;
     public $incrementing = true;
-
+    public $timestamps = true;
     public function troupe()
     {
         return $this->belongsTo(Troupe::class,'troupe_id');
