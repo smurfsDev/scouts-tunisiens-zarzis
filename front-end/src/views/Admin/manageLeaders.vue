@@ -3,7 +3,6 @@
     <v-data-table
       :headers="headers"
       :items="leaders"
-      sort-by="id"
       show-expand
       :single-expand="true"
       :expanded.sync="expanded"
@@ -17,6 +16,9 @@
       </template>
       <template v-slot:[`item.troupe.name`]="{ item }">
         <td>{{ item.troupe ? item.troupe.name : "فوج" }}</td>
+      </template>
+      <template v-slot:[`item.role.name`]="{ item }">
+        <td>{{ item.role.name!=="معين قائد وحدة" ? item.role.name : item.role.name+"("+item.responsability[0].name+")"}}</td>
       </template>
       <template v-slot:expanded-item="{ item }">
         <td>
