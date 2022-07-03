@@ -10,6 +10,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\test;
 use App\Http\Controllers\TroupeController;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\ResponsabilityController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UpdateProfileController;
 use Illuminate\Http\Request;
@@ -66,6 +67,11 @@ Route::group(['prefix' => '/roles'], function () {
 Route::group(['prefix' => '/troupes'], function () {
     Route::get('/', [TroupeController::class, 'index']);
 });
+
+Route::group(['prefix' => '/responsablities'], function () {
+    Route::get('/', [ResponsabilityController::class, 'index']);
+});
+
 Route::post('forgot-password',  ForgotPasswordController::class);
 Route::post('password/code/check', CodeCheckController::class);
 Route::post('password/reset', ResetPasswordController::class);
