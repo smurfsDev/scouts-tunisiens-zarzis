@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\resetPassword\CodeCheckController;
 use App\Http\Controllers\Auth\resetPassword\ForgotPasswordController;
 use App\Http\Controllers\Auth\resetPassword\ResetPasswordController;
 use App\Http\Controllers\LeaderController;
+use App\Http\Controllers\OfficialRequestController;
 use App\Http\Controllers\MembersController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\test;
@@ -54,6 +55,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         });
     });
     Route::apiResource('members', MembersController::class);
+
+    Route::group(['prefix' => '/officialRequest'], function () {
+        Route::post('/create', [OfficialRequestController::class, 'create']);
+    });
 });
 
 Route::post('/login', [AuthenticationController::class, 'login']);
