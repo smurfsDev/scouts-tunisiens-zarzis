@@ -107,7 +107,8 @@ class UserSeeder extends Seeder
                 'remember_token' => Str::random(10)
             ]
         );
-        $usr->roless()->attach(Role::where('ename', 'Unit Assigned Leader')->first(),['troupe_id'=>2]);
+
+        $usr->roless()->attach(Role::where('ename', 'Unit Assigned Leader')->first(),['troupe_id'=>2,'responsability_id'=>2]);
         $usr->save();
 
 
