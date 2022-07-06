@@ -16,9 +16,12 @@ return new class extends Migration
         Schema::create('official_requests', function (Blueprint $table) {
             $table->id();
             $table->string('receiver');
+            $table->foreignId("user_id");
             $table->string('object');
             $table->longText('content');
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
         });
     }
 
