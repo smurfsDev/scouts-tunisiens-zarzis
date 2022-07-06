@@ -14,7 +14,7 @@ class OfficialRequestController extends Controller
         $content = $request->input('content');
         $data = array(
             "object"=> $object,
-            "userId"=> $userId,
+            "user_id"=> $userId,
             "idDestinataire"=> $userId,
             "receiver"=> $receiver,
             "content"=> $content,

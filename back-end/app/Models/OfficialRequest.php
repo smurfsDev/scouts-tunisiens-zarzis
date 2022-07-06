@@ -10,7 +10,7 @@ class OfficialRequest extends Model
     use HasFactory;
     protected $fillable = [
         'receiver',
-        'userId',
+        'user_id',
         'object',
         'content',
 
