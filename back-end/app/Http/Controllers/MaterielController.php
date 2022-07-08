@@ -12,9 +12,23 @@ class MaterielController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function all()
     {
         $materiel = Materiel::all();
+        if ($materiel->isEmpty()) {
+            return response()->json(['message' => 'Aucun matériel n\'a été trouvé'], 404);
+        }
+        return response()->json($materiel, 200);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        $materiel = $request->user()->materiels;
         if ($materiel->isEmpty()) {
             return response()->json(['message' => 'Aucun matériel n\'a été trouvé'], 404);
         }
