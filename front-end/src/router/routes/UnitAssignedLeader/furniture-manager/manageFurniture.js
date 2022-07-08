@@ -5,5 +5,6 @@ export default [
     path: "/manageFurniture",
     component: manageFurniture,
     name: "manageFurniture",
+    meta: {requiresFurnitureManager: true},
   },
 ];
