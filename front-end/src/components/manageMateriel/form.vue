@@ -191,8 +191,14 @@ export default {
     },
   },
   watch: {
-    materiel() {
-      this.form = Object.assign({}, this.materiel);
+    dialog() {
+      this.form = this.dialog
+        ? Object.assign({}, this.materiel)
+        : {
+            name: "",
+            description: "",
+            quantity: "",
+          };
     },
   },
 };
