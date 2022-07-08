@@ -24,5 +24,6 @@ class DatabaseSeeder extends Seeder
         $this->call(TroupeSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(MaterielSeeder::class);
+        $this->call(CategorieMaterielSeeder::class);
     }
 }
