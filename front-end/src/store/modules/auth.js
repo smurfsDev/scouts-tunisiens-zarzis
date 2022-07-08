@@ -12,7 +12,7 @@ const state = {
   regMessage: null,
   authStatus: null,
   authMessage: null,
-  status: localStorage.getItem("status") ?? null,
+  status: JSON.parse(localStorage.getItem("status")) ?? null,
   responsability: localStorage.getItem("responsability") ?? null
 };
 const getters = {
