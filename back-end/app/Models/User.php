@@ -65,4 +65,8 @@ class User extends Authenticatable
     public function roless(){
         return $this->belongsToMany(Role::class);
     }
+
+    public function materiels(){
+        return $this->hasMany(Materiel::class,'responsable_id','id');
+    }
 }
