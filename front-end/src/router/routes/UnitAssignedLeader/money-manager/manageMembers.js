@@ -1,4 +1,4 @@
-const manageMembersSubs = () => import("@/views/UnitAssignedLeader/manageMembers.vue");
+const manageMembersSubs = () => import("@/views/UnitAssignedLeader/money-manager/manageMembers.vue");
 
 export default [
   {
