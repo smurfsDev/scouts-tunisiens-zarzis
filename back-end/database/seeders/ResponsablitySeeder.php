@@ -21,7 +21,7 @@ class ResponsablitySeeder extends Seeder
         ]);
         Responsability::create([
             'name' => 'مسئوول عن الأثاث',
-            'ename' => 'furniture-manager',
+            'ename' => 'materiel-manager',
         ]);
         Responsability::create([
             'name' => 'امين مال',

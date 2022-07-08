@@ -10,6 +10,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\test;
 use App\Http\Controllers\TroupeController;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\MaterielController;
 use App\Http\Controllers\ResponsabilityController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UpdateProfileController;
@@ -54,6 +55,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         });
     });
     Route::apiResource('members', MembersController::class);
+    Route::apiResource('materiel', MaterielController::class);
 });
 
 Route::post('/login', [AuthenticationController::class, 'login']);
@@ -72,6 +74,7 @@ Route::group(['prefix' => '/responsablities'], function () {
     Route::get('/', [ResponsabilityController::class, 'index']);
 });
 
+Route::get('all-materiel',[MaterielController::class, 'all']);
 Route::post('forgot-password',  ForgotPasswordController::class);
 Route::post('password/code/check', CodeCheckController::class);
 Route::post('password/reset', ResetPasswordController::class);
