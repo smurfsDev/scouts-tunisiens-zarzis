@@ -11,7 +11,7 @@ import VerifyEmail from "./routes/auth/emailVerifyingProcess";
 import RequestVerifyEmail from "./routes/auth/requestVerifyEmail";
 import ResetPassword from "./routes/auth/resetPassword/reset-password";
 import ForgotPassword from "./routes/auth/resetPassword/forgot-password";
-import ManageFurniture from "./routes/UnitAssignedLeader/furniture-manager/manageFurniture";
+import ManageMateriel from "./routes/UnitAssignedLeader/materiel-manager/manageMateriel";
 import profile from "./routes/auth/profile";
 Vue.use(VueRouter);
 
@@ -41,7 +41,7 @@ const routes = [
   ...ForgotPassword,
   ...profile,
   ...ManageMembersSubs,
-  ...ManageFurniture,
+  ...ManageMateriel,
   
 ];
 

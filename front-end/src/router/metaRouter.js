@@ -42,8 +42,8 @@ router.beforeEach((to, from, next) => {
       name: "login",
       params: { msg: "ليس لديك صلاحيات امين مال للدخول لهذا الرابط." },
     });
-  }else if (to.matched.some((record) => record.meta.requiresFurnitureManager)) {
-    if (store.getters.responsability === "furniture-manager") {
+  }else if (to.matched.some((record) => record.meta.requiresMaterielManager)) {
+    if (store.getters.responsability === "materiel-manager") {
       next();
       return;
     }

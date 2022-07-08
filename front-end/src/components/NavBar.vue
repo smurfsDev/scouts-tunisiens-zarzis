@@ -32,8 +32,8 @@
      <router-link class="btn btn-warning" to="manageMembersSubs"
       >manage members subscription</router-link
     >
-    <router-link class="btn btn-warning" to="manageFurniture"
-      >manage furniture</router-link
+    <router-link class="btn btn-warning" to="manageMateriel"
+      >manage materiel</router-link
     >
     <v-spacer></v-spacer>
     <div class="text-center">
