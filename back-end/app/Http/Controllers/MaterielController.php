@@ -14,7 +14,7 @@ class MaterielController extends Controller
      */
     public function all()
     {
-        $materiel = Materiel::all();
+        $materiel = Materiel::orderBy('created_at','DESC')->all();
         if ($materiel->isEmpty()) {
             return response()->json(['message' => 'Aucun matériel n\'a été trouvé'], 404);
         }

@@ -67,6 +67,6 @@ class User extends Authenticatable
     }
 
     public function materiels(){
-        return $this->hasMany(Materiel::class,'responsable_id','id');
+        return $this->hasMany(Materiel::class,'responsable_id','id')->orderBy('created_at','DESC');
     }
 }
