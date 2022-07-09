@@ -23,19 +23,25 @@ class CategorieMaterielController extends Controller
     }
     public function store(Request $request)
     {
-        $categorieMateriel = CategorieMateriel::create([
-            'name' => $request->name,
-            'created_by' => $request->user()->id,
-        ]);
-        if ($categorieMateriel) {
+        $cat = CategorieMateriel::where('name', $request->name)->get()->first();
+        if ($cat) {
+            return response()->json();
+        } else {
+
+            $categorieMateriel = CategorieMateriel::create([
+                'name' => $request->name,
+                'created_by' => $request->user()->id,
+            ]);
+            if ($categorieMateriel) {
+                return response()->json([
+                    'message' => 'Categorie materiel created',
+                    'categorieMateriel' => $categorieMateriel,
+                ], 201);
+            }
             return response()->json([
-                'message' => 'Categorie materiel created',
-                'categorieMateriel' => $categorieMateriel,
-            ], 201);
+                'message' => 'Categorie materiel not created',
+            ], 400);
         }
-        return response()->json([
-            'message' => 'Categorie materiel not created',
-        ], 400);
     }
     public function destroy(Request $request, $id)
     {
@@ -69,9 +75,4 @@ class CategorieMaterielController extends Controller
         ], 404);
     }
 
-    public function test(){
-        $cat = CategorieMateriel::with('materiels')->find(1);
-        return $cat;
-    }
-
-}
+   }
