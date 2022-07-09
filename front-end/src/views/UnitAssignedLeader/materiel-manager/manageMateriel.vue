@@ -1,6 +1,12 @@
 <template>
   <div>
-    <Form :dialog="dialog" :materiel="mat" :edit="edit" @close="close" @success="getMateriel" />
+    <Form
+      :dialog="dialog"
+      :materiel="mat"
+      :editm="edit"
+      @close="close"
+      @success="getMateriel"
+    />
     <v-btn color="success" class="m-4 mr-0" large @click="dialog = true">
       <v-icon>mdi-plus</v-icon>
       اضافة
@@ -14,6 +20,15 @@
       :items-per-page="5"
       class="elevation-1"
     >
+      <template v-slot:item.categories="{ item }">
+        <v-chip
+          v-for="(categorie) in item.categories"
+          :key="categorie.id"
+          :color="categorie.color"
+          >{{ categorie.text }}</v-chip
+        >
+      </template>
+
       <template v-slot:item.operations="{ item }">
         <v-btn icon @click="editMateriel(item)" color="primary" dark>
           <v-icon>edit</v-icon>
@@ -55,6 +70,10 @@ export default {
           value: "quantity",
         },
         {
+          value: "categories",
+          text: "الفئة",
+        },
+        {
           text: "العمليات",
           sortable: false,
           align: "center",
@@ -68,7 +87,7 @@ export default {
       },
       dialog: false,
       edit: false,
-      mat:null,
+      mat: null,
     };
   },
   created() {
