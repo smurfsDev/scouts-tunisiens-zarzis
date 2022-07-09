@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Materiel as ResourcesMateriel;
 use App\Models\Materiel;
 use Illuminate\Http\Request;
 
@@ -28,11 +29,11 @@ class MaterielController extends Controller
      */
     public function index(Request $request)
     {
-        $materiel = $request->user()->materiels;
+        $materiel = Materiel::where('responsable_id',$request->user()->id)->with('categorieMateriel')->orderBy('created_at','DESC')->get();
         if ($materiel->isEmpty()) {
             return response()->json(['message' => 'Aucun matériel n\'a été trouvé'], 404);
         }
-        return response()->json($materiel, 200);
+        return response()->json(ResourcesMateriel::collection($materiel), 200);
     }
 
     /**
@@ -49,6 +50,15 @@ class MaterielController extends Controller
             'quantity' => $request->quantity,
             'responsable_id' => $request->user()->id,
         ]);
+        $tags = $request->tags;
+        // get all ids from tags
+        $tagIds = [];
+        foreach ($tags as $tag) {
+            $tagIds[] = $tag['id'];
+        }
+        // attach all ids to materiel
+        $materiel->categorieMateriel()->attach($tagIds);
+
         if ($materiel) {
             return response()->json(['message' => 'Matériel créé avec succès'], 201);
         }
