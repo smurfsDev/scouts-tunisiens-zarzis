@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\Materiel as ResourcesMateriel;
+use App\Models\CategorieMateriel;
 use App\Models\Materiel;
 use Illuminate\Http\Request;
 
@@ -50,7 +51,7 @@ class MaterielController extends Controller
             'quantity' => $request->quantity,
             'responsable_id' => $request->user()->id,
         ]);
-        $tags = $request->tags;
+        $tags = $request->categories;
         // get all ids from tags
         $tagIds = [];
         foreach ($tags as $tag) {
@@ -91,6 +92,16 @@ class MaterielController extends Controller
             $materiel->description = $request->description;
             $materiel->quantity = $request->quantity;
             $materiel->responsable_id = $request->user()->id;
+
+            $tags = $request->categories;
+            // get all ids from tags
+            $tagIds = [];
+            foreach ($tags as $tag) {
+                $tagIds[] = CategorieMateriel::where('name',$tag['text'])->get()->first()->id;
+            }
+            $materiel->categorieMateriel()->detach();
+            $materiel->categorieMateriel()->attach($tagIds);
+
             $materiel->save();
             return response()->json(['message' => 'Matériel modifié avec succès'], 200);
         }
