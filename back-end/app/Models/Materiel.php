@@ -15,4 +15,10 @@ class Materiel extends Model
         return $this->belongsTo('App\Models\User', 'responsable_id');
     }
 
+    public function categorieMateriel()
+    {
+        return $this->belongsToMany('App\Models\CategorieMateriel', 'categorie_materiel_id');
+    }
+
+
 }

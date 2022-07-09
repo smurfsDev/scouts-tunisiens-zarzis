@@ -11,7 +11,7 @@ class CategorieMateriel extends Model
     protected $fillable = ['name', 'description', 'created_by'];
     public function materiels()
     {
-        return $this->hasMany(Materiel::class);
+        return $this->belongsToMany(Materiel::class);
     }
     public function createdBy()
     {
