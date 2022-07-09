@@ -47,20 +47,21 @@
               </v-col>
               <v-col>
                 <v-combobox
+                  prepend-icon="mdi-tag"
                   v-model="model"
                   :filter="filter"
                   :hide-no-data="!search"
                   :items="items"
                   :search-input.sync="search"
                   hide-selected
-                  label="Search for an option"
+                  label="البحث عن فئة"
                   multiple
                   small-chips
                   solo
                 >
                   <template v-slot:no-data>
                     <v-list-item>
-                      <span class="subheading">Create</span>
+                      <span>صنع</span>
                       <v-chip
                         :color="`${colors[nonce - 1]} lighten-3`"
                         label
@@ -196,8 +197,7 @@ export default {
     items: [],
     nonce: 1,
     menu: false,
-    model: [
-    ],
+    model: [],
     x: 0,
     search: null,
     y: 0,
@@ -344,7 +344,9 @@ export default {
             quantity: "",
             categories: [],
           };
-      this.model = this.materiel? Object.assign([], this.materiel.categories):[];
+      this.model = this.materiel
+        ? Object.assign([], this.materiel.categories)
+        : [];
     },
     model(val, prev) {
       if (val.length === prev.length) return;
