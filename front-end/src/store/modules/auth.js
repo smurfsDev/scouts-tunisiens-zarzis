@@ -86,6 +86,16 @@ const getters = {
     });
     return isMember;
   },
+  isLeader: (state) => {
+    let isLeader = null;
+    state.roles?.forEach((role) => {
+      if (role.role.includes("Leader") && role.status == 1) {
+        isLeader = true;
+      }
+    });
+    return isLeader;
+  }
+  ,
   status: (state) => state.status,
   responsability: (state) => state.responsability
 };
@@ -131,10 +141,12 @@ const mutations = {
     state.token = null;
     state.roles = null;
     state.status = null;
+    state.responsability = null;
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     localStorage.removeItem("roles");
     localStorage.removeItem("status");
+    localStorage.removeItem("responsability");
   }
 };
 const actions = {
