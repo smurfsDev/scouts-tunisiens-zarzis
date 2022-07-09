@@ -6,11 +6,12 @@ import Register from "./routes/auth/register";
 import Logout from "./routes/auth/logout";
 import ManageLeaders from "./routes/Admin/manageLeaders";
 import ManageMembers from "./routes/UnitLeader/manageMembers";
-import ManageMembersSubs from "./routes/UnitAssignedLeader/manageMembers";
+import ManageMembersSubs from "./routes/UnitAssignedLeader/money-manager/manageMembers";
 import VerifyEmail from "./routes/auth/emailVerifyingProcess";
 import RequestVerifyEmail from "./routes/auth/requestVerifyEmail";
 import ResetPassword from "./routes/auth/resetPassword/reset-password";
 import ForgotPassword from "./routes/auth/resetPassword/forgot-password";
+import ManageMateriel from "./routes/UnitAssignedLeader/materiel-manager/manageMateriel";
 import profile from "./routes/auth/profile";
 Vue.use(VueRouter);
 
@@ -40,6 +41,7 @@ const routes = [
   ...ForgotPassword,
   ...profile,
   ...ManageMembersSubs,
+  ...ManageMateriel,
   
 ];
 
