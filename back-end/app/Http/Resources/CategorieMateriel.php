@@ -17,6 +17,7 @@ class CategorieMateriel extends JsonResource
         $colors =  ["green", "purple", "indigo", "cyan", "teal", "orange"];
 
         return [
+            'id' => $this->id,
             'text' => $this->name,
             'color' => $colors[array_rand($colors)],
         ];
