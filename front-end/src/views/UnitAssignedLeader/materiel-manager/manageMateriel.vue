@@ -108,6 +108,8 @@ export default {
         });
     },
     close() {
+      this.mat = null;
+      this.edit = false;
       this.dialog = false;
     },
     deleteMateriel(materiel) {
