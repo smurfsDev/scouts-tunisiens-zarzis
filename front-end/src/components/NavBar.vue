@@ -35,6 +35,9 @@
     <router-link class="btn btn-warning" to="manageMateriel"
       >manage materiel</router-link
     >
+    <router-link class="btn btn-warning" to="demandeMateriel"
+      >demande materiel</router-link
+    >
     <v-spacer></v-spacer>
     <div class="text-center">
       <v-menu open-on-hover top offset-y offset-x offset-overflow>
