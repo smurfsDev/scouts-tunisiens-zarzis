@@ -112,14 +112,18 @@
                     </v-chip>
                     <v-spacer></v-spacer>
                     <v-list-item-action @click.stop>
-                      <v-btn icon @click.stop.prevent="edit(index, item)">
-                        <v-icon>{{
-                          editing !== item ? "mdi-pencil" : "mdi-check"
-                        }}</v-icon>
-                      </v-btn>
-                      <v-btn icon @click.stop.prevent="delet(item)">
-                        <v-icon>mdi-delete</v-icon>
-                      </v-btn>
+                      <v-list-item-content>
+                        <v-list-item-title>
+                          <v-btn icon @click.stop.prevent="edit(index, item)">
+                            <v-icon>{{
+                              editing !== item ? "mdi-pencil" : "mdi-check"
+                            }}</v-icon>
+                          </v-btn>
+                          <v-btn icon @click.stop.prevent="delet(item)">
+                            <v-icon>mdi-delete</v-icon>
+                          </v-btn>
+                        </v-list-item-title>
+                      </v-list-item-content>
                     </v-list-item-action>
                   </template>
                 </v-combobox>
@@ -262,9 +266,7 @@ export default {
       if (!this.editing) {
         this.editing = item;
         this.editingIndex = index;
-        console.log("tat");
       } else {
-        console.log("tit");
         this.$axios
           .put("/categorie-materiel/" + this.editing.id, {
             name: this.editing.text,
