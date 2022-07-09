@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CategorieMateriel as ResourcesCategorieMateriel;
 use App\Models\CategorieMateriel;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,7 @@ class CategorieMaterielController extends Controller
             ], 404);
         }
         return response()->json(
-            $categorieMateriels,
+            ResourcesCategorieMateriel::collection($categorieMateriels),
             200
         );
     }
@@ -24,7 +25,6 @@ class CategorieMaterielController extends Controller
     {
         $categorieMateriel = CategorieMateriel::create([
             'name' => $request->name,
-            'description' => $request->description,
             'created_by' => $request->user()->id,
         ]);
         if ($categorieMateriel) {
@@ -57,7 +57,6 @@ class CategorieMaterielController extends Controller
         if ($categorieMateriel) {
             $categorieMateriel->update([
                 'name' => $request->name,
-                'description' => $request->description,
                 'created_by' => $request->user()->id,
             ]);
             return response()->json([
@@ -68,6 +67,11 @@ class CategorieMaterielController extends Controller
         return response()->json([
             'message' => 'Categorie materiel not found',
         ], 404);
+    }
+
+    public function test(){
+        $cat = CategorieMateriel::with('materiels')->find(1);
+        return $cat;
     }
 
 }
