@@ -14,28 +14,40 @@
     <v-alert :value="alert.show" dismissible :type="alert.type">{{
       alert.msg
     }}</v-alert>
-    <v-data-table
-      :headers="headers"
-      :items="materiel"
-      :items-per-page="5"
-      class="elevation-1"
-    >
-      <template v-slot:item.categories="{ item }">
-        <v-chip
-          v-for="(categorie) in item.categories"
-          :key="categorie.id"
-          :color="categorie.color"
-          >{{ categorie.text }}</v-chip
-        >
-      </template>
+    <v-card>
+      <v-card-title>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="بحث عن طريق الاسم او الوصف"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-card-title>
+      <v-data-table
+        :headers="headers"
+        :items="materiel"
+        :items-per-page="5"
+        :search="search"
+        class="elevation-1"
+      >
+        <template v-slot:item.categories="{ item }">
+          <v-chip
+            v-for="categorie in item.categories"
+            :key="categorie.id"
+            :color="categorie.color"
+            >{{ categorie.text }}</v-chip
+          >
+        </template>
 
-      <template v-slot:item.operations="{ item }">
-        <v-btn icon @click="editMateriel(item)" color="primary" dark>
-          <v-icon>edit</v-icon>
-        </v-btn>
-        <deleteForm @ok="deleteMateriel" :id="item.id" />
-      </template>
-    </v-data-table>
+        <template v-slot:item.operations="{ item }">
+          <v-btn icon @click="editMateriel(item)" color="primary" dark>
+            <v-icon>edit</v-icon>
+          </v-btn>
+          <deleteForm @ok="deleteMateriel" :id="item.id" />
+        </template>
+      </v-data-table>
+    </v-card>
   </div>
 </template>
 
@@ -49,6 +61,7 @@ export default {
   },
   data() {
     return {
+      search: "",
       materiel: [],
       headers: [
         {
