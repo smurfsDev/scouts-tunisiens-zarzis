@@ -47,7 +47,7 @@
               </v-col>
               <v-col>
                 <v-combobox
-                  v-model="form.tags"
+                  v-model="model"
                   :filter="filter"
                   :hide-no-data="!search"
                   :items="items"
@@ -186,7 +186,7 @@ export default {
       name: "",
       description: "",
       quantity: "",
-      tags: [],
+      categories: [],
     },
     activator: null,
     attach: null,
@@ -197,10 +197,6 @@ export default {
     nonce: 1,
     menu: false,
     model: [
-      {
-        text: "Foo",
-        color: "blue",
-      },
     ],
     x: 0,
     search: null,
@@ -208,9 +204,12 @@ export default {
   }),
   methods: {
     reset() {
-      this.form.name = "";
-      this.form.description = "";
-      this.form.quantity = "";
+      this.form = {
+        name: "",
+        description: "",
+        quantity: "",
+        categories: [],
+      };
       this.$emit("close");
     },
     add() {
@@ -218,6 +217,7 @@ export default {
       if (this.$v.$invalid) {
         return;
       }
+      this.form.categories = this.model;
       if (this.editm == false) {
         this.$axios
           .post("/materiel/", this.form)
@@ -262,9 +262,13 @@ export default {
       if (!this.editing) {
         this.editing = item;
         this.editingIndex = index;
+        console.log("tat");
       } else {
+        console.log("tit");
         this.$axios
-          .put("/categorie-materiel/" + this.editing.id, { name: this.editing.text })
+          .put("/categorie-materiel/" + this.editing.id, {
+            name: this.editing.text,
+          })
           .then(() => this.getCategories());
         this.editing = null;
         this.editingIndex = -1;
@@ -338,8 +342,9 @@ export default {
             name: "",
             description: "",
             quantity: "",
-            tags: [],
+            categories: [],
           };
+      this.model = this.materiel? Object.assign([], this.materiel.categories):[];
     },
     model(val, prev) {
       if (val.length === prev.length) return;
