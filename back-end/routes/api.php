@@ -10,6 +10,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\test;
 use App\Http\Controllers\TroupeController;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\CategorieMaterielController;
 use App\Http\Controllers\MaterielController;
 use App\Http\Controllers\ResponsabilityController;
 use App\Http\Controllers\SubscriptionController;
@@ -81,3 +82,7 @@ Route::post('password/reset', ResetPasswordController::class);
 
 Route::get('email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify'); // Make sure to keep this as your route name
 Route::get('email/resend/{email}', [VerificationController::class, 'resend'])->name('verification.resend');
+
+Route::get('catmat',[CategorieMaterielController::class, 'test']);
+
+Route::apiResource('categorie-materiel', CategorieMaterielController::class);

@@ -19,7 +19,6 @@ class CategorieMaterielFactory extends Factory
     {
         return [
             'name' => $this->faker->word,
-            'description' => $this->faker->sentence,
             'created_by' => User::get()->random()->id,
         ];
     }

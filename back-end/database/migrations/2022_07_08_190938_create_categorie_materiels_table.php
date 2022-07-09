@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('categorie_materiels', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description');
             $table->foreignId('created_by');
             $table->foreign('created_by')->references('id')->on('users');
             $table->timestamps();

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CategorieMateriel extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'description', 'created_by'];
+    protected $fillable = ['name',  'created_by'];
     public function materiels()
     {
         return $this->belongsToMany(Materiel::class);
