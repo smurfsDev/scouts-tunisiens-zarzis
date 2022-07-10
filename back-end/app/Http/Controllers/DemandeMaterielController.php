@@ -19,7 +19,7 @@ class DemandeMaterielController extends Controller
 
     public function sentDemandes(Request $request)
     {
-        $demandes = DemandeMateriel::where('user_id', $request->user()->id)->with('responsable')->get();
+        $demandes = DemandeMateriel::where('user_id', $request->user()->id)->with('responsable','materiels')->get();
         if ($demandes->count() > 0) {
             return response()->json(
                 $demandes,

@@ -26,5 +26,10 @@ class DemandeMateriel extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function materiels()
+    {
+        return $this->belongsToMany(Materiel::class, 'demande_materiel_materiel')->withPivot('quantity');
+    }
+
 
 }
