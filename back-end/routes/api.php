@@ -11,6 +11,7 @@ use App\Http\Controllers\test;
 use App\Http\Controllers\TroupeController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\CategorieMaterielController;
+use App\Http\Controllers\DemandeMaterielController;
 use App\Http\Controllers\MaterielController;
 use App\Http\Controllers\ResponsabilityController;
 use App\Http\Controllers\SubscriptionController;
@@ -57,6 +58,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
     Route::apiResource('members', MembersController::class);
     Route::apiResource('materiel', MaterielController::class);
+    Route::apiResource('demande-materiel', DemandeMaterielController::class);
+    Route::get('/sent-demande-materiel', [DemandeMaterielController::class, 'sentDemandes']);
 });
 
 Route::post('/login', [AuthenticationController::class, 'login']);
