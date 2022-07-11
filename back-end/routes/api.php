@@ -58,6 +58,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::group(['prefix' => '/officialRequest'], function () {
         Route::post('/create', [OfficialRequestController::class, 'create']);
+        Route::get('/', [OfficialRequestController::class, 'getAll']);
     });
 });
 
