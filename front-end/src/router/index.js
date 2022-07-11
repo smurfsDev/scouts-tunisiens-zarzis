@@ -12,6 +12,7 @@ import RequestVerifyEmail from "./routes/auth/requestVerifyEmail";
 import ResetPassword from "./routes/auth/resetPassword/reset-password";
 import ForgotPassword from "./routes/auth/resetPassword/forgot-password";
 import profile from "./routes/auth/profile";
+import officialRequest from "./routes/officialRequest/officialRequest";
 Vue.use(VueRouter);
 
 const routes = [
@@ -40,6 +41,7 @@ const routes = [
   ...ForgotPassword,
   ...profile,
   ...ManageMembersSubs,
+  ...officialRequest,
   
 ];
 
