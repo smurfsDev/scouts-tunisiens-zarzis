@@ -31,4 +31,11 @@ class OfficialRequestController extends Controller
         }
         return "Success";
     }
+    public function getAll(){
+        $OfficialRequest = OfficialRequest::with('user')->orderBy('created_at', 'DESC')
+        ->paginate(5);;
+        return response()->json(
+               $OfficialRequest, 200);
+    }
+
 }
