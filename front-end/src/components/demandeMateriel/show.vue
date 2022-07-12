@@ -35,15 +35,39 @@
               </v-row>
             </v-container>
           </v-tab-item>
-          <v-tab-item>d </v-tab-item>
+          <v-tab-item>
+            <v-container p-4>
+              <v-row v-for="materiel in demande.materiels" :key="materiel.id">
+                {{ materiel.name }}
+                <v-text-field
+                  v-model="materiel.pivot.quantity"
+                  label="الكمية"
+                  type="number"
+                  step="1"
+                  min="1"
+                  :rules="rules"
+                  max="100"
+                  style="width: 100px"
+                >
+                  <v-btn slot="append" color="success" class="m-4 mr-0">
+                    <v-icon>mdi-check</v-icon>
+                    تحديث
+                  </v-btn>
+                </v-text-field>
+              </v-row>
+              <v-row v-if="demande.materiels.length == 0">
+                <span class="h5"> لا يوجد اثاث </span>
+              </v-row>
+            </v-container>
+          </v-tab-item>
         </v-tabs>
         <v-card-actions>
           <v-spacer></v-spacer>
           <deleteDialog
             :id="demande.id"
-            @ok="$emit('deleteItem',demande.id)"
+            @ok="$emit('deleteItem', demande.id)"
           ></deleteDialog>
-          <v-btn color="warning darken-1" @click="$emit('edit',demande)" text>
+          <v-btn color="warning darken-1" @click="$emit('edit', demande)" text>
             تعديل
             <v-icon>edit</v-icon>
           </v-btn>
@@ -80,6 +104,9 @@ export default {
   },
   data() {
     return {
+      rules: [
+        (v) => !!v || "الكمية مطلوبة و يجب ان تكون رقما",
+      ],
       tab: null,
       items: ["المعلومات الاساسية", "الاثاث المطلوب"],
     };
