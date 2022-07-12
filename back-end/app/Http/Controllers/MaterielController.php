@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\Materiel as ResourcesMateriel;
+use App\Http\Resources\resourceMateriel;
 use App\Models\CategorieMateriel;
 use App\Models\Materiel;
 use Illuminate\Http\Request;
@@ -16,11 +17,11 @@ class MaterielController extends Controller
      */
     public function all()
     {
-        $materiel = Materiel::orderBy('created_at','DESC')->all();
+        $materiel = Materiel::with('responsable')->orderBy('created_at','DESC')->get();
         if ($materiel->isEmpty()) {
             return response()->json(['message' => 'Aucun matériel n\'a été trouvé'], 404);
         }
-        return response()->json($materiel, 200);
+        return response()->json(resourceMateriel::collection($materiel), 200);
     }
 
     /**
