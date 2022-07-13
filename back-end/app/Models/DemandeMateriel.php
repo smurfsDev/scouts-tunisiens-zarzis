@@ -28,7 +28,7 @@ class DemandeMateriel extends Model
 
     public function materiels()
     {
-        return $this->belongsToMany(Materiel::class, 'demande_materiel_materiel')->withPivot('quantity')->with("responsable");
+        return $this->belongsToMany(Materiel::class, 'demande_materiel_materiel')->withPivot('id','quantity')->with("responsable");
     }
 
 
