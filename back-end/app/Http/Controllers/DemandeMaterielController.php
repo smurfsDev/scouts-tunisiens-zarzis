@@ -48,6 +48,12 @@ class DemandeMaterielController extends Controller
             'date_demande' => $request->date_demande,
             'message' => $request->message,
         ]);
+
+        $materiels = $request->materielEdit;
+        foreach ($materiels as $materiel) {
+            $materiel['id']?$demande->materiels()->attach($materiel['id'], ['quantity' => 0]):'';
+        }
+
         if ($demande) {
             return response()->json([
                 'success' => true,
