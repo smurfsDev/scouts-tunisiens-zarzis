@@ -158,4 +158,21 @@ class DemandeMaterielController extends Controller
             ], 500);
         }
     }
+
+    public function setQuantity(Request $request){
+        $demande = DemandeMateriel::find($request->demande_id);
+        if ($demande) {
+            $demande->materiels()->updateExistingPivot($request->materiel_id, ['quantity' => $request->quantity]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Quantité mise à jour'
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erreur lors de la mise à jour de la quantité'
+            ], 500);
+        }
+
+    }
 }
