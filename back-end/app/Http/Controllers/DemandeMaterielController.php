@@ -13,9 +13,20 @@ class DemandeMaterielController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $id = $request->user()->id;
+        $demandes = DemandeMateriel::with('materiels')
+            ->where('user_id', 5)
+            ->whereHas('materiels', function ($query) use ($id) {
+                $query->where('responsable_id', 9);
+            })
+            ->get();
+        if ($demandes) {
+            return response()->json(['success' => true, 'demandes' => $demandes], 200);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Aucune demande trouvée'], 404);
+        }
     }
 
     public function sentDemandes(Request $request)
@@ -159,7 +170,8 @@ class DemandeMaterielController extends Controller
         }
     }
 
-    public function setQuantity(Request $request){
+    public function setQuantity(Request $request)
+    {
         $demande = DemandeMateriel::find($request->demande_id);
         if ($demande) {
             $demande->materiels()->updateExistingPivot($request->materiel_id, ['quantity' => $request->quantity]);
@@ -173,10 +185,10 @@ class DemandeMaterielController extends Controller
                 'message' => 'Erreur lors de la mise à jour de la quantité'
             ], 500);
         }
-
     }
 
-    public function detachMateriel($id,$idmte){
+    public function detachMateriel($id, $idmte)
+    {
         $demande = DemandeMateriel::find($id);
         if ($demande) {
             $demande->materiels()->detach($idmte);
