@@ -21,6 +21,7 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->foreign('materiel_id')->references('id')->on('materiels')
                 ->onDelete('cascade');
+            $table->integer('status')->default(0);
             $table->integer('quantity');
             $table->timestamps();
         });
