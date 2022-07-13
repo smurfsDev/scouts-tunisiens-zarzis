@@ -50,7 +50,7 @@
                   v-model="model"
                   :filter="filter"
                   :hide-no-data="!search"
-                  :items="visible_items"
+                  :items="items"
                   :search-input.sync="search"
                   hide-selected
                   label="البحث عن فئة"
@@ -282,6 +282,7 @@ export default {
         errors.push("تاريخ الارجاع لا يمكن ان يكون قبل تاريخ الطلب");
       return errors;
     },
+    
   },
   watch: {
     dialog() {
