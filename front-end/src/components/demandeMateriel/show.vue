@@ -56,6 +56,7 @@
                   </span>
                 </v-text-field>
                 <v-btn
+                v-if="materiel.pivot.status!=1"
                   color="success"
                   text
                   @click="
@@ -67,6 +68,7 @@
                   تحديث
                 </v-btn>
                 <detachMaterialDialog
+                v-if="materiel.pivot.status!=1"
                   @ok="rem(demande.id, materiel.id)"
                   :id="materiel.name"
                 />
@@ -121,10 +123,12 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <deleteDialog
+          v-if="!status(demande.materiels)"
             :id="demande.id"
             @ok="$emit('deleteItem', demande.id)"
           ></deleteDialog>
-          <v-btn color="warning darken-1" @click="$emit('edit', demande)" text>
+          <v-btn
+          v-if="!status(demande.materiels)" color="warning darken-1" @click="$emit('edit', demande)" text>
             تعديل
             <v-icon>edit</v-icon>
           </v-btn>
@@ -175,10 +179,14 @@ export default {
     rem(id, materiel_id) {
       this.$emit("rem", id, materiel_id);
     },
+    status(materiels){
+      return materiels.some(materiel => materiel.pivot.status != 0);
+    }
   },
   watch: {
     demandes() {},
   },
+  
 };
 </script>
 
