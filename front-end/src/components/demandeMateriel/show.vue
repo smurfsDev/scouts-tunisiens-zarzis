@@ -46,10 +46,11 @@
                   step="1"
                   min="1"
                   :rules="rules"
+                  @keyup.enter="setQte(demande.id,materiel.id,materiel.pivot.quantity)"
                   max="100"
                   style="width: 100px"
                 >
-                  <v-btn slot="append" color="success" class="m-4 mr-0">
+                  <v-btn slot="append" color="success" @click="setQte(demande.id,materiel.id,materiel.pivot.quantity)" class="m-4 mr-0">
                     <v-icon>mdi-check</v-icon>
                     تحديث
                   </v-btn>
@@ -110,6 +111,11 @@ export default {
       tab: null,
       items: ["المعلومات الاساسية", "الاثاث المطلوب"],
     };
+  },
+  methods: {
+    setQte(id, materiel_id, qte) {
+     this.$emit('setQte',id,materiel_id,qte);
+    },
   },
   watch: {
     demandes() {},

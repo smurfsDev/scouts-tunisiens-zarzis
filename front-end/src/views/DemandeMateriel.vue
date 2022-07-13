@@ -8,7 +8,7 @@
     <v-alert :value="alert.show" dismissible :type="alert.type">{{
       alert.msg
     }}</v-alert>
-    <show :demandes="demandes" @edit="edit" @deleteItem="deleteItem" ></show>
+    <show :demandes="demandes" @setQte="setQte" @edit="edit" @deleteItem="deleteItem" ></show>
   </div>
 </template>
 
@@ -78,7 +78,29 @@ export default {
       this.dialog = true;
       this.editm = true;
       this.demande = item;
-    }
+    },
+    setQte(id, materiel_id, qte) {
+      this.$axios
+        .put("/demande-materiel-qte", {
+          demande_id:id,
+          quantity: qte,
+          materiel_id: materiel_id,
+        })
+        .then(() => {
+          this.getDemandeMateriel({
+            show: true,
+            type: "success",
+            msg: "تم تعديل الكمية بنجاح",
+          });
+        })
+        .catch(() => {
+          this.getDemandeMateriel({
+            show: true,
+            type: "red",
+            msg: "حدث خطأ ما",
+          });
+        });
+    },
   },
 };
 </script>
