@@ -17,8 +17,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('demande_materiel_id');
             $table->foreignId('materiel_id');
-            $table->foreign('demande_materiel_id')->references('id')->on('demande_materiels');
-            $table->foreign('materiel_id')->references('id')->on('materiels');
+            $table->foreign('demande_materiel_id')->references('id')->on('demande_materiels')
+                ->onDelete('cascade');
+            $table->foreign('materiel_id')->references('id')->on('materiels')
+                ->onDelete('cascade');
             $table->integer('quantity');
             $table->timestamps();
         });
