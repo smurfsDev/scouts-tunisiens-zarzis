@@ -38,7 +38,6 @@
           <v-tab-item>
             <v-container p-4>
               <v-row v-for="materiel in demande.materiels" :key="materiel.id">
-                {{ materiel.name }}
                 <v-text-field
                   v-model="materiel.pivot.quantity"
                   label="الكمية"
@@ -50,11 +49,16 @@
                   max="100"
                   style="width: 100px"
                 >
-                  <v-btn slot="append" color="success" @click="setQte(demande.id,materiel.id,materiel.pivot.quantity)" class="m-4 mr-0">
+                <span slot="prepend">
+                  {{ materiel.name }}
+                </span>
+                </v-text-field>
+                  <v-btn color="success" text @click="setQte(demande.id,materiel.id,materiel.pivot.quantity)" class="m-4 mr-0 ml-1  mr-1">
                     <v-icon>mdi-check</v-icon>
                     تحديث
                   </v-btn>
-                </v-text-field>
+                  
+                  <detachMaterialDialog @ok="rem(demande.id,materiel.id)" :id="materiel.name" />
               </v-row>
               <v-row v-if="demande.materiels.length == 0">
                 <span class="h5"> لا يوجد اثاث </span>
@@ -92,6 +96,7 @@
 </template>
 
 <script>
+import detachMaterialDialog from '@/components/demandeMateriel/detachMaterialDialog.vue'
 import deleteDialog from "@/components/demandeMateriel/deleteDialog.vue";
 export default {
   props: {
@@ -102,6 +107,7 @@ export default {
   },
   components: {
     deleteDialog,
+    detachMaterialDialog,
   },
   data() {
     return {
@@ -115,6 +121,9 @@ export default {
   methods: {
     setQte(id, materiel_id, qte) {
      this.$emit('setQte',id,materiel_id,qte);
+    },
+    rem(id, materiel_id) {
+      this.$emit('rem',id,materiel_id);
     },
   },
   watch: {

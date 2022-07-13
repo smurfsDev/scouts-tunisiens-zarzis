@@ -8,7 +8,7 @@
     <v-alert :value="alert.show" dismissible :type="alert.type">{{
       alert.msg
     }}</v-alert>
-    <show :demandes="demandes" @setQte="setQte" @edit="edit" @deleteItem="deleteItem" ></show>
+    <show :demandes="demandes" @setQte="setQte" @rem="rem" @edit="edit" @deleteItem="deleteItem" ></show>
   </div>
 </template>
 
@@ -91,6 +91,25 @@ export default {
             show: true,
             type: "success",
             msg: "تم تعديل الكمية بنجاح",
+          });
+        })
+        .catch(() => {
+          this.getDemandeMateriel({
+            show: true,
+            type: "red",
+            msg: "حدث خطأ ما",
+          });
+        });
+    },
+    rem(id, materiel_id) {
+      console.log(id, materiel_id);
+      this.$axios
+        .delete(`/demande-materiel-mat/${id}/${materiel_id}`)
+        .then(() => {
+          this.getDemandeMateriel({
+            show: true,
+            type: "success",
+            msg: "تم حذف المادة بنجاح",
           });
         })
         .catch(() => {
