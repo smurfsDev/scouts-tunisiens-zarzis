@@ -20,7 +20,7 @@ class DemandeMaterielController extends Controller
 
     public function sentDemandes(Request $request)
     {
-        $demandes = DemandeMateriel::where('user_id', $request->user()->id)->with('responsable','materiels')->get();
+        $demandes = DemandeMateriel::where('user_id', $request->user()->id)->with('responsable', 'materiels')->get();
         if ($demandes->count() > 0) {
             return response()->json(
                 demandeMaterielRessource::collection($demandes),
@@ -51,7 +51,7 @@ class DemandeMaterielController extends Controller
 
         $materiels = $request->materielEdit;
         foreach ($materiels as $materiel) {
-            $materiel['id']?$demande->materiels()->attach($materiel['id'], ['quantity' => 0]):'';
+            $materiel['id'] ? $demande->materiels()->attach($materiel['id'], ['quantity' => 0]) : '';
         }
 
         if ($demande) {
@@ -85,14 +85,45 @@ class DemandeMaterielController extends Controller
      * @param  \App\Models\DemandeMateriel  $demandeMateriel
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$demandeMateriel)
+    public function update(Request $request, $demandeMateriel)
     {
-        $demande = DemandeMateriel::find($demandeMateriel);
+        $demande = DemandeMateriel::with('materiels')->find($demandeMateriel);
         if ($demande) {
             $demande->update([
                 'date_demande' => $request->date_demande,
                 'message' => $request->message,
             ]);
+            $newMateriels = $request->materielEdit;
+            $oldMateriels = $demande->materiels;
+            $ids = [];
+            foreach ($oldMateriels as $oldMateriel) {
+                $ids[] = $oldMateriel->id;
+            }
+            // foreach old materiel, if it is not in the new materiel, detach it
+            foreach ($oldMateriels as $oldMateriel) {
+                $found = false;
+                foreach ($newMateriels as $newMateriel) {
+                    if ($oldMateriel->id == $newMateriel['id']) {
+                        $found = true;
+                    }
+                }
+                if (!$found) {
+                    $demande->materiels()->detach($oldMateriel->id);
+                }
+            }
+            // foreach new materiel, if it is not in the old materiel, attach it
+            foreach ($newMateriels as $newMateriel) {
+                $found = false;
+                foreach ($oldMateriels as $oldMateriel) {
+                    if ($newMateriel['id'] == $oldMateriel->id) {
+                        $found = true;
+                    }
+                }
+                if (!$found) {
+                    $demande->materiels()->attach($newMateriel['id'], ['quantity' => 0]);
+                }
+            }
+
             return response()->json([
                 'success' => true,
                 'message' => 'Demande mise à jour'
