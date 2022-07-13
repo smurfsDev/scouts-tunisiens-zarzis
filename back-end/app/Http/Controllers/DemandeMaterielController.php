@@ -175,4 +175,20 @@ class DemandeMaterielController extends Controller
         }
 
     }
+
+    public function detachMateriel($id,$idmte){
+        $demande = DemandeMateriel::find($id);
+        if ($demande) {
+            $demande->materiels()->detach($idmte);
+            return response()->json([
+                'success' => true,
+                'message' => 'Materiel retiré'
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erreur lors de la retrait du materiel'
+            ], 500);
+        }
+    }
 }

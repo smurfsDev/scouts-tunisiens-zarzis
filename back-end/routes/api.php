@@ -61,6 +61,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::apiResource('demande-materiel', DemandeMaterielController::class);
     Route::get('/sent-demande-materiel', [DemandeMaterielController::class, 'sentDemandes']);
     Route::put('/demande-materiel-qte', [DemandeMaterielController::class, 'setQuantity']);
+    Route::delete('/demande-materiel-mat/{id}/{idmte}', [DemandeMaterielController::class, 'detachMateriel']);
+
 });
 
 Route::post('/login', [AuthenticationController::class, 'login']);
