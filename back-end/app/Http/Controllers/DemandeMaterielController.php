@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\demandeMaterielRessource;
 use App\Models\DemandeMateriel;
 use App\Models\DemandeMaterielMateriel;
+use App\Models\Materiel;
 use Illuminate\Http\Request;
 
 class DemandeMaterielController extends Controller
@@ -33,7 +34,7 @@ class DemandeMaterielController extends Controller
 
     public function sentDemandes(Request $request)
     {
-        $demandes = DemandeMateriel::where('user_id', $request->user()->id)->with('responsable', 'materiels')->get();
+        $demandes = DemandeMateriel::where('user_id', $request->user()->id)->with('materiels')->get();
         if ($demandes->count() > 0) {
             return response()->json(
                 demandeMaterielRessource::collection($demandes),
@@ -57,7 +58,7 @@ class DemandeMaterielController extends Controller
     {
         $demande = DemandeMateriel::create([
             'user_id' => $request->user()->id,
-            'responsable_id' => 6,
+            'date_fin_demande' => $request->date_fin_demande,
             'date_demande' => $request->date_demande,
             'message' => $request->message,
         ]);
@@ -104,6 +105,7 @@ class DemandeMaterielController extends Controller
         if ($demande) {
             $demande->update([
                 'date_demande' => $request->date_demande,
+                'date_fin_demande' => $request->date_fin_demande,
                 'message' => $request->message,
             ]);
             $newMateriels = $request->materielEdit;
@@ -176,11 +178,42 @@ class DemandeMaterielController extends Controller
     {
         $demande = DemandeMateriel::find($request->demande_id);
         if ($demande) {
-            $demande->materiels()->updateExistingPivot($request->materiel_id, ['quantity' => $request->quantity]);
-            return response()->json([
-                'success' => true,
-                'message' => 'Quantité mise à jour'
-            ], 200);
+            $materiel = Materiel::find($request->materiel_id);
+            $demanesHavingMateriel = DemandeMateriel
+                ::whereHas('materiels', function ($query) use ($materiel) {
+                    $query->where('materiels.id', $materiel->id);
+                    $query->where('status', '=', '1');
+                })
+                ->where(function ($query) use ($demande) {
+                    $query->where('date_demande', '<=', $demande->date_fin_demande)
+                        ->orWhere('date_fin_demande', '>=', $demande->date_demande);
+                })
+                ->where('date_fin_demande', '>=', $demande->date_fin_demande)
+                ->where('id', '<>', $demande->id)
+                ->get();
+            $quantity = $materiel->quantity;
+            $qte = 0;
+
+            foreach ($demanesHavingMateriel as $demane) {
+                foreach ($demane->materiels as $materiel) {
+                    if ($materiel->id == $request->materiel_id) {
+                        $qte += $materiel->pivot->quantity;
+                    }
+                }
+            }
+            // return $qte;
+            if ($quantity - $qte >= $request->quantity) {
+                $demande->materiels()->updateExistingPivot($request->materiel_id, ['quantity' => $request->quantity]);
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Quantité mise à jour'
+                ], 200);
+            }else{
+                return response()->json([
+                    'success' => false,
+                    'message' => 'لا يوجد كمية كافية : الكمية الموجودة '.($quantity - $qte)
+                ], 500);
+            }
         } else {
             return response()->json([
                 'success' => false,
@@ -206,7 +239,8 @@ class DemandeMaterielController extends Controller
         }
     }
 
-    public function setStatus($id, $status){
+    public function setStatus($id, $status)
+    {
         $demandeMaterielMateriel = DemandeMaterielMateriel::find($id);
         if ($demandeMaterielMateriel) {
             $demandeMaterielMateriel->update([

@@ -93,11 +93,11 @@ export default {
             msg: "تم تعديل الكمية بنجاح",
           });
         })
-        .catch(() => {
+        .catch((res) => {
           this.getDemandeMateriel({
             show: true,
             type: "red",
-            msg: "حدث خطأ ما",
+            msg: res.response.data?res.response.data.message:"حدث خطأ ما",
           });
         });
     },
