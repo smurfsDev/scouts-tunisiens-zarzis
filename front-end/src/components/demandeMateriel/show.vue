@@ -45,20 +45,72 @@
                   step="1"
                   min="1"
                   :rules="rules"
-                  @keyup.enter="setQte(demande.id,materiel.id,materiel.pivot.quantity)"
+                  @keyup.enter="
+                    setQte(demande.id, materiel.id, materiel.pivot.quantity)
+                  "
                   max="100"
                   style="width: 100px"
                 >
-                <span slot="prepend">
-                  {{ materiel.name }}
-                </span>
+                  <span slot="prepend">
+                    {{ materiel.name }}
+                  </span>
                 </v-text-field>
-                  <v-btn color="success" text @click="setQte(demande.id,materiel.id,materiel.pivot.quantity)" class="m-4 mr-0 ml-1  mr-1">
-                    <v-icon>mdi-check</v-icon>
-                    تحديث
-                  </v-btn>
-                  
-                  <detachMaterialDialog @ok="rem(demande.id,materiel.id)" :id="materiel.name" />
+                <v-btn
+                  color="success"
+                  text
+                  @click="
+                    setQte(demande.id, materiel.id, materiel.pivot.quantity)
+                  "
+                  class="m-4 mr-0 ml-1 mr-1"
+                >
+                  <v-icon>mdi-check</v-icon>
+                  تحديث
+                </v-btn>
+                <detachMaterialDialog
+                  @ok="rem(demande.id, materiel.id)"
+                  :id="materiel.name"
+                />
+                <v-tooltip
+                  bottom
+                  :color="
+                    materiel.pivot.status == 0
+                      ? 'warning'
+                      : materiel.pivot.status == 1
+                      ? 'success'
+                      : 'red'
+                  "
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon
+                      :color="
+                        materiel.pivot.status == 0
+                          ? 'warning'
+                          : materiel.pivot.status == 1
+                          ? 'success'
+                          : 'red'
+                      "
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      {{
+                        materiel.pivot.status == 0
+                          ? "mdi-alert"
+                          : materiel.pivot.status == 1
+                          ? "mdi-check"
+                          : "mdi-close"
+                      }}
+                    </v-icon>
+                  </template>
+                  <span>
+                    {{
+                      materiel.pivot.status == 0
+                        ? "لم يقع الرد"
+                        : materiel.pivot.status == 1
+                        ? "مقبول"
+                        : "غير مقبول"
+                    }}</span
+                  >
+                </v-tooltip>
               </v-row>
               <v-row v-if="demande.materiels.length == 0">
                 <span class="h5"> لا يوجد اثاث </span>
@@ -96,7 +148,7 @@
 </template>
 
 <script>
-import detachMaterialDialog from '@/components/demandeMateriel/detachMaterialDialog.vue'
+import detachMaterialDialog from "@/components/demandeMateriel/detachMaterialDialog.vue";
 import deleteDialog from "@/components/demandeMateriel/deleteDialog.vue";
 export default {
   props: {
@@ -111,19 +163,17 @@ export default {
   },
   data() {
     return {
-      rules: [
-        (v) => !!v || "الكمية مطلوبة و يجب ان تكون رقما",
-      ],
+      rules: [(v) => !!v || "الكمية مطلوبة و يجب ان تكون رقما"],
       tab: null,
       items: ["المعلومات الاساسية", "الاثاث المطلوب"],
     };
   },
   methods: {
     setQte(id, materiel_id, qte) {
-     this.$emit('setQte',id,materiel_id,qte);
+      this.$emit("setQte", id, materiel_id, qte);
     },
     rem(id, materiel_id) {
-      this.$emit('rem',id,materiel_id);
+      this.$emit("rem", id, materiel_id);
     },
   },
   watch: {
