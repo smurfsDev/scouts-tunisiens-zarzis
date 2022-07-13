@@ -21,6 +21,7 @@ class Materiel extends JsonResource
             'description' => $this->description,
             'quantity' => $this->quantity,
             'responsable_id' => $this->responsable_id,
+            'pivot' => $this->pivot,
             'categories' => CategorieMateriel::collection($this->categorieMateriel),
         ];
     }
