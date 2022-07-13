@@ -32,6 +32,63 @@
                   class="mt-3"
                 ></v-text-field>
               </v-col>
+              <v-col>
+                <v-combobox
+                  prepend-icon="mdi-tag"
+                  v-model="model"
+                  :filter="filter"
+                  :hide-no-data="!search"
+                  :items="visible_items"
+                  :search-input.sync="search"
+                  hide-selected
+                  label="البحث عن فئة"
+                  multiple
+                  small-chips
+                  solo
+                >
+                  <template v-slot:no-data>
+                    <v-list-item>
+                          <v-icon color="grey">mdi-magnify</v-icon>
+                          <span class="subtitle-2 text-right">
+                            لا يوجد نتائج للبحث
+                          </span>
+                    </v-list-item>
+                  </template>
+                  <template
+                    v-slot:selection="{ attrs, item, parent, selected }"
+                  >
+                    <v-chip
+                      v-if="item === Object(item)"
+                      v-bind="attrs"
+                      :color="`${item.color} lighten-3`"
+                      :input-value="selected"
+                      label
+                      small
+                    >
+                      <span class="pr-2">
+                        {{ item.text }}
+                      </span>
+                      <v-icon small @click="parent.selectItem(item)">
+                        $delete
+                      </v-icon>
+                    </v-chip>
+                  </template>
+                  <template v-slot:item="{ index, item }">
+                    <v-chip
+                      :color="`${item.color} lighten-3`"
+                      dark
+                      label
+                      small
+                    >
+                      {{ item.text }}
+                    </v-chip>
+                    <span class="caption">
+                      {{ `(${item.responsable})` }}
+                    </span>
+                    <v-spacer></v-spacer>
+                  </template>
+                </v-combobox>
+              </v-col>
             </v-row>
           </v-container>
         </v-card-text>
@@ -45,11 +102,7 @@
   </v-row>
 </template>
 <script>
-import {
-  required,
-  minLength,
-  maxLength,
-} from "vuelidate/lib/validators";
+import { required, minLength, maxLength } from "vuelidate/lib/validators";
 const dateValidator = (date) => {
   return new Date(date).setHours(0, 0, 0, 0) >= new Date().setHours(0, 0, 0, 0);
 };
@@ -63,7 +116,7 @@ export default {
       },
       date_demande: {
         required,
-        dateValidator
+        dateValidator,
       },
     },
   },
@@ -82,20 +135,34 @@ export default {
     },
   },
   created() {
+    this.getMaterials();
   },
   data: () => ({
     form: {
       message: "",
       date_demande: null,
     },
-
+    activator: null,
+    attach: null,
+    colors: ["green", "purple", "indigo", "cyan", "teal", "orange"],
+    editing: null,
+    editingIndex: -1,
+    items: [],
+    visible_items: [],
+    nonce: 1,
+    menu: false,
+    model: [],
+    x: 0,
+    search: null,
+    y: 0,
   }),
   methods: {
     reset() {
       this.form = {
         message: "",
-        date_demande:null,
+        date_demande: null,
       };
+
       this.$emit("close");
     },
     add() {
@@ -103,7 +170,7 @@ export default {
       if (this.$v.$invalid) {
         return;
       }
-      this.form.categories = this.model;
+      this.form.materielEdit = this.model;
       if (this.editm == false) {
         this.$axios
           .post("/demande-materiel/", this.form)
@@ -130,7 +197,7 @@ export default {
             this.$emit("success", {
               show: true,
               type: "success",
-              msg: "تمت تعديل الاثاث بنجاح",
+              msg: "تمت تعديل الطلب بنجاح",
             });
             this.reset();
           })
@@ -144,13 +211,31 @@ export default {
           });
       }
     },
+    filter(item, queryText, itemText) {
+      if (item.header) return false;
+
+      const hasValue = (val) => (val != null ? val : "");
+
+      const text = hasValue(itemText);
+      const query = hasValue(queryText);
+
+      return (
+        text.toString().toLowerCase().indexOf(query.toString().toLowerCase()) >
+        -1
+      );
+    },
+    getMaterials() {
+      this.$axios.get("/all-materiel").then((response) => {
+        this.items = response.data;
+        this.visible_items = response.data;
+      });
+    },
   },
   computed: {
     messageError() {
       const errors = [];
       if (!this.$v.form.message.$dirty) return errors;
-      !this.$v.form.message.required &&
-        errors.push("الرجاء ادخال الرسالة");
+      !this.$v.form.message.required && errors.push("الرجاء ادخال الرسالة");
       !this.$v.form.message.minLength &&
         errors.push("الرجاء ادخال الرسالة بحد اقل 3 حروف");
       !this.$v.form.message.maxLength &&
@@ -176,6 +261,15 @@ export default {
             message: "",
             date_demande: "",
           };
+      this.model = this.demandeMateriel
+        ? Object.assign([], this.demandeMateriel.materielEdit)
+        : [];
+    },
+    model(val, prev) {
+      if (val.length === prev.length) return;
+      this.visible_items = this.model.length!=0?this.items.filter((item) => {
+        return this.model[0].responsable_id == item.responsable_id;
+      }):this.items;
     },
   },
 };
