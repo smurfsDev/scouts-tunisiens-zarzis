@@ -1,6 +1,12 @@
 <template>
   <div>
-    <Form :editm="editm" :demandeMateriel="demande" :dialog="dialog" @close="close" @success="getDemandeMateriel"></Form>
+    <Form
+      :editm="editm"
+      :demandeMateriel="demande"
+      :dialog="dialog"
+      @close="close"
+      @success="getDemandeMateriel"
+    ></Form>
     <v-btn color="success" class="m-4 mr-0" large @click="dialog = true">
       <v-icon>mdi-plus</v-icon>
       اضافة
@@ -8,7 +14,15 @@
     <v-alert :value="alert.show" dismissible :type="alert.type">{{
       alert.msg
     }}</v-alert>
-    <show :demandes="demandes" @setQte="setQte" @rem="rem" @edit="edit" @deleteItem="deleteItem" ></show>
+    <show
+      :demandes="demandes"
+      @setQte="setQte"
+      @rem="rem"
+      @edit="edit"
+      @deleteItem="deleteItem"
+      :pagination_meta="pagination_meta"
+      @getDemandeMateriel="getDemandeMateriel"
+    ></show>
   </div>
 </template>
 
@@ -33,22 +47,32 @@ export default {
       },
       demandes: [],
       demande: {},
-      editm:false
+      pagination_meta: {
+        current: 1,
+        total: 0,
+      },
+      editm: false,
     };
   },
   methods: {
-    getDemandeMateriel(alert = { show: false, type: null, msg: null }) {
+    getDemandeMateriel(alert = {},pagination=5) {
       this.$axios
-        .get("/sent-demande-materiel")
+        .get("/sent-demande-materiel?page=" + this.pagination_meta.current, {
+          params:{pagination: pagination,}
+        })
         .then((response) => {
           this.demandes = response.data.data;
+          this.pagination_meta.current = response.data.pagination.current_page;
+          this.pagination_meta.total = response.data.pagination.last_page;
         })
         .catch()
         .finally(() => {
-          this.alert = alert;
-          setTimeout(() => {
-            this.alert.show = false;
-          }, 5000);
+          if ('type' in alert) {
+            this.alert = alert;
+            setTimeout(() => {
+              this.alert.show = false;
+            }, 5000);
+          }
         });
     },
     close() {
@@ -74,7 +98,7 @@ export default {
           });
         });
     },
-    edit(item){
+    edit(item) {
       this.dialog = true;
       this.editm = true;
       this.demande = item;
@@ -82,7 +106,7 @@ export default {
     setQte(id, materiel_id, qte) {
       this.$axios
         .put("/demande-materiel-qte", {
-          demande_id:id,
+          demande_id: id,
           quantity: qte,
           materiel_id: materiel_id,
         })
@@ -97,7 +121,7 @@ export default {
           this.getDemandeMateriel({
             show: true,
             type: "red",
-            msg: res.response.data?res.response.data.message:"حدث خطأ ما",
+            msg: res.response.data ? res.response.data.message : "حدث خطأ ما",
           });
         });
     },

@@ -38,7 +38,7 @@ class DemandeMaterielController extends Controller
     {
         $demandes = DemandeMateriel::where('user_id', $request->user()->id)
             ->orderBy('created_at', 'DESC')->with('materiels')
-            ->paginate($request->paginate ? $request->paginate : 5);
+            ->paginate($request->pagination ? $request->pagination : 5);
         if ($demandes->count() > 0) {
             return response()->json(
                 new demandeMaterielCollection($demandes),

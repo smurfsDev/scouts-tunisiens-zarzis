@@ -144,6 +144,17 @@
         <v-btn color="teal accent-4"> طلب جديد </v-btn>
       </v-card-actions>
     </v-card>
+    <v-pagination
+      v-model="pagination_meta.current"
+      :length="pagination_meta.total"
+      @input="$emit('getDemandeMateriel',{},pagination)"
+    ></v-pagination>
+    <v-select
+      v-model="pagination"
+      :items="[5,10,15,30,50,100]"
+      label="عدد الصفوف"
+      @input="$emit('getDemandeMateriel',{},pagination)"
+    ></v-select>
   </div>
 </template>
 
@@ -156,6 +167,15 @@ export default {
       type: Array,
       default: () => [],
     },
+    pagination_meta: {
+      type: Object,
+      default: () => {
+        return {
+          current: 1,
+          total: 0,
+        };
+      },
+    },
   },
   components: {
     deleteDialog,
@@ -166,6 +186,7 @@ export default {
       rules: [(v) => !!v || "الكمية مطلوبة و يجب ان تكون رقما"],
       tab: null,
       items: ["المعلومات الاساسية", "الاثاث المطلوب"],
+      pagination: 5,
     };
   },
   methods: {
