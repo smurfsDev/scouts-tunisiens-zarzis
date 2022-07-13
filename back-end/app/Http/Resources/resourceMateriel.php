@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Materiel extends JsonResource
+class resourceMateriel extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,15 +14,14 @@ class Materiel extends JsonResource
      */
     public function toArray($request)
     {
+        $colors =  ["green", "purple", "indigo", "cyan", "teal", "orange"];
 
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'description' => $this->description,
-            'quantity' => $this->quantity,
+            'text' => $this->name,
             'responsable_id' => $this->responsable_id,
-            'pivot' => $this->pivot,
-            'categories' => CategorieMateriel::collection($this->categorieMateriel),
+            'responsable' => $this->responsable->first_name . ' ' . $this->responsable->last_name,
+            'color' => $colors[array_rand($colors)],
         ];
     }
 }
