@@ -17,13 +17,14 @@ class DemandeMaterielController extends Controller
     {
         $id = $request->user()->id;
         $demandes = DemandeMateriel::with('materiels')
+            ->with('user')
             ->where('user_id', 5)
             ->whereHas('materiels', function ($query) use ($id) {
-                $query->where('responsable_id', 9);
+                $query->where('responsable_id', $id);
             })
             ->get();
         if ($demandes) {
-            return response()->json(['success' => true, 'demandes' => $demandes], 200);
+            return response()->json($demandes, 200);
         } else {
             return response()->json(['success' => false, 'message' => 'Aucune demande trouvée'], 404);
         }
