@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\demandeMaterielCollection;
 use App\Http\Resources\demandeMaterielRessource;
 use App\Models\DemandeMateriel;
 use App\Models\DemandeMaterielMateriel;
@@ -19,14 +20,15 @@ class DemandeMaterielController extends Controller
     {
         $id = $request->user()->id;
         $demandes = DemandeMateriel::with('materiels')
+            ->orderBy('created_at', 'DESC')
             ->with('user')
             ->where('user_id', 5)
             ->whereHas('materiels', function ($query) use ($id) {
                 $query->where('responsable_id', $id);
             })
-            ->get();
+            ->paginate($request->paginate ? $request->paginate : 5);
         if ($demandes) {
-            return response()->json($demandes, 200);
+            return response()->json(new demandeMaterielCollection($demandes), 200);
         } else {
             return response()->json(['success' => false, 'message' => 'Aucune demande trouvée'], 404);
         }
@@ -34,10 +36,12 @@ class DemandeMaterielController extends Controller
 
     public function sentDemandes(Request $request)
     {
-        $demandes = DemandeMateriel::where('user_id', $request->user()->id)->with('materiels')->get();
+        $demandes = DemandeMateriel::where('user_id', $request->user()->id)
+            ->orderBy('created_at', 'DESC')->with('materiels')
+            ->paginate($request->paginate ? $request->paginate : 5);
         if ($demandes->count() > 0) {
             return response()->json(
-                demandeMaterielRessource::collection($demandes),
+                new demandeMaterielCollection($demandes),
                 200
             );
         } else {
@@ -208,10 +212,10 @@ class DemandeMaterielController extends Controller
                     'success' => true,
                     'message' => 'Quantité mise à jour'
                 ], 200);
-            }else{
+            } else {
                 return response()->json([
                     'success' => false,
-                    'message' => 'لا يوجد كمية كافية : الكمية الموجودة '.($quantity - $qte)
+                    'message' => 'لا يوجد كمية كافية : الكمية الموجودة ' . ($quantity - $qte)
                 ], 500);
             }
         } else {

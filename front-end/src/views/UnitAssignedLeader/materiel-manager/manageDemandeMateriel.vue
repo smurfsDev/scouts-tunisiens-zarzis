@@ -32,7 +32,7 @@ export default {
       this.$axios
         .get("/demande-materiel")
         .then((response) => {
-          this.demandes = response.data;
+          this.demandes = response.data.data;
         })
         .catch()
         .finally(() => {

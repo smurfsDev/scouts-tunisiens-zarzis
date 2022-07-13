@@ -29,6 +29,11 @@
                 <span class="h6">تاريخ الطلب :</span>
                 {{ demande.date_demande }}
               </v-row>
+              <v-row>
+                <span class="h6">تاريخ الارجاع :</span>
+                {{ demande.date_fin_demande }}
+              </v-row>
+
             </v-container>
           </v-tab-item>
           <v-tab-item>
