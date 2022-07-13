@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\demandeMaterielRessource;
 use App\Models\DemandeMateriel;
+use App\Models\DemandeMaterielMateriel;
 use Illuminate\Http\Request;
 
 class DemandeMaterielController extends Controller
@@ -201,6 +202,24 @@ class DemandeMaterielController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Erreur lors de la retrait du materiel'
+            ], 500);
+        }
+    }
+
+    public function setStatus($id, $status){
+        $demandeMaterielMateriel = DemandeMaterielMateriel::find($id);
+        if ($demandeMaterielMateriel) {
+            $demandeMaterielMateriel->update([
+                'status' => $status,
+            ]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Statut mis à jour'
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erreur lors de la mise à jour du statut'
             ], 500);
         }
     }
