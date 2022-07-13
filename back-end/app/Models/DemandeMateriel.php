@@ -12,16 +12,12 @@ class DemandeMateriel extends Model
     protected $fillable = [
         'message',
         'date_demande',
+        'date_fin_demande',
         'user_id',
         'responsable_id',
     ];
 
     public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function responsable()
     {
         return $this->belongsTo(User::class);
     }

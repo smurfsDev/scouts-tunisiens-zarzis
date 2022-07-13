@@ -20,8 +20,8 @@ class DemandeMaterielFactory extends Factory
         return [
             "message" => $this->faker->text,
             "date_demande" => $this->faker->dateTimeBetween('-1 years', 'now'),
+            "date_fin_demande" => $this->faker->dateTimeBetween('-1 years', 'now'),
             "user_id" => User::all()->random()->id,
-            "responsable_id" => User::all()->random()->id,
         ];
     }
 }

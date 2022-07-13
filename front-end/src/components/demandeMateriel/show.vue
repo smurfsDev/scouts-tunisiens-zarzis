@@ -14,14 +14,6 @@
           <v-tab-item>
             <v-container p-4>
               <v-row>
-                <span class="h6">المرسل :</span>
-                {{
-                  demande.responsable.first_name +
-                  " " +
-                  demande.responsable.last_name
-                }}
-              </v-row>
-              <v-row>
                 <span class="h6">الرسالة :</span>
                 {{ demande.message }}
               </v-row>
@@ -32,6 +24,10 @@
               <v-row>
                 <span class="h6">تاريخ الطلب :</span>
                 {{ demande.date_demande }}
+              </v-row>
+              <v-row>
+                <span class="h6">تاريخ الارجاع :</span>
+                {{ demande.date_fin_demande }}
               </v-row>
             </v-container>
           </v-tab-item>

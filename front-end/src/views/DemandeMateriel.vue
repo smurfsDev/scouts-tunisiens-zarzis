@@ -32,7 +32,7 @@ export default {
         msg: null,
       },
       demandes: [],
-      demande:null,
+      demande: {},
       editm:false
     };
   },

@@ -20,6 +20,7 @@ class demandeMaterielRessource extends JsonResource
             'responsable_id' => $this->responsable_id,
             'responsable' => $this->responsable,
             'date_demande' => $this->date_demande,
+            'date_fin_demande' => $this->date_fin_demande,
             'message' => $this->message,
             'materiels' => Materiel::collection($this->materiels),
             'materielEdit' => resourceMateriel::collection($this->materiels),

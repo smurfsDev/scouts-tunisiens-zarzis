@@ -32,6 +32,18 @@
                   class="mt-3"
                 ></v-text-field>
               </v-col>
+              <v-col cols="12" sm="12" md="12" lg="12" xl="12">
+                <v-text-field
+                  type="date"
+                  prepend-icon="mdi-calendar"
+                  v-model="form.date_fin_demande"
+                  :error-messages="date_fin_demandeError"
+                  label="تاريخ الارجاع"
+                  required
+                  outlined
+                  class="mt-3"
+                ></v-text-field>
+              </v-col>
               <v-col>
                 <v-combobox
                   prepend-icon="mdi-tag"
@@ -118,6 +130,13 @@ export default {
         required,
         dateValidator,
       },
+      date_fin_demande: {
+        required,
+        dateValidator,
+        minValue(val,{date_demande}){
+          return new Date(val).setHours(0, 0, 0, 0) >= new Date(date_demande).setHours(0, 0, 0, 0);
+        }
+      }
     },
   },
   props: {
@@ -161,6 +180,7 @@ export default {
       this.form = {
         message: "",
         date_demande: null,
+        date_fin_demande: null,
       };
 
       this.$emit("close");
@@ -249,6 +269,17 @@ export default {
         errors.push("الرجاء ادخال تاريخ الطلب");
       !this.$v.form.date_demande.dateValidator &&
         errors.push("تاريخ الطلب لا يمكن ان يكون في الماضي");
+      return errors;
+    },
+    date_fin_demandeError() {
+      const errors = [];
+      if (!this.$v.form.date_fin_demande.$dirty) return errors;
+      !this.$v.form.date_fin_demande.required &&
+        errors.push("الرجاء ادخال تاريخ الارجاع");
+      !this.$v.form.date_fin_demande.dateValidator &&
+        errors.push("تاريخ الارجاع لا يمكن ان يكون في الماضي");
+      !this.$v.form.date_fin_demande.minValue &&
+        errors.push("تاريخ الارجاع لا يمكن ان يكون قبل تاريخ الطلب");
       return errors;
     },
   },

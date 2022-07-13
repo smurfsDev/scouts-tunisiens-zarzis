@@ -17,10 +17,9 @@ return new class extends Migration
             $table->id();
             $table->longText('message');
             $table->date('date_demande');
+            $table->date('date_fin_demande');
             $table->foreignId('user_id');
-            $table->foreignId('responsable_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('responsable_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
