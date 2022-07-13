@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\demandeMaterielRessource;
 use App\Models\DemandeMateriel;
 use Illuminate\Http\Request;
 
@@ -22,7 +23,7 @@ class DemandeMaterielController extends Controller
         $demandes = DemandeMateriel::where('user_id', $request->user()->id)->with('responsable','materiels')->get();
         if ($demandes->count() > 0) {
             return response()->json(
-                $demandes,
+                demandeMaterielRessource::collection($demandes),
                 200
             );
         } else {
