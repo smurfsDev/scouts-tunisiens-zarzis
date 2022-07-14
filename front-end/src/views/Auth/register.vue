@@ -168,7 +168,8 @@
           class="form-group"
           v-if="
             roles.length != 0 &&
-            roles[formData.role ? formData.role - 2 : 0].ename == 'Unit Assigned Leader'
+            roles[formData.role ? formData.role - 2 : 0].ename ==
+              'Unit Assigned Leader'
           "
         >
           <label for="responsability">المسؤولية</label>
@@ -216,11 +217,14 @@
               v-for="troupe in troupes"
               :key="troupe.id"
               v-show="
-                (age >= troupe.min_age && age <= troupe.max_age) ||
+                (age >= troupe.min_age &&
+                  age <= troupe.max_age &&
+                  formData.sexe == troupe.gender) ||
                 (roles[formData.role ? formData.role - 2 : 0].name !=
                   'قيادة الفوج' &&
                   roles[formData.role ? formData.role - 2 : 0].name != 'ولي' &&
-                  formData.sexe == troupe.gender)
+                  formData.sexe == troupe.gender &&
+                  roles[formData.role ? formData.role - 2 : 0].name != 'فرد')
               "
               :value="troupe.id"
             >
@@ -233,7 +237,6 @@
             </div>
           </div>
         </div>
-        
       </tab-content>
       <tab-content title="الاتصال">
         <div class="form-group">
@@ -395,7 +398,7 @@ export default {
       troupes: {},
       uniqueCin: false,
       uniqueEmail: false,
-      responsablities:[],
+      responsablities: [],
       formData: {
         first_name: "",
         last_name: "",
@@ -408,7 +411,7 @@ export default {
         troupe: null,
         sexe: null,
         image: null,
-        responsability:null,
+        responsability: null,
       },
       validationRules: [
         {
@@ -427,7 +430,7 @@ export default {
           role: {
             required,
           },
-          responsability:{
+          responsability: {
             required: requiredIf(function () {
               let index =
                 this.formData.role !== null ? this.formData.role - 2 : 0;
@@ -435,8 +438,7 @@ export default {
                 ? this.roles[index].ename == "Unit Assigned Leader"
                 : false;
             }),
-          }
-          ,
+          },
           troupe: {
             required: requiredIf(function () {
               let index =
@@ -519,7 +521,7 @@ export default {
     this.$axios.get("/troupes").then((response) => {
       this.troupes = response.data;
     });
-    this.$axios.get('/responsablities').then((response) => {
+    this.$axios.get("/responsablities").then((response) => {
       this.responsablities = response.data;
     });
   },
