@@ -94,10 +94,11 @@ const getters = {
       }
     });
     return isLeader;
-  }
-  ,
+  },
   status: (state) => state.status,
-  responsability: (state) => state.responsability
+  responsability: (state) => state.responsability,
+  isMonetary: (state) => state.responsability == "money-manager",
+  isMaterielManager: (state) => state.responsability == "materiel-manager"
 };
 const mutations = {
   setLoggedIn(state, payload) {
