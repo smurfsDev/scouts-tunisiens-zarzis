@@ -63,6 +63,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('/demande-materiel-qte', [DemandeMaterielController::class, 'setQuantity']);
     Route::delete('/demande-materiel-mat/{id}/{idmte}', [DemandeMaterielController::class, 'detachMateriel']);
     Route::put('/demande-materiel-status/{id}/{status}', [DemandeMaterielController::class, 'setStatus']);
+    Route::group(['prefix' => '/troupes'], function () {
+        Route::post('', [TroupeController::class, 'store']);
+        Route::put('/{id}', [TroupeController::class, 'update']);
+        Route::delete('/{id}', [TroupeController::class, 'destroy']);
+    });
 });
 
 Route::post('/login', [AuthenticationController::class, 'login']);
@@ -81,7 +86,7 @@ Route::group(['prefix' => '/responsablities'], function () {
     Route::get('/', [ResponsabilityController::class, 'index']);
 });
 
-Route::get('all-materiel',[MaterielController::class, 'all']);
+Route::get('all-materiel', [MaterielController::class, 'all']);
 Route::post('forgot-password',  ForgotPasswordController::class);
 Route::post('password/code/check', CodeCheckController::class);
 Route::post('password/reset', ResetPasswordController::class);
@@ -89,6 +94,6 @@ Route::post('password/reset', ResetPasswordController::class);
 Route::get('email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify'); // Make sure to keep this as your route name
 Route::get('email/resend/{email}', [VerificationController::class, 'resend'])->name('verification.resend');
 
-Route::get('catmat',[CategorieMaterielController::class, 'test']);
+Route::get('catmat', [CategorieMaterielController::class, 'test']);
 
 Route::apiResource('categorie-materiel', CategorieMaterielController::class);
