@@ -14,6 +14,7 @@ import ForgotPassword from "./routes/auth/resetPassword/forgot-password";
 import ManageMateriel from "./routes/UnitAssignedLeader/materiel-manager/manageMateriel";
 import manageDemandeMateriel from "./routes/UnitAssignedLeader/materiel-manager/manageDemandeMateriel";
 import DemandeMateriel from "./routes/DemandeMateriel";
+import manageTroops from "./routes/Admin/manageTroops";
 import profile from "./routes/auth/profile";
 Vue.use(VueRouter);
 
@@ -46,6 +47,8 @@ const routes = [
   ...ManageMateriel,
   ...DemandeMateriel,
   ...manageDemandeMateriel,
+  ...manageTroops,
+
   
 ];
 
