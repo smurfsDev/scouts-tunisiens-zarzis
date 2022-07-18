@@ -9,7 +9,7 @@
         <div class="align-center">
           <deleteDialog :id="item.id" @ok="$emit('delete',item.id)"></deleteDialog>
           <v-btn
-            @click="$emit('update',item.id)"
+            @click="$emit('update',item)"
             class="mx-1"
             :disabled="item.status == 1"
             x-small
