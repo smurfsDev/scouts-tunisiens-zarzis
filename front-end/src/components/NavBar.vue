@@ -286,7 +286,14 @@ export default {
     group() {
       this.drawer = false;
     },
-    
+    mini() {
+      if (this.mini) {
+        // margin right id=main = 250
+        document.getElementById("main").style.marginRight = "0px";
+      } else {
+        document.getElementById("main").style.marginRight = "256px";
+      }
+    },
   },
 };
 </script>
