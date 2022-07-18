@@ -108,11 +108,12 @@
       <v-list nav dense>
         <v-list-item>
           <v-list-item-avatar>
-
-        <v-btn  @click.stop="mini = !mini" icon>
-          <v-icon dark>{{ !mini ? "mdi-chevron-right" : "mdi-chevron-left" }}</v-icon>
-        </v-btn>
-        </v-list-item-avatar>
+            <v-btn @click.stop="mini = !mini" icon>
+              <v-icon dark>{{
+                !mini ? "mdi-chevron-right" : "mdi-chevron-left"
+              }}</v-icon>
+            </v-btn>
+          </v-list-item-avatar>
         </v-list-item>
         <v-list-item
           v-if="$store.getters.isLoggedIn && $store.getters.status != false"
@@ -133,7 +134,6 @@
               }}
             </router-link>
           </v-list-item-title>
-          
         </v-list-item>
         <v-list-item
           v-if="$store.getters.isLoggedIn && $store.getters.status == false"
@@ -161,7 +161,6 @@
               <span>حسابك غير مفعل</span>
             </v-tooltip>
           </v-list-item-title>
-          
         </v-list-item>
         <v-list-item v-if="!$store.getters.isLoggedIn">
           <v-list-item-avatar>
@@ -185,13 +184,9 @@
             </v-menu>
           </v-list-item-avatar>
           <v-list-item-title> </v-list-item-title>
-          
         </v-list-item>
         <v-divider></v-divider>
-        <v-list-item-group
-          v-model="group"
-          active-class="deep-purple--text text--accent-4"
-        >
+        <v-list-item-group active-class="deep-purple--text text--accent-4">
           <v-list-item
             v-show="$store.getters[item.access]"
             v-for="item in items"
@@ -240,11 +235,17 @@ export default {
     mini: true,
     show: true,
     items: [
-      { icon: "mdi-home", title: "الرئيسية", link: `/` },
+      { icon: "mdi-home", title: "الرئيسية", link: `/`,access: "isLoggedIn", },
       {
         icon: "mdi-account-cog",
         title: "manage leaders",
         link: "manageLeaders",
+        access: "isSuperAdmin",
+      },
+      {
+        icon: "mdi-account-group",
+        title: "manage troops",
+        link: "manageTroops",
         access: "isSuperAdmin",
       },
       {
@@ -284,6 +285,14 @@ export default {
   watch: {
     group() {
       this.drawer = false;
+    },
+    mini() {
+      if (this.mini) {
+        // margin right id=main = 250
+        document.getElementById("main").style.marginRight = "0px";
+      } else {
+        document.getElementById("main").style.marginRight = "256px";
+      }
     },
   },
 };

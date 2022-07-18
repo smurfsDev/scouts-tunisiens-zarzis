@@ -13,6 +13,7 @@ class Troupe extends Model
         'name',
         'description',
         'gender',
-        'age_range',
+        'min_age',
+        'max_age'
     ];
 }
