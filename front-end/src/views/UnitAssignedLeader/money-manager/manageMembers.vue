@@ -7,6 +7,7 @@
       show-expand
       :single-expand="true"
       :expanded.sync="expanded"
+      show-group-by
       item-key="id"
       class="elevation-1"
     >
@@ -168,14 +169,17 @@ export default {
       return [
         {
           text: "الاسم",
+          groupable: false,
           value: "user.first_name",
         },
         {
           text: "اللقب",
+          groupable: false,
           value: "user.last_name",
         },
         {
           text: "المهمة",
+          groupable: false,
           value: "role.name",
         },
         {
@@ -187,6 +191,7 @@ export default {
           text: "الصورة",
           value: "user.image",
           sortable: false,
+          groupable: false,
           align: "center",
           class: "img-responsive",
         },
@@ -195,7 +200,7 @@ export default {
           value: "actions",
           sortable: false,
         },
-        { text: "", value: "data-table-expand" },
+        { text: "", value: "data-table-expand", sortable: false,groupable: false, },
       ];
     },
   },

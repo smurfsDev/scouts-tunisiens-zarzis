@@ -8,6 +8,7 @@
       :single-expand="true"
       :expanded.sync="expanded"
       item-key="id"
+      show-group-by
       class="elevation-1"
     >
       <template v-slot:[`item.user.image`]="{ item }">
@@ -157,14 +158,20 @@ export default {
         {
           text: "الاسم",
           value: "user.first_name",
+          groupable: false,
+
         },
         {
           text: "اللقب",
           value: "user.last_name",
+          groupable: false,
+
         },
         {
           text: "المهمة",
           value: "role.name",
+          groupable: false,
+
         },
         {
           text: "الفرقة",
@@ -176,14 +183,20 @@ export default {
           value: "user.image",
           sortable: false,
           align: "center",
+          groupable: false,
+
           class: "img-responsive",
         },
         {
           text: "اجرائات",
           value: "actions",
+          groupable: false,
+
           sortable: false,
         },
-        { text: "", value: "data-table-expand" },
+        { text: "", value: "data-table-expand" ,
+          groupable: false,
+        },
       ];
     },
   },
