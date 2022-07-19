@@ -8,6 +8,7 @@
       :expanded.sync="expanded"
       item-key="id"
       class="elevation-1"
+      show-group-by
     >
       <template v-slot:[`item.user.image`]="{ item }">
         <v-avatar size="64">
@@ -18,7 +19,13 @@
         <td>{{ item.troupe ? item.troupe.name : "فوج" }}</td>
       </template>
       <template v-slot:[`item.role.name`]="{ item }">
-        <td>{{ item.role.name!=="معين قائد وحدة" ? item.role.name : item.role.name+"("+item.responsability[0].name+")"}}</td>
+        <td>
+          {{
+            item.role.name !== "معين قائد وحدة"
+              ? item.role.name
+              : item.role.name + "(" + item.responsability[0].name + ")"
+          }}
+        </td>
       </template>
       <template v-slot:expanded-item="{ item }">
         <td>
@@ -108,6 +115,13 @@ export default {
         .get("/leaders")
         .then((response) => {
           this.leaders = response.data;
+          this.leaders.forEach((leader) => {
+            if (leader.troupe == null) {
+              leader.troupe = {
+                name: "فوج",
+              };
+            }
+          });
         })
         .catch((error) => {
           console.log(error);
@@ -159,10 +173,12 @@ export default {
         {
           text: "الاسم",
           value: "user.first_name",
+          groupable: false,
         },
         {
           text: "اللقب",
           value: "user.last_name",
+          groupable: false,
         },
         {
           text: "المهمة",
@@ -176,6 +192,7 @@ export default {
         {
           text: "الصورة",
           value: "user.image",
+          groupable: false,
           sortable: false,
           align: "center",
           class: "img-responsive",
@@ -183,9 +200,13 @@ export default {
         {
           text: "اجرائات",
           value: "actions",
+          groupable: false,
           sortable: false,
         },
-        { text: "", value: "data-table-expand" },
+        { text: "", value: "data-table-expand", 
+          groupable: false,
+        
+        },
       ];
     },
   },
