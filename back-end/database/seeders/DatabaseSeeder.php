@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use Illuminate\Database\Seeder;
+use Database\Seeders\EventSeeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,5 +27,6 @@ class DatabaseSeeder extends Seeder
         $this->call(MaterielSeeder::class);
         $this->call(CategorieMaterielSeeder::class);
         $this->call(DemandeMaterielSeeder::class);
+        $this->call(EventSeeder::class);
     }
 }
