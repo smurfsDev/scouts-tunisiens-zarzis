@@ -1,23 +1,24 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthenticationController;
-use App\Http\Controllers\Auth\resetPassword\CodeCheckController;
-use App\Http\Controllers\Auth\resetPassword\ForgotPasswordController;
-use App\Http\Controllers\Auth\resetPassword\ResetPasswordController;
-use App\Http\Controllers\LeaderController;
-use App\Http\Controllers\MembersController;
-use App\Http\Controllers\RoleController;
+use Illuminate\Http\Request;
 use App\Http\Controllers\test;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\LeaderController;
 use App\Http\Controllers\TroupeController;
-use App\Http\Controllers\Auth\VerificationController;
-use App\Http\Controllers\CategorieMaterielController;
-use App\Http\Controllers\DemandeMaterielController;
+use App\Http\Controllers\MembersController;
 use App\Http\Controllers\MaterielController;
-use App\Http\Controllers\ResponsabilityController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UpdateProfileController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ResponsabilityController;
+use App\Http\Controllers\DemandeMaterielController;
+use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\CategorieMaterielController;
+use App\Http\Controllers\Auth\AuthenticationController;
+use App\Http\Controllers\Auth\resetPassword\CodeCheckController;
+use App\Http\Controllers\Auth\resetPassword\ResetPasswordController;
+use App\Http\Controllers\Auth\resetPassword\ForgotPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,6 +68,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('', [TroupeController::class, 'store']);
         Route::put('/{id}', [TroupeController::class, 'update']);
         Route::delete('/{id}', [TroupeController::class, 'destroy']);
+    });
+    Route::group(['prefix' => '/events'], function () {
+        Route::get('/all', [EventController::class, 'all']);
+        Route::post('/create', [EventController::class, 'store']);
     });
 });
 

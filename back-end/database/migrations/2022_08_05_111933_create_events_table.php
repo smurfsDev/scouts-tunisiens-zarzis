@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignId('troupe_id');
             $table->foreign('troupe_id')->references('id')->on('troupes');
             $table->integer('type');
+            $table->integer('status');
             $table->timestamps();
         });
     }

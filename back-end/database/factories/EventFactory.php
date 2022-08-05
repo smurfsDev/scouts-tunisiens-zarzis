@@ -23,6 +23,7 @@ class EventFactory extends Factory
             "date_fin" => $this->faker->dateTimeBetween('now', '+3 days'),
             "troupe_id" => Troupe::get('id')->random(),
             "type" => rand(0,1),
+            "status" => 0
         ];
     }
 }

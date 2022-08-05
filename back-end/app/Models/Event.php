@@ -13,6 +13,7 @@ class Event extends Model
         'date_debut',
         'date_fin',
         'troupe_id',
-        'type'
+        'type',
+        'status'
     ];
 }
