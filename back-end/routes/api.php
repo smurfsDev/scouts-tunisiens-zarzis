@@ -72,6 +72,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::group(['prefix' => '/events'], function () {
         Route::get('/all', [EventController::class, 'all']);
         Route::post('/create', [EventController::class, 'store']);
+        Route::put('/update/{id}', [EventController::class, 'update']);
+        Route::delete('/delete/{id}', [EventController::class, 'destroy']);
     });
 });
 

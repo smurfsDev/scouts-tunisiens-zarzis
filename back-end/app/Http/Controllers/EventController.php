@@ -38,5 +38,32 @@ class EventController extends Controller
                 'message' => 'خطأ في إرسال الطلب'
             ], 500);
         }
-    } 
+    }
+    
+    public function update (Request $request, $id){
+        $event = Event::find($id);
+        if (!$event) {
+            return response()->json([
+                "message" => "تظاهرة غير موجودة"
+            ], 404);
+        }
+      
+        $event->name = $request->input('name');
+        $event->date_debut = $request->input("date_debut");
+        $event->date_debut = $request->input("date_debut");
+        $event->type = $request->input("type");
+        $event->save(); 
+        return response()->json(["data" => $event], 200);
+    }
+
+    public function destroy($id){
+        $event = Event::find($id);
+        if (!$event) {
+            return response()->json([
+                'message' => 'تظاهرة غير موجودة'
+            ], 404);
+        }
+        $event->delete();
+        return response()->json(['message' => 'لقد تم حذف التظاهرة'], 200);
+    }
 }
