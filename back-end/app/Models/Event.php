@@ -14,6 +14,7 @@ class Event extends Model
         'date_fin',
         'troupe_id',
         'type',
-        'status'
+        'status',
+        'organisateur_id'
     ];
 }

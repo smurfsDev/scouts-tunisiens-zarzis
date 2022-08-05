@@ -18,12 +18,13 @@ class EventController extends Controller
     public function store(Request $request){
         // dd($request->user()->roles()->get('troupe_id'));
         $troupe = $request->user()->roles()->get('troupe_id');
-   
+       
         $event = Event::create([
             'name' => $request->input('name'),
             'date_debut' => $request->input('date_debut'),
             'date_fin' => $request->input('date_fin'),
             'troupe_id' => $troupe[0]->troupe_id,
+            'organisateur_id' => $request->user()->id,
             'type' => $request->input('type'),
             'status' => 0
         ]);

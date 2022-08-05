@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use App\Models\Troupe;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,6 +23,7 @@ class EventFactory extends Factory
             "date_debut" => $this->faker->dateTimeBetween('-3 days', 'now'),
             "date_fin" => $this->faker->dateTimeBetween('now', '+3 days'),
             "troupe_id" => Troupe::get('id')->random(),
+            "organisateur_id" => User::get('id')->random(),
             "type" => rand(0,1),
             "status" => 0
         ];

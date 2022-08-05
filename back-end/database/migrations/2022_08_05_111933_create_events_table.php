@@ -20,6 +20,8 @@ return new class extends Migration
             $table->date('date_fin');
             $table->foreignId('troupe_id');
             $table->foreign('troupe_id')->references('id')->on('troupes');
+            $table->foreignId('organisateur_id');
+            $table->foreign('organisateur_id')->references('id')->on('users');
             $table->integer('type');
             $table->integer('status');
             $table->timestamps();
