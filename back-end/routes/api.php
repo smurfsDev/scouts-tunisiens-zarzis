@@ -74,6 +74,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/create', [EventController::class, 'store']);
         Route::put('/update/{id}', [EventController::class, 'update']);
         Route::delete('/delete/{id}', [EventController::class, 'destroy']);
+        Route::get('/myDemande', [EventController::class, 'getMyDemandes']);
     });
 });
 

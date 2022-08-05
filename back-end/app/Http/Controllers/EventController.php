@@ -67,4 +67,13 @@ class EventController extends Controller
         $event->delete();
         return response()->json(['message' => 'لقد تم حذف التظاهرة'], 200);
     }
+
+    public function getMyDemandes(Request $request){
+        $events = Event::where('organisateur_id', $request->user()->id)->paginate();
+        if (!$events){
+            return response()->json(['message' => 'لا يوجد تظاهرات'], 404);
+        }
+        return response()->json(["data" => $events], 200);
+
+    }
 }
