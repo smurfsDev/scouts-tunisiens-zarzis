@@ -15,6 +15,7 @@ class Event extends Model
         'troupe_id',
         'type',
         'status',
-        'organisateur_id'
+        'organisateur_id',
+        'description',
     ];
 }

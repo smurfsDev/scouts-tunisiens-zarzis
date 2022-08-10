@@ -21,6 +21,7 @@ class EventController extends Controller
        
         $event = Event::create([
             'name' => $request->input('name'),
+            'description' => $request->input('description'),
             'date_debut' => $request->input('date_debut'),
             'date_fin' => $request->input('date_fin'),
             'troupe_id' => $troupe[0]->troupe_id,
@@ -50,6 +51,7 @@ class EventController extends Controller
         }
       
         $event->name = $request->input('name');
+       $event->description = $request->input('description');
         $event->date_debut = $request->input("date_debut");
         $event->date_debut = $request->input("date_debut");
         $event->type = $request->input("type");
