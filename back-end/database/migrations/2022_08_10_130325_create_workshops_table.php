@@ -25,6 +25,8 @@ return new class extends Migration
             $table->foreign('event_id')->references('id')->on('users');
             $table->foreignId('leader_id');
             $table->foreign('leader_id')->references('id')->on('users');
+            $table->integer('status');
+
             $table->timestamps();
         });
     }

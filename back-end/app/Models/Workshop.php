@@ -15,5 +15,6 @@ class Workshop extends Model
         'organisateur_id',
         'leader_id',
         'description',
+        'status',
     ];
 }
