@@ -69,7 +69,7 @@ class EventController extends Controller
     }
 
     public function getMyDemandes(Request $request){
-        $events = Event::where('organisateur_id', $request->user()->id)->paginate();
+        $events = Event::where('organisateur_id', $request->user()->id)->orderBy('created_at','DESC')->paginate(5);
         if (!$events){
             return response()->json(['message' => 'لا يوجد تظاهرات'], 404);
         }

@@ -16,6 +16,7 @@ import manageDemandeMateriel from "./routes/UnitAssignedLeader/materiel-manager/
 import DemandeMateriel from "./routes/DemandeMateriel";
 import manageTroops from "./routes/Admin/manageTroops";
 import profile from "./routes/auth/profile";
+import DemandeEvent from "./routes/DemandeEvent";
 Vue.use(VueRouter);
 
 const routes = [
@@ -48,8 +49,9 @@ const routes = [
   ...DemandeMateriel,
   ...manageDemandeMateriel,
   ...manageTroops,
+  ...DemandeEvent
 
-  
+
 ];
 
 const router = new VueRouter({

@@ -235,7 +235,7 @@ export default {
     mini: true,
     show: true,
     items: [
-      { icon: "mdi-home", title: "الرئيسية", link: `/`,access: "isLoggedIn", },
+      { icon: "mdi-home", title: "الرئيسية", link: `/`, access: "isLoggedIn" },
       {
         icon: "mdi-account-cog",
         title: "manage leaders",
@@ -277,6 +277,12 @@ export default {
         title: "manageDemandeMateriel",
         link: "manageDemandeMateriel",
         access: "isMaterielManager",
+      },
+      {
+        icon: "mdi-file-document",
+        title: "طلب انشاء تظاهرة",
+        link: "demandeEvent",
+        access: "isLeader",
       },
     ],
     drawer: true,
