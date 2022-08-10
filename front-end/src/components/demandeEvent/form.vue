@@ -21,6 +21,18 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="12" sm="12" md="12" lg="12" xl="12">
+                <v-textarea
+                  prepend-icon="mdi-card-text-outline"
+                  v-model="form.description"
+                  :error-messages="descriptionError"
+                  label=" وصف التظاهرة"
+                  required
+                  outlined
+                  counter="255"
+                  class="mt-3"
+                ></v-textarea>
+              </v-col>
+              <v-col cols="12" sm="12" md="12" lg="12" xl="12">
                 <v-text-field
                   type="date"
                   prepend-icon="mdi-calendar"
@@ -81,6 +93,11 @@ export default {
         minLength: minLength(3),
         maxLength: maxLength(255),
       },
+      description: {
+        required,
+        minLength: minLength(3),
+        maxLength: maxLength(255),
+      },
       date_debut: {
         required,
         dateValidator,
@@ -120,6 +137,7 @@ export default {
   data: () => ({
     form: {
       name: "",
+      description: "",
       date_debut: null,
       date_fin: null,
       type: null,
@@ -143,6 +161,7 @@ export default {
     reset() {
       this.form = {
         name: "",
+        description: "",
         date_debut: null,
         date_fin: null,
         type: null,
@@ -237,6 +256,17 @@ export default {
         errors.push("اسم التظاهرة لا يجب ان يقل عن 3 حروف");
       !this.$v.form.name.maxLength &&
         errors.push("اسم التظاهرة لا يجب ان يتجاوز 3 حروف");
+      return errors;
+    },
+    descriptionError() {
+      const errors = [];
+      if (!this.$v.form.description.$dirty) return errors;
+      !this.$v.form.description.required &&
+        errors.push("الرجاء ادخال وصف التظاهرة");
+      !this.$v.form.description.minLength &&
+        errors.push("وصف التظاهرة لا يجب ان يقل عن 3 حروف");
+      !this.$v.form.description.maxLength &&
+        errors.push("وصف التظاهرة لا يجب ان يتجاوز 3 حروف");
       return errors;
     },
     date_debutError() {

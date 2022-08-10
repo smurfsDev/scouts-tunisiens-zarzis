@@ -18,6 +18,10 @@
                 {{ demande.name }}
               </v-row>
               <v-row>
+                <span class="h6">وصف التظاهرة :</span>
+                {{ demande.description }}
+              </v-row>
+              <v-row>
                 <span class="h6">تاريخ بداية التظاهرة :</span>
                 {{ demande.date_debut }}
               </v-row>
@@ -36,12 +40,12 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <deleteDialog
-            v-if="status(demande) == 0"
+            v-if="demande.status == 0"
             :id="demande.id"
             @ok="$emit('deleteItem', demande.id)"
           ></deleteDialog>
           <v-btn
-            v-if="status(demande) == 0"
+            v-if="demande.status == 0"
             color="warning darken-1"
             @click="$emit('edit', demande)"
             text
@@ -113,9 +117,9 @@ export default {
     rem(id, materiel_id) {
       this.$emit("rem", id, materiel_id);
     },
-    status(events) {
-      return events.status;
-    },
+    // status(events) {
+    //   return events.status;
+    // },
   },
   watch: {
     demandes() {},
