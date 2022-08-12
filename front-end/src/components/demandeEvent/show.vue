@@ -77,7 +77,10 @@
                     <v-row>
                       تاريخ انتهاء الورشة {{ workshop.heure_fin }}
                     </v-row>
-                    <v-row> منظم الورشة {{ workshop.organisateur_id }} </v-row>
+                    <v-row>
+                      منظم الورشة {{ demande.user.first_name }}
+                      {{ demande.user.last_name }}
+                    </v-row>
                   </v-container>
                 </v-tab-item>
               </v-tabs>
