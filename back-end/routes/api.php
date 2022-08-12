@@ -79,6 +79,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
     Route::group(['prefix' => '/workshops'], function () {
         Route::get('/all', [WorkshopController::class, 'all']);
+        Route::post('/create', [WorkshopController::class, 'store']);
         
     });
 });

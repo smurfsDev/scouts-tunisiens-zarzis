@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreignId('organisateur_id');
             $table->foreign('organisateur_id')->references('id')->on('users');
             $table->foreignId('event_id');
-            $table->foreign('event_id')->references('id')->on('users');
+            $table->foreign('event_id')->references('id')->on('events');
             $table->foreignId('leader_id');
             $table->foreign('leader_id')->references('id')->on('users');
             $table->integer('status');

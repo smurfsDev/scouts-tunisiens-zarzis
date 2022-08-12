@@ -14,6 +14,7 @@ class Workshop extends Model
         'heure_fin',
         'organisateur_id',
         'leader_id',
+        'event_id',
         'description',
         'status',
     ];
