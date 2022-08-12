@@ -9,6 +9,7 @@ use App\Http\Controllers\LeaderController;
 use App\Http\Controllers\TroupeController;
 use App\Http\Controllers\MembersController;
 use App\Http\Controllers\MaterielController;
+use App\Http\Controllers\WorkshopController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UpdateProfileController;
 use App\Http\Controllers\ResponsabilityController;
@@ -75,6 +76,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::put('/update/{id}', [EventController::class, 'update']);
         Route::delete('/delete/{id}', [EventController::class, 'destroy']);
         Route::get('/myDemande', [EventController::class, 'getMyDemandes']);
+    });
+    Route::group(['prefix' => '/workshops'], function () {
+        Route::get('/all', [WorkshopController::class, 'all']);
+        
     });
 });
 
