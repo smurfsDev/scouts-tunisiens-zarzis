@@ -68,17 +68,20 @@
                   :key="workshop.id"
                 >
                   <v-container p-4>
-                    <v-row> اسم الورشة {{ workshop.name }} </v-row>
-                    <v-row> وصف الورشة {{ workshop.description }} </v-row>
-                    <v-row> قائد الورشة {{ workshop.leader_id }} </v-row>
+                    <v-row> اسم الورشة : {{ workshop.name }} </v-row>
+                    <v-row> وصف الورشة : {{ workshop.description }} </v-row>
                     <v-row>
-                      تاريخ بداية الورشة {{ workshop.heure_debut }}
+                      قائد الورشة : {{ workshop.leader.first_name }}
+                      {{ workshop.leader.last_name }}
                     </v-row>
                     <v-row>
-                      تاريخ انتهاء الورشة {{ workshop.heure_fin }}
+                      تاريخ بداية الورشة : {{ workshop.heure_debut }}
                     </v-row>
                     <v-row>
-                      منظم الورشة {{ demande.user.first_name }}
+                      تاريخ انتهاء الورشة : {{ workshop.heure_fin }}
+                    </v-row>
+                    <v-row>
+                      منظم الورشة : {{ demande.user.first_name }}
                       {{ demande.user.last_name }}
                     </v-row>
                   </v-container>
