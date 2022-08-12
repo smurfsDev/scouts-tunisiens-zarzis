@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
-            $table->date('date_debut');
-            $table->date('date_fin');
+            $table->datetime('date_debut');
+            $table->datetime('date_fin');
             $table->foreignId('troupe_id');
             $table->foreign('troupe_id')->references('id')->on('troupes');
             $table->foreignId('organisateur_id');

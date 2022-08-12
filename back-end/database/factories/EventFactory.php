@@ -21,8 +21,8 @@ class EventFactory extends Factory
         return [
             "name" => $this->faker->word(),
             "description" => $this->faker->sentence(),
-            "date_debut" => $this->faker->dateTimeBetween('-3 days', 'now'),
-            "date_fin" => $this->faker->dateTimeBetween('now', '+3 days'),
+            "date_debut" => $this->faker->datetimeBetween('-3 days', 'now'),
+            "date_fin" => $this->faker->datetimeBetween('now', '+3 days'),
             "troupe_id" => Troupe::get('id')->random(),
             "organisateur_id" => User::get('id')->random(),
             "type" => rand(0,1),

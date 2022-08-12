@@ -33,20 +33,29 @@
                 ></v-textarea>
               </v-col>
               <v-col cols="12" sm="12" md="12" lg="12" xl="12">
-                <v-text-field
-                  type="date"
+                <label class="float-right"
+                  ><v-icon right>mdi-calendar</v-icon>تاريخ بداية التظاهرة
+                </label>
+                <br />
+                <input
+                  type="datetime-local"
+                  class="mt-3 float-left"
                   prepend-icon="mdi-calendar"
                   v-model="form.date_debut"
                   :error-messages="date_debutError"
                   label="تاريخ بداية التظاهرة"
                   required
                   outlined
-                  class="mt-3"
-                ></v-text-field>
+                />
               </v-col>
               <v-col cols="12" sm="12" md="12" lg="12" xl="12">
-                <v-text-field
-                  type="date"
+                <br />
+                <label class="float-right"
+                  ><v-icon right>mdi-calendar</v-icon>تاريخ انتهاء التظاهرة
+                </label>
+                <br />
+                <input
+                  type="datetime-local"
                   prepend-icon="mdi-calendar"
                   v-model="form.date_fin"
                   :error-messages="date_finError"
@@ -54,7 +63,7 @@
                   required
                   outlined
                   class="mt-3"
-                ></v-text-field>
+                />
               </v-col>
 
               <v-col>
