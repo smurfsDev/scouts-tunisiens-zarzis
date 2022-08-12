@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use App\Notifications\EmailVerificationNotification;
+use App\Models\Event;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Notifications\EmailVerificationNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -72,6 +73,9 @@ class User extends Authenticatable
 
     public function sentDemandeMateriels(){
         return $this->hasMany(DemandeMateriel::class,'user_id','id')->orderBy('created_at','DESC');
+    }
+    public function organisateurEvent(){
+        return $this->hasMany(Event::class,'organisateur_id','id')->orderBy('created_at','DESC');
     }
 
 }
