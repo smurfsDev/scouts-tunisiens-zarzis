@@ -56,4 +56,14 @@ class WorkshopController extends Controller
         $workshop->save(); 
         return response()->json(["data" => $workshop], 200);
     }
+    public function destroy($id){
+        $workshop = Workshop::find($id);
+        if (!$workshop) {
+            return response()->json([
+                'message' => 'ورشة غير موجودة'
+            ], 404);
+        }
+        $workshop->delete();
+        return response()->json(['message' => 'لقد تم حذف ورشة'], 200);
+    }
 }

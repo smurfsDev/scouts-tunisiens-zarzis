@@ -81,6 +81,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/all', [WorkshopController::class, 'all']);
         Route::post('/create', [WorkshopController::class, 'store']);
         Route::put('/update/{id}', [WorkshopController::class, 'update']);
+        Route::delete('/delete/{id}', [WorkshopController::class, 'destroy']);
         
     });
 });
