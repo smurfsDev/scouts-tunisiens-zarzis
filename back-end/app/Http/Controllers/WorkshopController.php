@@ -66,4 +66,12 @@ class WorkshopController extends Controller
         $workshop->delete();
         return response()->json(['message' => 'لقد تم حذف ورشة'], 200);
     }
+
+    public function getWorkshopsEvent(Request $request, $idEvent){
+        $workshops = Workshop::where('event_id', $idEvent)->get();
+        if (!$workshops){
+            return response()->json(['message' => 'لا يوجد ورشات'], 404);
+        }
+        return response()->json(["data" => $workshops], 200);
+    }
 }
