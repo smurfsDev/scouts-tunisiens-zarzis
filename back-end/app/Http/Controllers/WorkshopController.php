@@ -10,7 +10,7 @@ class WorkshopController extends Controller
     public function all(){
         $workshops = Workshop::all();
         if (empty($workshops)) {
-            return response()->json(['message' => 'Workshops not found '], 404);
+            return response()->json(['message' => 'ورشة غير موجودة '], 404);
         }
         return response()->json($workshops, 200);
     }
@@ -30,7 +30,7 @@ class WorkshopController extends Controller
         if ($workshop) {
             return response()->json([
                 'success' => true,
-                'message' => 'Workshop created ! '
+                'message' => 'لقد تم صنع ورشة ! '
             ], 200);
         } else {
             return response()->json([
@@ -38,5 +38,22 @@ class WorkshopController extends Controller
                 'message' => 'Error !'
             ], 500);
         }
+    }
+    public function update (Request $request, $id){
+        $workshop = Workshop::find($id);
+        if (!$workshop) {
+            return response()->json([
+                "message" => "ورشة غير موجودة"
+            ], 404);
+        }
+      
+        $workshop->name = $request->input('name');
+       $workshop->description = $request->input('description');
+        $workshop->heure_debut = $request->input("heure_debut");
+        $workshop->heure_fin = $request->input("heure_fin");
+        $workshop->leader_id = $request->input("leader_id");
+       
+        $workshop->save(); 
+        return response()->json(["data" => $workshop], 200);
     }
 }
