@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Event;
+use App\Models\Workshop;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -76,6 +77,9 @@ class User extends Authenticatable
     }
     public function organisateurEvent(){
         return $this->hasMany(Event::class,'organisateur_id','id')->orderBy('created_at','DESC');
+    }
+    public function leaderWorkshop(){
+        return $this->hasMany(Workshop::class,'leader_id','id')->orderBy('created_at','DESC');
     }
 
 }
