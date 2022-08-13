@@ -54,40 +54,56 @@
             </v-card-actions>
           </v-tab-item>
           <v-tab-item>
-            <v-container p-4>
-              <v-tabs-slider></v-tabs-slider>
-              <v-tabs align-with-title>
-                <v-tab
-                  v-for="(workshop, index) in demande.workshops"
-                  :key="workshop.id"
-                >
-                  ورشة {{ index + 1 }}
-                </v-tab>
-                <v-tab-item
-                  v-for="workshop in demande.workshops"
-                  :key="workshop.id"
-                >
-                  <v-container p-4>
-                    <v-row> اسم الورشة : {{ workshop.name }} </v-row>
-                    <v-row> وصف الورشة : {{ workshop.description }} </v-row>
-                    <v-row>
-                      قائد الورشة : {{ workshop.leader.first_name }}
-                      {{ workshop.leader.last_name }}
-                    </v-row>
-                    <v-row>
-                      تاريخ بداية الورشة : {{ workshop.heure_debut }}
-                    </v-row>
-                    <v-row>
-                      تاريخ انتهاء الورشة : {{ workshop.heure_fin }}
-                    </v-row>
-                    <v-row>
-                      منظم الورشة : {{ demande.user.first_name }}
-                      {{ demande.user.last_name }}
-                    </v-row>
-                  </v-container>
-                </v-tab-item>
-              </v-tabs>
-            </v-container>
+            <FormWorkshop
+              v-if="dialog"
+              :editw="editw"
+              :demandeEvent="demande"
+              :dialog="dialog"
+              @close="close"
+            ></FormWorkshop>
+            <v-btn
+              color="warning"
+              class="m-4 mr-4"
+              large
+              @click="dialog = true"
+            >
+              <v-icon>mdi-plus</v-icon>
+              اضافة
+            </v-btn>
+
+            <v-tabs-slider></v-tabs-slider>
+
+            <v-tabs align-with-title>
+              <v-tab
+                v-for="(workshop, index) in demande.workshops"
+                :key="workshop.id"
+              >
+                ورشة {{ index + 1 }}
+              </v-tab>
+              <v-tab-item
+                v-for="workshop in demande.workshops"
+                :key="workshop.id"
+              >
+                <v-container p-4>
+                  <v-row> اسم الورشة : {{ workshop.name }} </v-row>
+                  <v-row> وصف الورشة : {{ workshop.description }} </v-row>
+                  <v-row>
+                    قائد الورشة : {{ workshop.leader.first_name }}
+                    {{ workshop.leader.last_name }}
+                  </v-row>
+                  <v-row>
+                    تاريخ بداية الورشة : {{ workshop.heure_debut }}
+                  </v-row>
+                  <v-row>
+                    تاريخ انتهاء الورشة : {{ workshop.heure_fin }}
+                  </v-row>
+                  <v-row>
+                    منظم الورشة : {{ demande.user.first_name }}
+                    {{ demande.user.last_name }}
+                  </v-row>
+                </v-container>
+              </v-tab-item>
+            </v-tabs>
           </v-tab-item>
         </v-tabs>
         <!-- <v-card-actions>
@@ -138,8 +154,14 @@
 
 <script>
 // import detachMaterialDialog from "@/components/demandeMateriel/detachMaterialDialog.vue";
+import FormWorkshop from "./formWorkshop.vue";
+
 import deleteDialog from "@/components/demandeEvent/deleteDialog.vue";
 export default {
+  components: {
+    FormWorkshop,
+    deleteDialog,
+  },
   props: {
     demandes: {
       type: Array,
@@ -155,21 +177,24 @@ export default {
       },
     },
   },
-  components: {
-    deleteDialog,
-    // detachMaterialDialog,
-  },
+
   data() {
     return {
       tab: null,
       items: ["المعلومات الاساسية", "الورشات الخاصة بالتظاهرة"],
-
+      dialog: false,
       pagination: 5,
+      editw: false,
     };
   },
   methods: {
     rem(id, materiel_id) {
       this.$emit("rem", id, materiel_id);
+    },
+    close() {
+      this.dialog = false;
+      this.editm = false;
+      this.demande = null;
     },
     // status(events) {
     //   return events.status;
