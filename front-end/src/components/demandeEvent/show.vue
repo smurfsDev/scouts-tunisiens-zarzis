@@ -58,6 +58,7 @@
               v-if="dialog"
               :editw="editw"
               :demandeEvent="demande"
+              :idEvent="demande.id"
               :dialog="dialog"
               @close="close"
             ></FormWorkshop>

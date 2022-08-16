@@ -1,5 +1,8 @@
 <template>
   <v-row class="">
+    <v-alert :value="alert.show" dismissible :type="alert.type">{{
+      alert.msg
+    }}</v-alert>
     <v-dialog v-model="dialog" persistent max-width="600px">
       <v-card>
         <v-card-title>
@@ -67,15 +70,29 @@
               </v-col>
 
               <v-col>
-                <v-select
-                  :items="items.name"
+                <!-- <v-select
+                  :items="allLeaders"
                   :value="items.id"
                   label="اسم القائد"
                   v-model="form.leader"
                   :error-messages="leaderError"
                   required
                   outlined
-                ></v-select>
+                ></v-select> -->
+                <h6 class="float-right">اسم القائد</h6>
+                <select
+                  v-model="form.leader_id"
+                  class="form-select form-select-lg mb-3 float-right"
+                  aria-label=".form-select-lg example"
+                >
+                  <option
+                    v-for="option in allLeaders"
+                    :value="option.user.id"
+                    :key="option.id"
+                  >
+                    {{ option.user.first_name }} {{ option.user.last_name }}
+                  </option>
+                </select>
               </v-col>
             </v-row>
           </v-container>
@@ -121,7 +138,7 @@ export default {
           );
         },
       },
-      leader: {
+      leader_id: {
         required,
       },
     },
@@ -139,17 +156,33 @@ export default {
       type: Boolean,
       default: false,
     },
+    idEvent: {},
   },
   created() {
     // this.getMaterials();
+    this.$axios.get("/workshops/getLeaderTroupe").then((response) => {
+      // console.log(response.data);
+      this.allLeaders = response.data;
+      // response.data.forEach((element) => {
+      //   this.allLeaders.push(
+      //     element.user.first_name + " " + element.user.last_name
+      //   );
+      // });
+      console.log(this.allLeaders);
+    });
   },
   data: () => ({
+    alert: {
+      show: false,
+      type: null,
+      msg: null,
+    },
     form: {
       name: "",
       description: "",
       heure_debut: null,
       heure_fin: null,
-      leader: null,
+      leader_id: null,
     },
     items: [],
     activator: null,
@@ -165,6 +198,7 @@ export default {
     x: 0,
     search: null,
     y: 0,
+    allLeaders: [],
   }),
   methods: {
     reset() {
@@ -191,16 +225,18 @@ export default {
         //   this.form.type = 1;
         // }
         console.log(this.form);
-
+        this.form.event_id = this.idEvent;
         this.$axios
-          .post("/events/create", this.form)
+          .post("/workshops/create", this.form)
           .then(() => {
             this.$emit("success", {
               show: true,
               type: "success",
-              msg: "تم اضافة طلب انشاء تظاهرة بنجاح",
+              msg: "تم اضافة طلب انشاء الورشة بنجاح",
             });
             this.reset();
+            this.getDemandeEvent();
+            window.location.reload();
           })
           .catch(() => {
             this.$emit("success", {
@@ -211,13 +247,8 @@ export default {
             this.reset();
           });
       } else {
-        if (this.form.type == "صغرى") {
-          this.form.type = 0;
-        } else {
-          this.form.type = 1;
-        }
         this.$axios
-          .put("/events/update/" + this.demandeEvent.id, this.form)
+          .put("/workshops/update/" + this.demandeEvent.id, this.form)
           .then(() => {
             this.$emit("success", {
               show: true,
@@ -225,6 +256,8 @@ export default {
               msg: "تمت تعديل الطلب بنجاح",
             });
             this.reset();
+            // this.getDemandeEvent();
+            window.location.reload();
           })
           .catch(() => {
             this.$emit("success", {
@@ -235,6 +268,32 @@ export default {
             this.reset();
           });
       }
+    },
+    getDemandeEvent(alert = {}, pagination = 5) {
+      this.$axios
+        .get("/events/myDemande?page=" + this.pagination_meta.current, {
+          params: { pagination: pagination },
+        })
+        .then((response) => {
+          // console.log(response.data.data);
+          this.demandes = response.data.data.data;
+          console.log(this.demandes);
+          this.pagination_meta.current = response.data.data.current_page;
+          this.pagination_meta.total = response.data.data.last_page;
+          console.log(
+            "pagination_meta.current: " + this.pagination_meta.current
+          );
+          console.log("pagination_meta.total: " + this.pagination_meta.total);
+        })
+        .catch()
+        .finally(() => {
+          if ("type" in alert) {
+            this.alert = alert;
+            setTimeout(() => {
+              this.alert.show = false;
+            }, 5000);
+          }
+        });
     },
     filter(item, queryText, itemText) {
       if (item.header) return false;
@@ -287,10 +346,11 @@ export default {
         errors.push("تاريخ بداية الورشة لا يمكن ان يكون في الماضي");
       return errors;
     },
-    leaderError() {
+    leader_idError() {
       const errors = [];
-      if (!this.$v.form.leader.$dirty) return errors;
-      !this.$v.form.leader.required && errors.push("الرجاء ادخال قائد للورشة");
+      if (!this.$v.form.leader_id.$dirty) return errors;
+      !this.$v.form.leader_id.required &&
+        errors.push("الرجاء ادخال قائد للورشة");
 
       return errors;
     },
