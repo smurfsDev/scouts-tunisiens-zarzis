@@ -102,6 +102,30 @@
                     منظم الورشة : {{ demande.user.first_name }}
                     {{ demande.user.last_name }}
                   </v-row>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+
+                    <v-btn
+                      color="red"
+                      v-if="workshop.status == 0"
+                      :id="workshop.id"
+                      text
+                      @click="deleteWorkshop(workshop.id)"
+                    >
+                      حذف
+                      <v-icon>delete</v-icon>
+                    </v-btn>
+
+                    <v-btn
+                      v-if="demande.status == 0"
+                      color="warning darken-1"
+                      @click="$emit('edit', demande)"
+                      text
+                    >
+                      تعديل
+                      <v-icon>edit</v-icon>
+                    </v-btn>
+                  </v-card-actions>
                 </v-container>
               </v-tab-item>
             </v-tabs>
@@ -196,6 +220,51 @@ export default {
       this.dialog = false;
       this.editm = false;
       this.demande = null;
+    },
+    deleteWorkshop(id) {
+      if (confirm("?هل انت متاكد من حذف هذه الورشة"))
+        this.$axios
+          .delete("/workshops/delete/" + id)
+          .then(() => {
+            this.getDemandeEvent({
+              show: true,
+              type: "success",
+              msg: "تم حذف الطلب بنجاح",
+            });
+          })
+          .catch(() => {
+            this.getDemandeEvent({
+              show: true,
+              type: "red",
+              msg: "حدث خطأ ما",
+            });
+          });
+    },
+    getDemandeEvent(alert = {}, pagination = 5) {
+      this.$axios
+        .get("/events/myDemande?page=" + this.pagination_meta.current, {
+          params: { pagination: pagination },
+        })
+        .then((response) => {
+          // console.log(response.data.data);
+          this.demandes = response.data.data.data;
+          console.log(this.demandes);
+          this.pagination_meta.current = response.data.data.current_page;
+          this.pagination_meta.total = response.data.data.last_page;
+          console.log(
+            "pagination_meta.current: " + this.pagination_meta.current
+          );
+          console.log("pagination_meta.total: " + this.pagination_meta.total);
+        })
+        .catch()
+        .finally(() => {
+          if ("type" in alert) {
+            this.alert = alert;
+            setTimeout(() => {
+              this.alert.show = false;
+            }, 5000);
+          }
+        });
     },
     // status(events) {
     //   return events.status;
