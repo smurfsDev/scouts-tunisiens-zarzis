@@ -48,6 +48,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::group(['prefix' => '/leaders'], function () {
         Route::put('/{id}/accept', [LeaderController::class, 'accept']);
         Route::put('/{id}/reject', [LeaderController::class, 'reject']);
+    
+
     });
     Route::group(['prefix' => '/members'], function () {
         Route::put('/{id}/accept', [MembersController::class, 'accept']);
@@ -83,6 +85,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::put('/update/{id}', [WorkshopController::class, 'update']);
         Route::delete('/delete/{id}', [WorkshopController::class, 'destroy']);
         Route::get('/workshopsEvent/{id}', [WorkshopController::class, 'getWorkshopsEvent']);
+        Route::get('/getLeaderTroupe', [WorkshopController::class, 'getLeaderTroupe']);
 
         
     });

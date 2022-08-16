@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RoleUser;
 use App\Models\Workshop;
 use Illuminate\Http\Request;
 
@@ -73,5 +74,15 @@ class WorkshopController extends Controller
             return response()->json(['message' => 'لا يوجد ورشات'], 404);
         }
         return response()->json(["data" => $workshops], 200);
+    }
+      public function getLeaderTroupe(Request $request){
+       
+        $troupe = $request->user()->roles()->get('troupe_id');
+        
+        $leaders = RoleUser::where('troupe_id', $troupe[0]->troupe_id)->where('status',1)->with('user')->get();
+        
+        return response()->json($leaders, 200);
+        
+
     }
 }

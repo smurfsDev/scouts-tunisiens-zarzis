@@ -114,4 +114,14 @@ class LeaderController extends Controller
         $leader->save();
         return response()->json($leader, 200);
     }
+
+    // public function getLeaderTroupe(Request $request){
+    //     echo "hello world";
+    //     $troupe = $request->user()->roles()->get('troupe_id');
+    //     $leaders = RoleUser::where('troupe_id', $troupe)->with('user')->get();
+    //     dd($leaders);
+    //     return response()->json($leaders, 200);
+        
+
+    // }
 }
