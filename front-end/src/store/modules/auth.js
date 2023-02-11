@@ -98,7 +98,8 @@ const getters = {
   status: (state) => state.status,
   responsability: (state) => state.responsability,
   isMonetary: (state) => state.responsability == "money-manager",
-  isMaterielManager: (state) => state.responsability == "materiel-manager"
+  isMaterielManager: (state) => state.responsability == "materiel-manager",
+  isGeneralManager: (state) => state.responsability == "general-manager"
 };
 const mutations = {
   setLoggedIn(state, payload) {

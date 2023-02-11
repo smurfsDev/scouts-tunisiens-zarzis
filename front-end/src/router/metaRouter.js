@@ -51,6 +51,15 @@ router.beforeEach((to, from, next) => {
       name: "login",
       params: { msg: "ليس لديك صلاحيات مسؤول عن الاثاث للدخول لهذا الرابط." },
     });
+  }else if (to.matched.some((record) => record.meta.requiresGeneralManager)) {
+    if (store.getters.responsability === "general-manager") {
+      next();
+      return;
+    }
+    next({
+      name: "login",
+      params: { msg: "ليس لديك صلاحيات مسؤول عن الاثاث للدخول لهذا الرابط." },
+    });
   }else if (to.matched.some((record) => record.meta.requiresLeader)) {
     if (store.getters.isLeader) {
       next();
