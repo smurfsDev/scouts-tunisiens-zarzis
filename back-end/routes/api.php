@@ -12,6 +12,8 @@ use App\Http\Controllers\TroupeController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\CategorieMaterielController;
 use App\Http\Controllers\DemandeMaterielController;
+use App\Http\Controllers\ManageEventSuperAdmin;
+use App\Http\Controllers\ManagerEventsController;
 use App\Http\Controllers\MaterielController;
 use App\Http\Controllers\ResponsabilityController;
 use App\Http\Controllers\SubscriptionController;
@@ -71,7 +73,22 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::delete('/{id}', [TroupeController::class, 'destroy']);
     });
 
+    Route::group(['prefix'=>"/event"],function(){
+        Route::post('/addevent',[ManagerEventsController::class,'addevent']);
+        Route::delete('/deleteEvenet/{id}',[ManagerEventsController::class,'deleteEvenet']);
+        Route::get('/getEventbyIdUser',[ManagerEventsController::class,'getEventbyIdUser']);
+        Route::post('/update/{id}',[ManagerEventsController::class,'UpdateEvent']);
+        Route::get('/getEventById/{id}',[ManagerEventsController::class,'getEventById']);
+    });
 
+    Route::group(['prefix'=>'/gererEvent'],function(){
+        Route::get('/getEventDemander',[ManageEventSuperAdmin::class,'getEventDemander']);
+        Route::get('/getEventAccepter',[ManageEventSuperAdmin::class,'getEventAccepter']);
+        Route::get('/getEventrejeter',[ManageEventSuperAdmin::class,'getEventrejeter']);
+        Route::post('/AccpeterEvent/{id}',[ManageEventSuperAdmin::class,'AccpeterEvent']);
+        Route::post('/RejeterEvent/{id}',[ManageEventSuperAdmin::class,'RejeterEvent']);
+        Route::delete('/deleteEvent/{id}',[ManageEventSuperAdmin::class,'deleteEvent']);
+    });
 
 });
 

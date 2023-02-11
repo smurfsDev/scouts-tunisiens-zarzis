@@ -1,15 +1,15 @@
 <template>
   <div>
     <v-card class="elevation-12">
-      <v-toolbar dark color="blue">
+      <v-toolbar dark color="yellow">
         <v-toolbar-title>
           <div class="d-flex justify-content-center">
-            <p style="text-align: center !important">أضف حدث</p>
+            <p style="text-align: center !important">تعديل فعالية</p>
           </div>
         </v-toolbar-title>
       </v-toolbar>
       <v-card-text>
-        <form @submit.prevent="Add_events()">
+        <form @submit.prevent="UpdateEvent()">
           <div class="row">
             <div class="col-md-12">
               <v-text-field
@@ -73,11 +73,11 @@
           <v-btn
             type="submit"
             style="color: #fff !important"
-            color="blue"
+            color="yellow"
             :loading="load"
             class="mx-2"
           >
-            أضف حدثًا
+            تعديل
           </v-btn>
           <v-btn
             type="submit"
@@ -100,6 +100,15 @@ const dateValidator = (date) => {
 };
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
 export default {
+  created() {
+    this.$axios.get("/event/getEventById/" + this.id).then((res) => {
+      this.formdata.titre = res.data.data.titre;
+      this.formdata.date_debut = res.data.data.date_debut;
+      this.formdata.date_fin = res.data.data.date_fin;
+      this.formdata.description = res.data.data.description;
+      this.formdata.location = res.data.data.location;
+    });
+  },
   validations: {
     formdata: {
       titre: {
@@ -131,8 +140,10 @@ export default {
       },
     },
   },
-  name: "addevent",
-
+  name: "updateevent",
+  props: {
+    id: Number,
+  },
   data() {
     return {
       load: false,
@@ -176,7 +187,7 @@ export default {
     close() {
       this.$emit("cancel_add_events");
     },
-    Add_events() {
+    UpdateEvent() {
       this.load = true;
       this.$v.$touch();
       if (this.$v.$invalid) {
@@ -184,7 +195,7 @@ export default {
         return;
       }
       this.$axios
-        .post("/event/addevent", {
+        .post("/event/update/" + this.id, {
           titre: this.formdata.titre,
           description: this.formdata.description,
           date_debut: this.formdata.date_debut,
@@ -194,7 +205,7 @@ export default {
         .then((res) => {
           console.log(res);
           this.load = false;
-          this.$emit("cancel_add_events", "aded");
+          this.$emit("cancel_add_events", "updated");
         })
         .catch((error) => {
           this.load = false;

@@ -249,6 +249,12 @@ export default {
         access: "isSuperAdmin",
       },
       {
+        icon: "mdi-calendar-text",
+        title: "إدارة الفعاليات",
+        link: "manageEventSuperAdmin",
+        access: "isSuperAdmin",
+      },
+      {
         icon: "mdi-account-cog",
         title: "إدارة الأعضاء",
         link: "manageMembers",
@@ -256,7 +262,7 @@ export default {
       },
       {
         icon: "mdi-calendar-text",
-        title: "إدارة الأحداث",
+        title: "إدارة الفعاليات",
         link: "manageEvents",
         access: "isUnitLeader",
       },
