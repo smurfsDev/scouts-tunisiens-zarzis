@@ -291,9 +291,7 @@ export default {
       if (!this.$v.$invalid) {
         this.loadingEdit = true;
         this.$axios
-          .put("/profile/all", 
-            this.user
-          )
+          .put("/profile/all", this.user)
           .then((response) => {
             this.snack = true;
             this.snackColor = "success";
@@ -367,5 +365,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

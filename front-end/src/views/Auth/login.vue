@@ -30,7 +30,7 @@
                 </b-alert>
                 <v-form @submit.prevent="Login" id="login-form">
                   <v-text-field
-                  @change="$v.$touch()"
+                    @change="$v.$touch()"
                     prepend-icon="person"
                     name="البريد الإلكتروني"
                     label="البريد الإلكتروني"

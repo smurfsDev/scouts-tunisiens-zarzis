@@ -126,18 +126,22 @@ export default {
         this.loading = false;
         return;
       }
-      this.$axios.post('/password/reset', {
-        email: this.email,
-        code: this.code,
-        password: this.password,
-        password_confirmation: this.password_confirmation})
+      this.$axios
+        .post("/password/reset", {
+          email: this.email,
+          code: this.code,
+          password: this.password,
+          password_confirmation: this.password_confirmation,
+        })
         .then(() => {
           this.loading = false;
           this.$router.push({
             name: "login",
-            params: { msg: "لقد تم انشاء كلمة المرور بنجاح", variant: "success" }
+            params: {
+              msg: "لقد تم انشاء كلمة المرور بنجاح",
+              variant: "success",
+            },
           });
-
         })
         .catch(() => {
           this.loading = false;
@@ -157,14 +161,14 @@ export default {
       return errors;
     },
     codeErrors() {
-       const errors = [];
+      const errors = [];
       if (!this.$v.code.$dirty) return errors;
       !this.$v.code.required && errors.push("الرجاء ادخال الرمز");
       !this.$v.code.exists && errors.push("الرمز غير مسجل او غير صالخ");
       return errors;
     },
     passwordErrors() {
-     const errors = [];
+      const errors = [];
       if (!this.$v.password.$dirty) return errors;
       !this.$v.password.required && errors.push("الرجاء ادخال بكلمة المرور");
       !this.$v.password.minLength &&
@@ -172,9 +176,10 @@ export default {
       return errors;
     },
     password_confirmationErrors() {
-     const errors = [];
+      const errors = [];
       if (!this.$v.password.$dirty) return errors;
-      !this.$v.password.required && errors.push("الرجاء ادخال تأكيد كلمة المرور");
+      !this.$v.password.required &&
+        errors.push("الرجاء ادخال تأكيد كلمة المرور");
       !this.$v.password.minLength &&
         errors.push("الرجاء ادخال تأكيد كلمة المرور بحد اقل من 8 حروف");
       !this.$v.password_confirmation.confirmed &&
@@ -185,5 +190,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

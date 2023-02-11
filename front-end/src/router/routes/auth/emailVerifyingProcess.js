@@ -1,4 +1,5 @@
-const verifyEmail = () => import("../../../views/Auth/emailVerifyingProcess.vue");
+const verifyEmail = () =>
+  import("../../../views/Auth/emailVerifyingProcess.vue");
 
 export default [
   {

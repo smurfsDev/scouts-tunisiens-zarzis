@@ -5,6 +5,6 @@ export default [
     path: "/manageTroops",
     component: manageTroops,
     name: "manageTroops",
-    meta: {requiresSuperAdmin: true}
+    meta: { requiresSuperAdmin: true },
   },
 ];

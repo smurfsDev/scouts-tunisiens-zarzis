@@ -5,6 +5,6 @@ export default [
     path: "/demandeMateriel",
     component: demandeMateriel,
     name: "demandeMateriel",
-    meta: {requiresLeader: true},
+    meta: { requiresLeader: true },
   },
 ];

@@ -1,4 +1,5 @@
-const resetPassword = () => import("@/views/Auth/resetPassword/resetPassword.vue");
+const resetPassword = () =>
+  import("@/views/Auth/resetPassword/resetPassword.vue");
 export default [
   {
     path: "/reset-password",

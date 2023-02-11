@@ -3,9 +3,9 @@
     <template v-slot:activator="{ on, attrs }">
       <v-btn
         class="mx-1"
-            x-small
-            :fab="$vuetify.breakpoint.name != 'sm'"
-            color="red"
+        x-small
+        :fab="$vuetify.breakpoint.name != 'sm'"
+        color="red"
         v-bind="attrs"
         v-on="on"
       >
@@ -21,9 +21,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="red darken-1" text @click="dialog = false"> لا </v-btn>
-        <v-btn color="green" class="text-white" @click="ok">
-          نعم
-        </v-btn>
+        <v-btn color="green" class="text-white" @click="ok"> نعم </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -44,7 +42,7 @@ export default {
   methods: {
     ok() {
       this.dialog = false;
-      this.$emit('ok', this.id);
+      this.$emit("ok", this.id);
     },
   },
 };

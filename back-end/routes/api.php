@@ -47,6 +47,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::put('/{id}/accept', [LeaderController::class, 'accept']);
         Route::put('/{id}/reject', [LeaderController::class, 'reject']);
     });
+
     Route::group(['prefix' => '/members'], function () {
         Route::put('/{id}/accept', [MembersController::class, 'accept']);
         Route::put('/{id}/reject', [MembersController::class, 'reject']);
@@ -56,6 +57,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::put('/r/reject', [SubscriptionController::class, 'reject']);
         });
     });
+
     Route::apiResource('members', MembersController::class);
     Route::apiResource('materiel', MaterielController::class);
     Route::apiResource('demande-materiel', DemandeMaterielController::class);
@@ -68,6 +70,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::put('/{id}', [TroupeController::class, 'update']);
         Route::delete('/{id}', [TroupeController::class, 'destroy']);
     });
+
+
+
 });
 
 Route::post('/login', [AuthenticationController::class, 'login']);

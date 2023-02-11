@@ -159,19 +159,16 @@ export default {
           text: "الاسم",
           value: "user.first_name",
           groupable: false,
-
         },
         {
           text: "اللقب",
           value: "user.last_name",
           groupable: false,
-
         },
         {
           text: "المهمة",
           value: "role.name",
           groupable: false,
-
         },
         {
           text: "الفرقة",
@@ -194,9 +191,7 @@ export default {
 
           sortable: false,
         },
-        { text: "", value: "data-table-expand" ,
-          groupable: false,
-        },
+        { text: "", value: "data-table-expand", groupable: false },
       ];
     },
   },

@@ -26,10 +26,15 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <router-link class="btn btn-warning text-white" v-if="status == 'invalid'" to="/request-verify-email"
+              <router-link
+                class="btn btn-warning text-white"
+                v-if="status == 'invalid'"
+                to="/request-verify-email"
                 >طلب تأكيد البريد الإلكتروني</router-link
               >
-              <router-link v-else class="btn btn-primary text-white" to="/login">تسجيل الدخول</router-link>
+              <router-link v-else class="btn btn-primary text-white" to="/login"
+                >تسجيل الدخول</router-link
+              >
             </v-card-actions>
           </v-card>
         </v-col>
@@ -81,5 +86,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

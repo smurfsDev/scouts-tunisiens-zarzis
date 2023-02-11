@@ -200,7 +200,12 @@ export default {
           value: "actions",
           sortable: false,
         },
-        { text: "", value: "data-table-expand", sortable: false,groupable: false, },
+        {
+          text: "",
+          value: "data-table-expand",
+          sortable: false,
+          groupable: false,
+        },
       ];
     },
   },
