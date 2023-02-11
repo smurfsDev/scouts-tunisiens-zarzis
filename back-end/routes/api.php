@@ -16,6 +16,7 @@ use App\Http\Controllers\MaterielController;
 use App\Http\Controllers\ResponsabilityController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UpdateProfileController;
+use App\Http\Controllers\RequestDocumentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -68,6 +69,18 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::put('/{id}', [TroupeController::class, 'update']);
         Route::delete('/{id}', [TroupeController::class, 'destroy']);
     });
+
+	Route::group(['prefix'=>'/requestDocuments'],function(){
+		Route::get('/',[RequestDocumentController::class,'index']);
+		Route::get('/mine',[RequestDocumentController::class,'getMine']);
+		Route::get('/{requestDocument}',[RequestDocumentController::class,'show']);
+		Route::post('/',[RequestDocumentController::class,'store']);
+		Route::put('/{requestDocument}',[RequestDocumentController::class,'update']);
+		Route::delete('/{requestDocument}',[RequestDocumentController::class,'destroy']);
+		Route::put('/{requestDocument}/approve',[RequestDocumentController::class,'approve']);
+		Route::put('/{requestDocument}/reject',[RequestDocumentController::class,'reject']);
+		Route::get('/{requestDocument}/download',[RequestDocumentController::class,'download']);
+	});
 });
 
 Route::post('/login', [AuthenticationController::class, 'login']);
