@@ -26,8 +26,8 @@
 
 		.content {
 			position: relative;
-			height: 90%;
-			width: 90%;
+			/* height: 90%;
+			width: 90%; */
 			padding: 10px;
 		}
 
@@ -140,7 +140,7 @@
 <body>
 	<div class="content">
 		<div class="logo">
-			<img src="{{URL::asset('/logo.png')}}" alt="logo" width="100px" height="100px">
+			<img src="{{URL::asset('/image/logo.jpg')}}" alt="logo" width="100px" height="100px">
 			<span class="logo-text">الكشافة التونسية</span>
 			<span class="logo-text">جهة مدنين</span>
 			<span class="logo-text">فوج جرجيس</span>
@@ -183,7 +183,7 @@
 	<footer class="myfooter">
 		<div class="humansignature">
 			<div class="signature">
-				<img src="{{URL::asset('/sig.jpg')}}" alt="signature" width="200px" height="200px">
+				<img src="{{URL::asset('/image/sig.jpg')}}" alt="signature" width="200px" height="200px">
 			</div>
 			<span>
 				قائد الفرقة
@@ -192,7 +192,7 @@
 				{{ $user->first_name }} {{ $user->last_name }}
 			</span>
 		</div>
-		<img class="myfooterimg" src="{{URL::asset('/footer.png')}}" alt="footer">
+		<img class="myfooterimg" src="{{URL::asset('/image/footer.jpg')}}" alt="footer">
 	</footer>
 </body>
 

@@ -4,6 +4,12 @@
     </IfModule>
 
     RewriteEngine On
+	
+	<IfModule mod_headers.c>
+		<FilesMatch "\.(jpg|otf|tt[cf]|woff2?)$">
+			Header set Access-Control-Allow-Origin "*"
+		</FilesMatch>
+	</IfModule>h>
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
@@ -18,4 +24,7 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+	
 </IfModule>
+Header always add Access-Control-Allow-Origin "*"
+	
