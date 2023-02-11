@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container>
     <v-alert :value="alert.show" dismissible :type="alert.type">{{
       alert.msg
     }}</v-alert>
@@ -10,7 +10,7 @@
       :pagination_meta="pagination_meta"
       @getDemandeMateriel="getDemandeMateriel"
     ></show>
-  </div>
+  </v-container>
 </template>
 
 <script>

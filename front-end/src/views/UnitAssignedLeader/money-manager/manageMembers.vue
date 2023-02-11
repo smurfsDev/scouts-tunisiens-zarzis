@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container>
     <v-data-table
       :headers="headers"
       :items="Members"
@@ -96,7 +96,7 @@
         <v-btn v-bind="attrs" text @click="snack = false"> اغلاق </v-btn>
       </template>
     </v-snackbar>
-  </div>
+  </v-container>
 </template>
 <script>
 export default {

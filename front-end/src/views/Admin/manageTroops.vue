@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container>
     <Form
       :dialog="dialog"
       @close="reset"
@@ -23,7 +23,7 @@
         <v-btn v-bind="attrs" text @click="snack = false"> اغلاق </v-btn>
       </template>
     </v-snackbar>
-  </div>
+  </v-container>
 </template>
 
 <script>
