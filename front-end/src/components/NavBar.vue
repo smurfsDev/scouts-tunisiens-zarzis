@@ -7,22 +7,19 @@
     >
       <router-link to="/" class="d-flex align-center">
         <v-img
-          alt="Vuetify Logo"
+          alt="Scouts Logo"
           class="shrink mr-2"
           contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+          src="../assets/scouts.png"
           transition="scale-transition"
-          width="40"
+		  style="border-radius:100%"
+          width="50"
         />
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
+        <v-container class="text-light mr-3">
+		  <v-row class="font-weight-bold">الكشافة التونسية</v-row>
+		  <v-row class="font-weight-medium">فوج جرجيس</v-row>
+		</v-container>
       </router-link>
       <v-spacer></v-spacer>
       <div class="text-center">
