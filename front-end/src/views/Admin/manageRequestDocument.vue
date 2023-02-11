@@ -1,63 +1,45 @@
 <template>
-  <div>
+  <v-container>
     <v-data-table
       :headers="headers"
-      :items="Members"
-      sort-by="id"
-      show-expand
-      :single-expand="true"
-      :expanded.sync="expanded"
+      :items="request"
       item-key="id"
-      show-group-by
       class="elevation-1"
     >
-      <template v-slot:[`item.user.image`]="{ item }">
-        <v-avatar size="64">
-          <img :src="item.user.image" alt="لا يوجد صورة" />
-        </v-avatar>
+      <template v-slot:[`item.status`]="{ item }">
+        <div class="align-center">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-icon v-if="item.status == 0" color="orange" v-on="on"
+                >mdi-close</v-icon
+              >
+              <v-btn
+                class="mx-1"
+                v-else-if="item.status == 1"
+                @click="download(item.id)"
+                x-small
+                :fab="$vuetify.breakpoint.name != 'sm'"
+                color="success"
+              >
+                <v-icon color="" v-on="on"> mdi-download </v-icon>
+              </v-btn>
+              <v-icon v-else-if="item.status == 2" color="red" v-on="on">
+                mdi-close
+              </v-icon>
+            </template>
+            <span v-if="item.status == 0">لم يتم الموافقة</span>
+            <span v-else-if="item.status == 1">تم الموافقة</span>
+            <span v-else-if="item.status == 2">تم الرفض</span>
+          </v-tooltip>
+        </div>
       </template>
-      <template v-slot:[`item.troupe.name`]="{ item }">
-        <td>{{ item.troupe ? item.troupe.name : "فوج" }}</td>
-      </template>
-      <template v-slot:expanded-item="{ item }">
-        <td>
-          <v-card>
-            العمر:
-            {{
-              Math.floor(
-                (new Date() - new Date(item.user.birth_date)) / 31557600000
-              )
-            }}
-          </v-card>
-        </td>
-        <td>
-          <v-card> ر.ب.و: {{ item.user.cin }} </v-card>
-        </td>
-        <td>
-          <v-card> البريد الالكتروني: {{ item.user.email }} </v-card>
-        </td>
-        <td>
-          <v-card> رقم الهاتف: {{ item.user.phone_number }} </v-card>
-        </td>
-        <td>
-          <v-card>
-            تاريخ انشاء الحساب:
-            {{
-              new Date(item.user.created_at).getDate() +
-              "/" +
-              (new Date(item.user.created_at).getMonth() + 1) +
-              "/" +
-              new Date(item.user.created_at).getFullYear()
-            }}
-          </v-card>
-        </td>
-      </template>
+
       <template v-slot:[`item.actions`]="{ item }">
         <div class="align-center">
           <v-btn
             @click="reject(item.id)"
             class="mx-1"
-            :disabled="item.status == 0"
+            :disabled="item.status == 2"
             x-small
             :fab="$vuetify.breakpoint.name != 'sm'"
             color="red"
@@ -84,29 +66,35 @@
         <v-btn v-bind="attrs" text @click="snack = false"> اغلاق </v-btn>
       </template>
     </v-snackbar>
-  </div>
+  </v-container>
 </template>
+
 <script>
+import html2pdf from "html2pdf.js";
+
 export default {
-  created() {
-    this.getMembers();
-  },
+  components: {},
   data() {
     return {
+      request: [],
+      troupe: {},
       snack: false,
       snackColor: "",
+      dialog: false,
       snackText: "",
-      expanded: [],
-      singleExpand: false,
-      Members: [],
+      edit: false,
     };
   },
+  created() {
+    this.getrequestDocuments();
+  },
   methods: {
-    getMembers() {
+    getrequestDocuments() {
       this.$axios
-        .get("/members")
+        .get("/requestDocuments")
         .then((response) => {
-          this.Members = response.data;
+          this.request = response.data;
+          console.log(this.request);
         })
         .catch((error) => {
           console.log(error);
@@ -119,12 +107,12 @@ export default {
     },
     accept(id) {
       this.$axios
-        .put("/members/" + id + "/accept")
+        .put("/requestDocuments/" + id + "/approve")
         .then(() => {
           this.snack = true;
           this.snackColor = "success";
           this.snackText = "لقد تم القبول";
-          this.getMembers();
+          this.getrequestDocuments();
         })
         .catch((error) => {
           this.snack = true;
@@ -136,12 +124,40 @@ export default {
     },
     reject(id) {
       this.$axios
-        .put("/members/" + id + "/reject")
+        .put("/requestDocuments/" + id + "/reject")
         .then(() => {
           this.snack = true;
           this.snackColor = "pink";
           this.snackText = "لقد تم الرفض";
-          this.getMembers();
+          this.getrequestDocuments();
+        })
+        .catch((error) => {
+          this.snack = true;
+          this.snackColor = "red";
+          this.snackText = error.response.data.error
+            ? error.response.data.error
+            : "لقد حصل عطب في الخادم, الرجاء المحاولة لاحقا";
+        });
+    },
+    download(id) {
+      this.$axios
+        .get("/requestDocuments/" + id + "/download")
+        .then((res) => {
+          console.log(res.data);
+          html2pdf(res.data, {
+            margin: 1,
+            filename: "document.pdf",
+            image: { type: "jpeg", quality: 0.98 },
+            html2canvas: { dpi: 300, letterRendering: false, useCORS: true },
+            jsPDF: {
+              unit: "mm",
+              format: "a4",
+              orientation: "portrait",
+            },
+          });
+          this.snack = true;
+          this.snackColor = "green";
+          this.snackText = "لقد تم  التحميل";
         })
         .catch((error) => {
           this.snack = true;
@@ -156,42 +172,26 @@ export default {
     headers() {
       return [
         {
-          text: "الاسم",
-          value: "user.first_name",
-          groupable: false,
+          text: "العنوان",
+          value: "title",
         },
         {
-          text: "اللقب",
-          value: "user.last_name",
-          groupable: false,
+          text: "الى",
+          value: "to",
         },
         {
-          text: "المهمة",
-          value: "role.name",
-          groupable: false,
+          text: "التاريخ",
+          value: "date",
         },
         {
-          text: "الفرقة",
-          value: "troupe.name",
-          default: "الفرقة",
-        },
-        {
-          text: "الصورة",
-          value: "user.image",
-          sortable: false,
-          align: "center",
-          groupable: false,
-
-          class: "img-responsive",
+          text: "الحالة",
+          value: "status",
         },
         {
           text: "اجرائات",
           value: "actions",
-          groupable: false,
-
           sortable: false,
         },
-        { text: "", value: "data-table-expand", groupable: false },
       ];
     },
   },

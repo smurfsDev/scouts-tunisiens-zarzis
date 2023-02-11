@@ -17,6 +17,7 @@ import DemandeMateriel from "./routes/DemandeMateriel";
 import manageTroops from "./routes/Admin/manageTroops";
 import profile from "./routes/auth/profile";
 import requestDocument from "./routes/UnitAssignedLeader/general-manager/requestDocuments";
+import manageRequestDocumnt from "./routes/Admin/managerRequestDocument";
 Vue.use(VueRouter);
 
 const routes = [
@@ -50,7 +51,7 @@ const routes = [
   ...manageDemandeMateriel,
   ...manageTroops,
   ...requestDocument,
-  
+  ...manageRequestDocumnt,
 ];
 
 const router = new VueRouter({

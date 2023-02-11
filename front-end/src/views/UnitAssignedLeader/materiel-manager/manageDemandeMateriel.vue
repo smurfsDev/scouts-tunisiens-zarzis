@@ -38,7 +38,7 @@ export default {
     };
   },
   methods: {
-    getDemandeMateriel(alert = {},pagination=5) {
+    getDemandeMateriel(alert = {}, pagination = 5) {
       this.$axios
         .get("/demande-materiel", { params: { pagination: pagination } })
         .then((response) => {
@@ -87,5 +87,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

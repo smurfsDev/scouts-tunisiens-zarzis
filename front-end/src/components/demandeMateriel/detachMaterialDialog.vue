@@ -7,7 +7,9 @@
       </v-btn>
     </template>
     <v-card>
-      <v-card-title class="text-h5 text-right"> حذف الأثاث من الطلب </v-card-title>
+      <v-card-title class="text-h5 text-right">
+        حذف الأثاث من الطلب
+      </v-card-title>
       <v-card-text class="text-right">
         <p>هل تريد حذف الأثاث من الطلب {{ id }}؟</p>
         باختيار "نعم" سيتم حذف الأثاث من الطلب
@@ -27,7 +29,7 @@ export default {
   props: {
     id: {
       type: String,
-      default: '',
+      default: "",
     },
   },
   data() {

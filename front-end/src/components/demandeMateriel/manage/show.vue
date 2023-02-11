@@ -33,7 +33,6 @@
                 <span class="h6">تاريخ الارجاع :</span>
                 {{ demande.date_fin_demande }}
               </v-row>
-
             </v-container>
           </v-tab-item>
           <v-tab-item>
@@ -53,8 +52,9 @@
                     {{ materiel.name }}
                   </span>
                 </v-text-field>
-                    
-                <div class="m-4 mr-0 ml-1 mr-1"
+
+                <div
+                  class="m-4 mr-0 ml-1 mr-1"
                   v-if="$store.getters.authUser.id == materiel.responsable_id"
                 >
                   <v-btn
@@ -77,14 +77,11 @@
                   </v-btn>
                 </div>
                 <div v-else class="m-4 mr-0 ml-1 pl-4 mr-1">
-                  <v-tooltip bottom color="red" >
+                  <v-tooltip bottom color="red">
                     <template v-slot:activator="{ on, attrs }">
-                      <v-icon v-bind="attrs" v-on="on"> 
-                        mdi-close
-                      </v-icon>
+                      <v-icon v-bind="attrs" v-on="on"> mdi-close </v-icon>
                     </template>
-                    <span>
-                        لست مسؤول عن هذا الأثاث</span>
+                    <span> لست مسؤول عن هذا الأثاث</span>
                   </v-tooltip>
                 </div>
               </v-row>
@@ -116,13 +113,13 @@
     <v-pagination
       v-model="pagination_meta.current"
       :length="pagination_meta.total"
-      @input="$emit('getDemandeMateriel',{},pagination)"
+      @input="$emit('getDemandeMateriel', {}, pagination)"
     ></v-pagination>
     <v-select
       v-model="pagination"
-      :items="[5,10,15,30,50,100]"
+      :items="[5, 10, 15, 30, 50, 100]"
       label="عدد الصفوف"
-      @input="$emit('getDemandeMateriel',{},pagination)"
+      @input="$emit('getDemandeMateriel', {}, pagination)"
     ></v-select>
   </div>
 </template>
@@ -169,5 +166,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

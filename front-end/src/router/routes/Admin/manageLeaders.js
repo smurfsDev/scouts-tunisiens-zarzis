@@ -5,6 +5,6 @@ export default [
     path: "/manageLeaders",
     component: manageLeaders,
     name: "manageLeaders",
-    meta: {requiresSuperAdmin: true}
+    meta: { requiresSuperAdmin: true },
   },
 ];

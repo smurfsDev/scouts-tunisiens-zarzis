@@ -60,10 +60,10 @@
                 >
                   <template v-slot:no-data>
                     <v-list-item>
-                          <v-icon color="grey">mdi-magnify</v-icon>
-                          <span class="subtitle-2 text-right">
-                            لا يوجد نتائج للبحث
-                          </span>
+                      <v-icon color="grey">mdi-magnify</v-icon>
+                      <span class="subtitle-2 text-right">
+                        لا يوجد نتائج للبحث
+                      </span>
                     </v-list-item>
                   </template>
                   <template
@@ -86,12 +86,7 @@
                     </v-chip>
                   </template>
                   <template v-slot:item="{ index, item }">
-                    <v-chip
-                      :color="`${item.color} lighten-3`"
-                      dark
-                      label
-                      small
-                    >
+                    <v-chip :color="`${item.color} lighten-3`" dark label small>
                       {{ item.text }}
                     </v-chip>
                     <span class="caption">
@@ -133,10 +128,13 @@ export default {
       date_fin_demande: {
         required,
         dateValidator,
-        minValue(val,{date_demande}){
-          return new Date(val).setHours(0, 0, 0, 0) >= new Date(date_demande).setHours(0, 0, 0, 0);
-        }
-      }
+        minValue(val, { date_demande }) {
+          return (
+            new Date(val).setHours(0, 0, 0, 0) >=
+            new Date(date_demande).setHours(0, 0, 0, 0)
+          );
+        },
+      },
     },
   },
   props: {
@@ -282,7 +280,6 @@ export default {
         errors.push("تاريخ الارجاع لا يمكن ان يكون قبل تاريخ الطلب");
       return errors;
     },
-    
   },
   watch: {
     dialog() {
@@ -299,13 +296,15 @@ export default {
     },
     model(val, prev) {
       if (val.length === prev.length) return;
-      this.visible_items = this.model.length!=0?this.items.filter((item) => {
-        return this.model[0].responsable_id == item.responsable_id;
-      }):this.items;
+      this.visible_items =
+        this.model.length != 0
+          ? this.items.filter((item) => {
+              return this.model[0].responsable_id == item.responsable_id;
+            })
+          : this.items;
     },
   },
 };
 </script>
 
-<style>
-</style>
+<style></style>

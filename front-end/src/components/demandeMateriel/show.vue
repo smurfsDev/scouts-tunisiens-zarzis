@@ -52,7 +52,7 @@
                   </span>
                 </v-text-field>
                 <v-btn
-                v-if="materiel.pivot.status!=1"
+                  v-if="materiel.pivot.status != 1"
                   color="success"
                   text
                   @click="
@@ -64,7 +64,7 @@
                   تحديث
                 </v-btn>
                 <detachMaterialDialog
-                v-if="materiel.pivot.status!=1"
+                  v-if="materiel.pivot.status != 1"
                   @ok="rem(demande.id, materiel.id)"
                   :id="materiel.name"
                 />
@@ -119,12 +119,16 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <deleteDialog
-          v-if="!status(demande.materiels)"
+            v-if="!status(demande.materiels)"
             :id="demande.id"
             @ok="$emit('deleteItem', demande.id)"
           ></deleteDialog>
           <v-btn
-          v-if="!status(demande.materiels)" color="warning darken-1" @click="$emit('edit', demande)" text>
+            v-if="!status(demande.materiels)"
+            color="warning darken-1"
+            @click="$emit('edit', demande)"
+            text
+          >
             تعديل
             <v-icon>edit</v-icon>
           </v-btn>
@@ -147,13 +151,13 @@
     <v-pagination
       v-model="pagination_meta.current"
       :length="pagination_meta.total"
-      @input="$emit('getDemandeMateriel',{},pagination)"
+      @input="$emit('getDemandeMateriel', {}, pagination)"
     ></v-pagination>
     <v-select
       v-model="pagination"
-      :items="[5,10,15,30,50,100]"
+      :items="[5, 10, 15, 30, 50, 100]"
       label="عدد الصفوف"
-      @input="$emit('getDemandeMateriel',{},pagination)"
+      @input="$emit('getDemandeMateriel', {}, pagination)"
     ></v-select>
   </div>
 </template>
@@ -196,16 +200,14 @@ export default {
     rem(id, materiel_id) {
       this.$emit("rem", id, materiel_id);
     },
-    status(materiels){
-      return materiels.some(materiel => materiel.pivot.status != 0);
-    }
+    status(materiels) {
+      return materiels.some((materiel) => materiel.pivot.status != 0);
+    },
   },
   watch: {
     demandes() {},
   },
-  
 };
 </script>
 
-<style>
-</style>
+<style></style>

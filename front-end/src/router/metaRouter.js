@@ -6,13 +6,19 @@ router.beforeEach((to, from, next) => {
       next();
       return;
     }
-    next({ name: "login", params: { msg: "للدخول لهذه الصغحة يجب ان تسجل دخولك" } });
+    next({
+      name: "login",
+      params: { msg: "للدخول لهذه الصغحة يجب ان تسجل دخولك" },
+    });
   } else {
     next();
   }
   if (to.matched.some((record) => record.meta.guest)) {
     if (store.getters.isLoggedIn) {
-      next({ name: "login", params: { msg: "للدخول لهذه الصغحة يجب ان لا تسجل دخولك" } });
+      next({
+        name: "login",
+        params: { msg: "للدخول لهذه الصغحة يجب ان لا تسجل دخولك" },
+      });
     }
     next();
   } else if (to.matched.some((record) => record.meta.requiresSuperAdmin)) {
@@ -24,7 +30,7 @@ router.beforeEach((to, from, next) => {
       name: "login",
       params: { msg: "ليس لديك صلاحيات قائد الفوج للدخول لهذا الرابط." },
     });
-  }else if (to.matched.some((record) => record.meta.requiresUnitLeader)) {
+  } else if (to.matched.some((record) => record.meta.requiresUnitLeader)) {
     if (store.getters.isUnitLeader) {
       next();
       return;
@@ -33,7 +39,7 @@ router.beforeEach((to, from, next) => {
       name: "login",
       params: { msg: "ليس لديك صلاحيات قائد وحدة للدخول لهذا الرابط." },
     });
-  }else if (to.matched.some((record) => record.meta.requiresMoneyManager)) {
+  } else if (to.matched.some((record) => record.meta.requiresMoneyManager)) {
     if (store.getters.responsability === "money-manager") {
       next();
       return;
@@ -42,7 +48,7 @@ router.beforeEach((to, from, next) => {
       name: "login",
       params: { msg: "ليس لديك صلاحيات امين مال للدخول لهذا الرابط." },
     });
-  }else if (to.matched.some((record) => record.meta.requiresMaterielManager)) {
+  } else if (to.matched.some((record) => record.meta.requiresMaterielManager)) {
     if (store.getters.responsability === "materiel-manager") {
       next();
       return;
@@ -51,7 +57,7 @@ router.beforeEach((to, from, next) => {
       name: "login",
       params: { msg: "ليس لديك صلاحيات مسؤول عن الاثاث للدخول لهذا الرابط." },
     });
-  }else if (to.matched.some((record) => record.meta.requiresGeneralManager)) {
+  } else if (to.matched.some((record) => record.meta.requiresGeneralManager)) {
     if (store.getters.responsability === "general-manager") {
       next();
       return;
@@ -60,7 +66,7 @@ router.beforeEach((to, from, next) => {
       name: "login",
       params: { msg: "ليس لديك صلاحيات مسؤول عن الاثاث للدخول لهذا الرابط." },
     });
-  }else if (to.matched.some((record) => record.meta.requiresLeader)) {
+  } else if (to.matched.some((record) => record.meta.requiresLeader)) {
     if (store.getters.isLeader) {
       next();
       return;

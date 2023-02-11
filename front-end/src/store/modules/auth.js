@@ -13,7 +13,7 @@ const state = {
   authStatus: null,
   authMessage: null,
   status: JSON.parse(localStorage.getItem("status")) ?? null,
-  responsability: localStorage.getItem("responsability") ?? null
+  responsability: localStorage.getItem("responsability") ?? null,
 };
 const getters = {
   isLoggedIn: (state) => state.isLoggedIn,
@@ -99,7 +99,7 @@ const getters = {
   responsability: (state) => state.responsability,
   isMonetary: (state) => state.responsability == "money-manager",
   isMaterielManager: (state) => state.responsability == "materiel-manager",
-  isGeneralManager: (state) => state.responsability == "general-manager"
+  isGeneralManager: (state) => state.responsability == "general-manager",
 };
 const mutations = {
   setLoggedIn(state, payload) {
@@ -149,13 +149,13 @@ const mutations = {
     localStorage.removeItem("roles");
     localStorage.removeItem("status");
     localStorage.removeItem("responsability");
-  }
+  },
 };
 const actions = {
   async login({ commit }, payload) {
     axios
       .get("http://localhost:8000/sanctum/csrf-cookie", {
-        withCredentials: true
+        withCredentials: true,
       })
       .then(() => {})
       .catch(() => {});
@@ -189,23 +189,23 @@ const actions = {
       name: "login",
       params: {
         msg: "انتهت صلاحية جلسة العمل الخاصة بك, الرجاء اعادة تسجيل الدخول",
-        variant: "danger"
-      }
+        variant: "danger",
+      },
     });
   },
   async register({ commit }, User) {
     await axios
       .post("/register", User, {
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        withCredentials: true
+        withCredentials: true,
       })
       .then((response) => {
         if (response.status == 200) {
           router.push({
             name: "login",
-            params: { msg: "لقد تم انشاء الحساب بنجاح", variant: "success" }
+            params: { msg: "لقد تم انشاء الحساب بنجاح", variant: "success" },
           });
           commit("setRegStatus", 1);
         } else {
@@ -216,12 +216,12 @@ const actions = {
         commit("setRegStatus", 2);
         commit("setRegMessage", error.response.data.data); // this is the main part. Use the response property from the error object
       });
-  }
+  },
 };
 
 export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };
