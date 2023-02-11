@@ -16,6 +16,8 @@ import manageDemandeMateriel from "./routes/UnitAssignedLeader/materiel-manager/
 import DemandeMateriel from "./routes/DemandeMateriel";
 import manageTroops from "./routes/Admin/manageTroops";
 import profile from "./routes/auth/profile";
+import requestDocument from "./routes/UnitAssignedLeader/general-manager/requestDocuments";
+import manageRequestDocumnt from "./routes/Admin/managerRequestDocument";
 import manageEventSuperAdmin from "./routes/Admin/manegeEventSuperAdmin.js";
 import manageEvents from "./routes/UnitLeader/ConsulteEventsView.js";
 Vue.use(VueRouter);
@@ -42,6 +44,8 @@ const routes = [
   ...DemandeMateriel,
   ...manageDemandeMateriel,
   ...manageTroops,
+  ...requestDocument,
+  ...manageRequestDocumnt,
   ...manageEvents,
   ...manageEventSuperAdmin,
 ];

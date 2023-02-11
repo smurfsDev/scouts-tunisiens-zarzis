@@ -7,13 +7,13 @@
       :troupe="troupe"
       :edit="edit"
     />
-    <v-btn color="success" class="m-2 mr-0" large @click="dialog = true">
+    <v-btn color="success" class="m-2 mr-0 mt-4" large @click="dialog = true">
       <v-icon>mdi-plus</v-icon>
       اضافة
     </v-btn>
     <show
       :headers="headers"
-      :troops="troops"
+      :request="request"
       @delete="delet"
       @update="update"
     />
@@ -27,8 +27,8 @@
 </template>
 
 <script>
-import show from "@/components/manageTroops/show.vue";
-import Form from "@/components/manageTroops/form.vue";
+import show from "@/components/requestDocuments/show.vue";
+import Form from "@/components/requestDocuments/form.vue";
 
 export default {
   components: {
@@ -37,7 +37,7 @@ export default {
   },
   data() {
     return {
-      troops: [],
+      request: [],
       troupe: {},
       snack: false,
       snackColor: "",
@@ -47,14 +47,15 @@ export default {
     };
   },
   created() {
-    this.getTroops();
+    this.getrequest();
   },
   methods: {
-    getTroops() {
+    getrequest() {
       this.$axios
-        .get("/troupes")
+        .get("/requestDocuments")
         .then((response) => {
-          this.troops = response.data;
+          this.request = response.data;
+          console.log(this.request);
         })
         .catch((error) => {
           console.log(error);
@@ -67,9 +68,9 @@ export default {
     },
     delet(id) {
       this.$axios
-        .delete("/troupes/" + id)
+        .delete("/requestDocuments/" + id)
         .then(() => {
-          this.getTroops();
+          this.getrequest();
           this.snack = true;
           this.snackColor = "green";
           this.snackText = "تم حذف الطرق المرضية بنجاح";
@@ -91,9 +92,9 @@ export default {
     add(form) {
       if (!this.edit) {
         this.$axios
-          .post("/troupes", form)
+          .post("/requestDocuments", form)
           .then(() => {
-            this.getTroops();
+            this.getrequest();
             this.snack = true;
             this.snackColor = "success";
             this.snackText = "تمت الاضافة بنجاح";
@@ -108,9 +109,9 @@ export default {
           });
       } else {
         this.$axios
-          .put("/troupes/" + this.troupe.id, form)
+          .put("/requestDocuments/" + this.troupe.id, form)
           .then(() => {
-            this.getTroops();
+            this.getrequest();
             this.snack = true;
             this.snackColor = "success";
             this.snackText = "تم التعديل بنجاح";
@@ -135,24 +136,20 @@ export default {
     headers() {
       return [
         {
-          text: "الاسم",
-          value: "name",
+          text: "العنوان",
+          value: "title",
         },
         {
-          text: "الوصف",
-          value: "description",
+          text: "الى",
+          value: "to",
         },
         {
-          text: "الجنس",
-          value: "gender",
+          text: "التاريخ",
+          value: "date",
         },
         {
-          text: "اقل عمر",
-          value: "min_age",
-        },
-        {
-          text: "اكبر عمر",
-          value: "max_age",
+          text: "الحالة",
+          value: "status",
         },
         {
           text: "اجرائات",

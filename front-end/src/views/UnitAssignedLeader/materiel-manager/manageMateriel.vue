@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container>
     <Form
       :dialog="dialog"
       :materiel="mat"
@@ -48,7 +48,7 @@
         </template>
       </v-data-table>
     </v-card>
-  </div>
+  </v-container>
 </template>
 
 <script>

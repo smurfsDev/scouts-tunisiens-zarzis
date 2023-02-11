@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container>
     <Form
       :editm="editm"
       :demandeMateriel="demande"
@@ -23,7 +23,7 @@
       :pagination_meta="pagination_meta"
       @getDemandeMateriel="getDemandeMateriel"
     ></show>
-  </div>
+  </v-container>
 </template>
 
 <script>

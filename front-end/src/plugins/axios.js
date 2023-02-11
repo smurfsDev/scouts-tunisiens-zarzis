@@ -6,16 +6,16 @@ import store from "../store/index";
 Vue.prototype.$axios = axios;
 
 // Full config:  https://github.com/axios/axios#request-config
-axios.defaults.baseURL =
-  process.env.baseURL || process.env.apiUrl || "http://localhost:8000/api";
+// axios.defaults.baseURL =
+//   process.env.baseURL || process.env.apiUrl || "http://localhost:8000/api";
 axios.defaults.headers.common["Authorization"] =
   "Bearer " + localStorage.getItem("token");
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 axios.defaults.withCredentials = true;
 
 let config = {
-  baseURL:
-    process.env.baseURL || process.env.apiUrl || "http://localhost:8000/api",
+  //   baseURL:
+  //     process.env.baseURL || process.env.apiUrl || "http://localhost:8000/api",
   // timeout: 60 * 1000, // Timeout
   withCredentials: true, // Check cross-site Access-Control
 };

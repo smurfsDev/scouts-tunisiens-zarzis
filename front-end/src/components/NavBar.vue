@@ -12,14 +12,14 @@
           contain
           src="../assets/scouts.png"
           transition="scale-transition"
-		  style="border-radius:100%"
+          style="border-radius: 100%"
           width="50"
         />
 
         <v-container class="text-light mr-3">
-		  <v-row class="font-weight-bold">الكشافة التونسية</v-row>
-		  <v-row class="font-weight-medium">فوج جرجيس</v-row>
-		</v-container>
+          <v-row class="font-weight-bold">الكشافة التونسية</v-row>
+          <v-row class="font-weight-medium">فوج جرجيس</v-row>
+        </v-container>
       </router-link>
       <v-spacer></v-spacer>
       <div class="text-center">
@@ -286,6 +286,18 @@ export default {
         title: "إدارة الطلب",
         link: "manageDemandeMateriel",
         access: "isMaterielManager",
+      },
+      {
+        icon: "mdi-file-document",
+        title: "مطالب رسمية",
+        link: "requestDocument",
+        access: "isGeneralManager",
+      },
+      {
+        icon: "mdi-file-document",
+        title: "ادارة المطالب رسمية",
+        link: "manageRequestDocument",
+        access: "isSuperAdmin",
       },
     ],
     drawer: true,
