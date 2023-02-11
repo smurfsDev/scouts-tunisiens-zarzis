@@ -3,8 +3,8 @@
     <v-container>
       <v-row justify="center">
         <v-col cols="12" md="8">
-          <v-card :loading="loading" >
-          <b-alert
+          <v-card :loading="loading">
+            <b-alert
               :show="alert.dismissCountDown"
               dismissible
               :variant="alert.variant"
@@ -15,7 +15,7 @@
             <v-card-title>
               <span class="headline">نسيت كلمت المرور</span>
             </v-card-title>
-            <v-form @submit.prevent="ForgotPassword" >
+            <v-form @submit.prevent="ForgotPassword">
               <v-card-text>
                 <v-text-field
                   v-model="email"
@@ -29,7 +29,14 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn type="submit" :disabled="$v.$invalid"  :loading="loading" color="primary"> ابعث </v-btn>
+                <v-btn
+                  type="submit"
+                  :disabled="$v.$invalid"
+                  :loading="loading"
+                  color="primary"
+                >
+                  ابعث
+                </v-btn>
               </v-card-actions>
             </v-form>
           </v-card>
@@ -106,5 +113,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

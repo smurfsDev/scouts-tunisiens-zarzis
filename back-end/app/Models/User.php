@@ -25,7 +25,8 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
+    protected $guarded=[];
+   /* protected $fillable = [
         'first_name',
         'last_name',
         'cin',
@@ -35,7 +36,7 @@ class User extends Authenticatable
         'password',
         'sexe',
         'image'
-    ];
+    ];*/
 
     /**
      * The attributes that should be hidden for serialization.
@@ -72,6 +73,10 @@ class User extends Authenticatable
 
     public function sentDemandeMateriels(){
         return $this->hasMany(DemandeMateriel::class,'user_id','id')->orderBy('created_at','DESC');
+    }
+
+    public function events(){
+        return $this->hasMany(Event::class);
     }
 
 }

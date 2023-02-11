@@ -89,7 +89,7 @@ export default {
         return;
       }
       let iam = this;
-      this.loading= true;
+      this.loading = true;
       this.$axios
         .get(`/email/resend/${this.email}`)
         .then(() => {
@@ -97,13 +97,14 @@ export default {
           this.alert.msg =
             "تم إرسال رابط التحقق إلى البريد الإلكتروني الخاص بك";
           this.alert.dismissCountDown = 5;
-            this.loading = false;
+          this.loading = false;
         })
         .catch((error) => {
           this.alert.variant = "danger";
-          this.alert.msg = error.response.data.msg??"لقد حصل عطب ما الرجاء المحاولة لاحقا";
+          this.alert.msg =
+            error.response.data.msg ?? "لقد حصل عطب ما الرجاء المحاولة لاحقا";
           this.alert.dismissCountDown = 5;
-            this.loading = false;
+          this.loading = false;
           setTimeout(function () {
             iam.$router.push("/login");
           }, 5000);
@@ -123,5 +124,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

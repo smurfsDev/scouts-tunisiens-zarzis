@@ -16,6 +16,8 @@ import manageDemandeMateriel from "./routes/UnitAssignedLeader/materiel-manager/
 import DemandeMateriel from "./routes/DemandeMateriel";
 import manageTroops from "./routes/Admin/manageTroops";
 import profile from "./routes/auth/profile";
+import manageEventSuperAdmin from "./routes/Admin/manegeEventSuperAdmin.js";
+import manageEvents from "./routes/UnitLeader/ConsulteEventsView.js";
 Vue.use(VueRouter);
 
 const routes = [
@@ -24,15 +26,7 @@ const routes = [
     name: "Home",
     component: Home,
   },
-  {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
-  },
+
   ...Login,
   ...Register,
   ...Logout,
@@ -48,8 +42,8 @@ const routes = [
   ...DemandeMateriel,
   ...manageDemandeMateriel,
   ...manageTroops,
-
-  
+  ...manageEvents,
+  ...manageEventSuperAdmin,
 ];
 
 const router = new VueRouter({

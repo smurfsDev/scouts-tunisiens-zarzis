@@ -55,10 +55,10 @@ export default {
     };
   },
   methods: {
-    getDemandeMateriel(alert = {},pagination=5) {
+    getDemandeMateriel(alert = {}, pagination = 5) {
       this.$axios
         .get("/sent-demande-materiel?page=" + this.pagination_meta.current, {
-          params:{pagination: pagination,}
+          params: { pagination: pagination },
         })
         .then((response) => {
           this.demandes = response.data.data;
@@ -67,7 +67,7 @@ export default {
         })
         .catch()
         .finally(() => {
-          if ('type' in alert) {
+          if ("type" in alert) {
             this.alert = alert;
             setTimeout(() => {
               this.alert.show = false;
@@ -148,5 +148,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

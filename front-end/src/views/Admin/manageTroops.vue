@@ -106,7 +106,7 @@ export default {
               ? error.response.data.error
               : "لقد حصل عطب في الخادم, الرجاء المحاولة لاحقا";
           });
-      }else{
+      } else {
         this.$axios
           .put("/troupes/" + this.troupe.id, form)
           .then(() => {
@@ -125,11 +125,11 @@ export default {
           });
       }
     },
-    reset(){
+    reset() {
       this.edit = false;
       this.troupe = {};
       this.dialog = false;
-    }
+    },
   },
   computed: {
     headers() {
@@ -165,5 +165,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

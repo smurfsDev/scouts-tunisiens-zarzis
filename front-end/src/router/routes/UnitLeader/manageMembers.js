@@ -5,6 +5,6 @@ export default [
     path: "/manageMembers",
     component: manageMembers,
     name: "manageMembers",
-    meta: {requiresUnitLeader: true},
+    meta: { requiresUnitLeader: true },
   },
 ];

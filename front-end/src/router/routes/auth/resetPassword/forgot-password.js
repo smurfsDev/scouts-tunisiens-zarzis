@@ -1,4 +1,5 @@
-const forgotPassword = () => import("@/views/Auth/resetPassword/forgotPassword.vue");
+const forgotPassword = () =>
+  import("@/views/Auth/resetPassword/forgotPassword.vue");
 export default [
   {
     path: "/forgot-password",

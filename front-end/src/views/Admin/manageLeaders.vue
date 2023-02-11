@@ -203,10 +203,7 @@ export default {
           groupable: false,
           sortable: false,
         },
-        { text: "", value: "data-table-expand", 
-          groupable: false,
-        
-        },
+        { text: "", value: "data-table-expand", groupable: false },
       ];
     },
   },

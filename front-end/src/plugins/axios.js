@@ -17,7 +17,7 @@ let config = {
   baseURL:
     process.env.baseURL || process.env.apiUrl || "http://localhost:8000/api",
   // timeout: 60 * 1000, // Timeout
-  withCredentials: true // Check cross-site Access-Control
+  withCredentials: true, // Check cross-site Access-Control
 };
 
 const _axios = axios.create(config);
@@ -45,7 +45,6 @@ _axios.interceptors.response.use(
       store.dispatch("sessionExpired");
     }
     return Promise.reject(error);
-
   }
 );
 
@@ -56,13 +55,13 @@ Plugin.install = function (Vue) {
     axios: {
       get() {
         return _axios;
-      }
+      },
     },
     $axios: {
       get() {
         return _axios;
-      }
-    }
+      },
+    },
   });
 };
 
