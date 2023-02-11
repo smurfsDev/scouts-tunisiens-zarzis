@@ -275,6 +275,12 @@ export default {
         link: "manageDemandeMateriel",
         access: "isMaterielManager",
       },
+	  {
+        icon: "mdi-file-document",
+        title: "مطالب رسمية",
+        link: "requestDocument",
+        access: "isGeneralManager",
+      },
     ],
     drawer: true,
     group: null,
