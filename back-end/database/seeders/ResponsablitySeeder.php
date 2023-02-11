@@ -27,5 +27,9 @@ class ResponsablitySeeder extends Seeder
             'name' => 'امين مال',
             'ename' => 'money-manager',
         ]);
+		Responsability::create([
+			'name' => 'كاتب عام',
+			'ename' => 'general-manager',
+		]);
     }
 }
